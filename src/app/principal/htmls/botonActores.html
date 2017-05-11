@@ -1,0 +1,15 @@
+<li ng-if="!soloYo()">
+  <div class="btn-group">
+    <button type="button" class="btn btn-info btn-sm">
+      <i class="fa fa-user fa-fw"></i>
+      {{vacio(storage.actorActual) && "Seleccione un actor" || storage.actorActual.nombre + " " +  storage.actorActual.apellidos}}
+    </button>
+    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li ng-repeat="actor in actores" ng-click="definir(actor)"><a class="cursor-pointer">{{actor.nombre}} {{actor.apellidos}}</a></li>
+    </ul>
+  </div>
+</li>

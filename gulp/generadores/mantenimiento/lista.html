@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h1>Listado</h1>
+    </div>
+    <div class="panel-body">
+      <ul class="list-inline text-center opciones-panel opciones-panel--top" ocultar-accion permiso="ARCHIVO" accion="crear">
+        <li><a ui-sref="^.ARCHIVO-uno" class="btn btn-success"><i class="fa fa-fw fa-file"></i> Nuevo NOMBRE</a></li>
+      </ul>
+      <p class="lead text-muted text-center" ng-if="vm.listado.contador === 0">
+        <i class="fa fa-fw fa-list"></i>
+        <span>No hay NOMBRE registrados.</span>
+      </p>
+      <div class="table-responsive" ng-if="vm.listado.contador > 0">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody class="text-justify">
+            <tr ng-repeat="ARCHIVO in vm.listado.docs track by $index">
+              <td ng-bind="(vm.pagina - 1) * vm.cantidad + $index + 1" ui-sref="^.ARCHIVO-uno({id: ARCHIVO._id})"></td>
+              <td ng-bind="ARCHIVO.nombre" ui-sref="^.ARCHIVO-uno({id: ARCHIVO._id})"></td>
+              <td>
+                <ul class="opciones-tabla">
+                  <li tooltip="Editar" ui-sref="^.ARCHIVO-uno({id: ARCHIVO._id, editar: true})"><i class="text-info fa fa-fw fa-edit" ocultar-accion permiso="ARCHIVO" accion="editar"></i></li>
+                  <li tooltip="Eliminar" ng-click="vm.eliminar(ARCHIVO)"><i class="text-danger fa fa-fw fa-trash" ocultar-accion permiso="ARCHIVO" accion="eliminar"></i></li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination ng-model="vm.pagina" total-items="vm.listado.contador" ng-change="vm.actualizarPagina(vm.pagina - 1)" items-per-page="vm.cantidad" max-size="10"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

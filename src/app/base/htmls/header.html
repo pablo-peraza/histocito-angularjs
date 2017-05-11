@@ -1,0 +1,16 @@
+<div ng-controller="NavegacionCtrl as nav">
+  <div class="colorgraph"></div>
+  <div id="logo">
+    <img alt="Controles Video Técnicos de Costa Rica" class="img-responsive center-block" src="/recursos/imagenes/logo_controles.png">
+  </div>
+  <nav>
+    <div class="header-link hide-menu" cis-minimizar>
+      <i id="iconoMinimizador" class="fa fa-fw fa-chevron-left"></i>
+    </div>
+    <p class="text-muted">
+      <i class="fa fa-fw {{nav.icono()}}"></i>
+      <span ng-bind="nav.titulo()"></span>
+    </p>
+  </nav>
+</div>
+<div class="clearfix"></div>

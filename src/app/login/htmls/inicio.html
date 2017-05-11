@@ -1,0 +1,79 @@
+<link rel="stylesheet" type="text/css" href="/recursos/login.css">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <form class="form-horizontal" role="form" novalidate name="form" autocomplete="on"
+      ng-submit="autenticar(credenciales)">
+      <fieldset class="cuadro-login">
+        <h3 class="texto-blanco text-center">Digite sus credenciales</h3>
+        <hr class="colorgraph">
+        <div class="form-group"
+        ng-class="{'has-error': form.correo.$invalid && form.correo.$dirty && enviado, 'has-success': form.correo.$valid}">
+        <label class="control-label col-sm-3 texto-blanco lead">Correo</label>
+        <div class="col-sm-9">
+          <input name="correo" class="form-control input-lg texto-blanco" type="email" placeholder="usuario@mediciris.com"
+          ng-model="credenciales.correo"
+          ng-required="true"
+          ng-disabled="bloqueado"
+          autofocus cis-autofocus>
+        </div>
+      </div>
+      <div class="form-group"
+      ng-class="{'has-error': form.passwd.$invalid && form.passwd.$dirty  && enviado}">
+      <label class="control-label col-sm-3 texto-blanco lead">Contraseña</label>
+      <div class="col-sm-9">
+        <div class="input-group input-group-lg" ng-init="visible = false">
+          <input name="passwd" class="form-control texto-blanco" type="{{visible && 'text' || 'password'}}"
+          ng-disabled="bloqueado"
+          ng-model="credenciales.password"
+          ng-required="true">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"
+            ng-disabled="bloqueado"
+            ng-click="visible = !visible"><i class="fa fa-eye"></i></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-3 texto-blanco lead">Recordarme</label>
+      <div class="col-sm-9" ng-init="credenciales.recordarme = true">
+      <div cis-boolean ng-model="credenciales.recordarme" inhabilitar="bloqueado" focus="false"></div>
+    </div>
+  </div>
+  <hr class="colorgraph">
+  <div class="form-group">
+    <div class=" col-sm-12">
+      <button id="aceptarButton"
+      class="btn btn-lg btn-primary btn-block"
+      type="submit"
+      ng-disabled="(form.$invalid && enviado) || bloqueado">
+      <div cis-cargando modelo="bloqueado">
+        <i class="fa fa-fw fa-sign-in"></i> Ingresar
+      </div>
+    </button>
+  </div>
+</div>
+<div class="text-center">
+  <a href="/recuperaringreso" class="texto-blanco"><i class="fa fa-lock fa-fw"></i> Olvidé mi contraseña</a>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+<footer id="footer" class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <a href="http://www.ciriscr.com" target="_blank">
+        <img src="/recursos/imagenes/Ciris-contraforma.png" alt="Mediciris" class="center-block img-responsive" style="height: 40px;">
+      </a>
+      <div class="text-center">
+        <small>3-101-625445 | San José, Costa Rica</small>
+      </div>
+      <div class="text-center">
+        <small>2014 © Todos los derechos reservados | <strong>Ciris Informatic Solutions S.A</strong></small>
+      </div>
+    </div>
+  </div>
+</footer>

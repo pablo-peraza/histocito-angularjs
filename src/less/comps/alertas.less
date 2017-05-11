@@ -1,0 +1,32 @@
+@import "../bootstrap/variables.less";
+.alert{
+  position: fixed;
+  top: 47px;
+  width: 96%;
+  left: 2%;
+  z-index: 2000;
+  padding: 2px;
+  margin: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  h5{
+    margin: 0;
+    color: #fff;
+    font-size: 17px;
+  }
+  p{
+    margin: 0 0 0.2em;
+  }
+  @media (min-width: @screen-sm){
+    width: 80%;
+    left: 10%;
+  }
+  @media (min-width: @screen-lg){
+    width: 60%;
+    left: 20%;
+  }
+  .close{
+    top:0px;
+    right: 10px;
+    opacity: 0.9;
+  }
+}

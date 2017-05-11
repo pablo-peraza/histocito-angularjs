@@ -1,0 +1,13 @@
+<div ng-controller="AlertasCtrl">
+  <alert type="{{alertas.alerta.tipo}}" close="cerrar()" ng-if="alertas.alerta"
+    class="text-center fx-zoom-down fx-easing-expo fx-speed-600">
+    <h5>
+        <span class="fa-stack fa-fw faa-horizontal animated">
+            <i class="fa fa-circle-o fa-stack-2x"></i>
+            <i class="fa {{alertas.alerta.icono}} fa-stack-1x"></i>
+        </span>
+        <strong>{{alertas.alerta.titulo}}</strong>
+    </h5>
+    <p>{{alertas.alerta.mensaje}}</p>
+  </alert>
+</div>

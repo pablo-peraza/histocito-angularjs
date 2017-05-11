@@ -1,0 +1,35 @@
+<div id="navigation" ng-controller="NavegacionCtrl as nav" print-remove>
+  <div class="profile-picture">
+    <a href="index.html">
+      <img ng-src="data:image/jpeg;base64,{{nav.usuario.foto}}" class="img-circle center-block"/>
+    </a>
+    <div class="stats-label text-color">
+      <strong class="text-uppercase" ng-bind="nav.usuario.nombre">Nombre Usuario</strong>
+      <div class="dropdown" dropdown >
+        <a class="dropdown-toggle" dropdown-toggle href="#">
+          <small class="text-muted">
+            <span ng-bind="nav.usuario.rol">Rol Usuario</span>
+            <b class="caret"></b>
+          </small>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a><i class="fa fa-fw fa-user"></i>Perfil</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a ng-click="nav.salir()"><i class="fa fa-fw fa-sign-out"></i>Cerrar sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <ul class="nav" id="side-menu">
+    <li ui-sref-active="active" ng-repeat="estado in nav.estados track by estado.name">
+      <a ui-sref="{{estado.name}}">
+        <i class="fa fa-fw {{estado.data.icono}}"></i>
+        <span class="nav-label" ng-bind="estado.data.menu"></span>
+      </a>
+    </li>
+  </ul>
+</div>

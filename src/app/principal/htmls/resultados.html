@@ -1,0 +1,29 @@
+<div>
+  <div class="menu-contextual slideDown" ng-include="'/htmls/inicio/contextualgenerico.html'"></div>
+  <div class="container-fluid fadeInDown animated">
+    <h1>Resultados de búsqueda <span class="glyphicons search padding-izq"></span></h1>
+    <div ng-if="!vacio(resultados)">
+      <div class="panel" ng-repeat="expediente in resultados">
+        <div class="panel-body">
+          <div><a href="/inicio/expediente/{{ expediente.id }}" class="lead">{{ expediente.nombre }}</a></div>
+          <div><small>Cédula: <strong>{{ expediente.cedula }}</strong></small></div>
+          <div>Edad: <strong>{{ expediente.fechaNacimiento | Edad }}</strong> &nbsp;
+            <span class="padding-izq">Género: <strong>{{ expediente.genero }}</strong></span>
+          </div>
+          <div>Convenio: <strong>{{ expediente.convenio }}</strong></div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="vacio(resultados)">
+      <br><br>
+      <p class="lead text-primary">
+        No se han encontrado expedientes para tu búsqueda "{{ busqueda }}".
+      </p>
+      Sugerencias:
+      <ul>
+        <li>Asegúrate de que todas las palabras estén escritas correctamente.</li>
+        <li>Prueba palabras clave más generales.</li>
+      </ul>
+    </div>
+  </div>
+</div>

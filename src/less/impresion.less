@@ -1,0 +1,136 @@
+@import "bootstrap/variables.less";
+
+@media print {
+  .label-info{
+    background: @brand-info !important;
+  }
+  .menu-contextual{
+    display: none;
+  }
+
+  .paddingInterno{
+    padding-top: 0px !important;
+  }
+
+  legend{
+    font-size: 1.1em !important;
+    margin-bottom: 0.3em;
+    padding: 0;
+  }
+
+  .colorgraph {
+    height: 2px;
+    border-top: 0;
+    background: @brand-success !important;
+    border-radius: 5px;
+    margin: 0;
+    background-image: -webkit-linear-gradient(left, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%)) !important;
+    background-image: -moz-linear-gradient(left, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%)) !important;
+    background-image: -o-linear-gradient(left, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%)) !important;
+    background-image: linear-gradient(to right, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%)) !important;
+  }
+
+  .titulo{
+    padding:0;
+    margin: 0;
+    text-align: center;
+    font-size: 2em;
+  }
+
+  #thead, thead{
+    background: #222 !important;
+    color: #fff !important;
+  }
+  #tfoot, tfoot{
+    text-align: right;
+    background: #eee !important;
+    border-top: 3px solid #ddd;
+    font-weight: bold;
+  }
+
+  .titulos{
+    .titulo{
+      font-size: 1.8em;
+      padding: 0;
+    }
+  }
+
+  .subtitulo{
+    color: #000 !important;
+    font-size: 1.5em !important;;
+    padding: 0 0 0.5em 0;
+  }
+
+  .cke{
+    display:none !important;
+  }
+
+  .ciris-tabs{
+    .nav-tabs{
+      display: none;
+    }
+  }
+
+  .galeria{
+    overflow: hidden;
+    p{
+      margin:0;
+      line-height: 12px;
+    }
+    .texto{
+      position: static !important;
+      padding: 4px 3px;
+      z-index: 2;
+      bottom: 42px;
+      overflow: hidden;
+    }
+  }
+
+  .reporte{
+    header{
+      padding: 5px;
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 3px;
+    }
+    h4{
+      font-weight: normal;
+      font-size: 15px;
+      margin: 3px;
+    }
+    small{
+      font-size: 10px;
+    }
+    legend{
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    hr{
+      padding: 0;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    } //h3
+    .fa-square-o{
+    display:none;
+  }
+  textarea {
+    resize: none;
+    overflow: hidden;
+}
+  } //reporte
+
+  .factura{
+    table *{
+      font-size: 10px !important;
+    }
+    td{
+      border-top: 1px solid #eee !important;
+      padding: 4px 1px !important;
+      line-height: 1.5 !important;
+    }
+  }
+
+} //media

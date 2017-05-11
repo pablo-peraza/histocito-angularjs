@@ -1,0 +1,42 @@
+<link rel="stylesheet" type="text/css" href="/public/less/comps/login.css">
+<section class="container-fluid">
+	<br><br>
+	<hr class="colorgraph">
+	<h1 class="text-info text-center">Sus credenciales ha caducado</h1>
+	<p class="lead text-center">Por favor, verifique su contraseña</p>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="well well-lg">
+				<form novalidate  class="form-horizontal" role="form" ng-submit="revalidar(passwd)">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Usuario:</label>
+						<div class="col-sm-10">
+							<input type="text" disabled="true" class="form-control"
+							ng-model="usuario">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Contraseña:</label>
+						<div class="col-sm-10">
+							<div class="input-group">
+								<input name="passwd" class="form-control" type="password"
+								ng-model="passwd" ng-required="true">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" cis-mostrar-pass="passwd"><i class="fa fa-eye"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary btn-block btn-lg" ng-disabled="bloqueo">
+								<i class="fa fa-sign-in fa-fw"></i>Revalidar
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<hr class="colorgraph">
+</section>

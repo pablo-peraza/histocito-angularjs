@@ -1,0 +1,84 @@
+@charset "UTF-8";
+@import (inline) "../../bower_components/font-awesome-animation/dist/font-awesome-animation.css";
+@import (inline) "../../bower_components/angular-hotkeys/build/hotkeys.css";
+@import (inline) "../../bower_components/textAngular/src/textAngular.css";
+@import (inline) "bootstrap/bootstrap.css";
+@import "./generales.less";
+@import "./impresion.less";
+@import "comps/loading-bar.less";
+@import "comps/menucontextual.less";
+@import "comps/subida.less";
+@import "comps/galeria.less";
+@import "comps/tabs.less";
+@import "comps/forms.less";
+@import "comps/alertas.less";
+//@import "comps/tablas.less";
+@import "comps/ngsortable.less";
+@import "comps/breeze.less";
+
+.ta-editor {
+  min-height: 300px;
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 20px 0;
+}
+
+.ta-toolbar {
+  background-color: #F0F0F0;
+  padding: 10px 10px 5px;
+  margin-left: 0px; /* Override bootstrap */
+  border: 1px solid #EEE;
+}
+
+.ta-toolbar .btn-group {
+  margin-bottom: 5px;
+}
+
+.ta-editor, .white-box {
+  padding: 10px;
+  background-color: #FFF;
+  border: 1px solid #EEE;
+}
+
+textarea.ta-bind {
+  width: 100%;
+}
+
+.ta-bind, .ta-bind * {
+  color: #333 !important;
+}
+
+.reporte {
+  .fa-square-o {
+    display: none;
+  }
+  textarea {
+    resize: none;
+    overflow: hidden;
+  }
+  .encabezado {
+    h3 {
+      color: #322fe8 !important;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    hr {
+      border: 1px solid #322fe8;
+      margin-top: 1px;
+      margin-bottom: 1px;
+    }
+    p {
+      color: #322fe8 !important;
+      margin-bottom: 0.3em;
+    }
+    small {
+      color: #322fe8 !important;
+    }
+    strong {
+      color: #322fe8 !important;
+    }
+    line-height: 1.2;
+  }
+}

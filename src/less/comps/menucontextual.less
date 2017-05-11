@@ -1,0 +1,40 @@
+@import "../bootstrap/variables.less";
+.menu-contextual{
+  position: fixed;
+  padding-top: 5px;
+  top: 46px;
+  z-index: 90;
+  width: 100%;
+  height: 49px;
+  background: #222;
+  box-shadow: 0 0 8px #000;
+  .colorgraph{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+  }
+  .btn-group{
+    background: #000;
+    border-radius: 10px;
+    .cancelar{
+      background: #444;
+      border-color: #444;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-left: 1px !important;
+    }
+  }
+}
+.colorgraph {
+  height: 3px;
+  border-top: 0;
+  background: @brand-success;
+  border-radius: 5px;
+  margin: 0;
+  background-image: -webkit-linear-gradient(left, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%));
+  background-image: -moz-linear-gradient(left, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%));
+  background-image: -o-linear-gradient(left, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%));
+  background-image: linear-gradient(to right, @brand-success, @brand-success 12.5%, lighten(@brand-warning, 20%) 12.5%, lighten(@brand-warning, 20%) 25%, @brand-warning 25%, @brand-warning 37.5%, @brand-danger 37.5%, @brand-danger 50%, lighten(@brand-danger, 20%) 50%, lighten(@brand-danger, 20%) 62.5%, #c49cde 62.5%, #c49cde 75%, @brand-info 75%, @brand-info 87.5%, lighten(spin(@brand-info, 10), 10%) 87.5%, lighten(spin(@brand-info, 10), 10%));
+}

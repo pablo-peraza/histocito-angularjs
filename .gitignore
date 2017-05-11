@@ -1,0 +1,10 @@
+dist/
+size/
+*.log
+*sublime*
+*.*~
+bower_components
+node_modules
+target/
+.idea
+/commit.sh

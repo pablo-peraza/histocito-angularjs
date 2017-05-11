@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h1>
+        <span ng-if="!vm.ARCHIVO._id">Nuevo</span>
+        <span ng-if="vm.ARCHIVO._id && vm.ARCHIVO.editando">Editar</span>
+        NOMBRE
+        <small ng-bind="' - ' + vm.ARCHIVO._id" ng-if="vm.ARCHIVO._id"></small>
+      </h1>
+    </div>
+    <div class="panel-body">
+      <ul class="list-inline text-center opciones-panel opciones-panel--top">
+        <li ng-if="!vm.ARCHIVO._id || !vm.ARCHIVO.editando">
+          <a class="btn btn-default btn-sm" ui-sref="^.ARCHIVO-lista">
+            <i class="fa fa-fw fa-reply"></i>
+            <span class="hidden-xs">Volver</span>
+          </a>
+        </li>
+        <li ng-if="vm.ARCHIVO._id && !vm.ARCHIVO.editando" ocultar-accion permiso="ARCHIVO" accion="editar">
+          <button class="btn btn-info" ng-click="vm.editar(true)">
+            <i class="fa fa-fw fa-edit"></i>
+            <span class="hidden-xs">Editar</span>
+          </button>
+        </li>
+      </ul>
+      <div ng-form="ARCHIVOForm">
+        <div class="form-group" ng-class="{ 'has-error': ARCHIVOForm.nombre.$invalid && (ARCHIVOForm.nombre.$dirty || ARCHIVOForm.$submitted) }">
+          <label class="control-label" for="nombre">Nombre</label>
+          <input class="form-control" id="nombre" name="nombre" ng-disabled="vm.ARCHIVO._id && !vm.ARCHIVO.editando" ng-model="vm.ARCHIVO.nombre" ng-required="true" type="text">
+          <div class="help-block" ng-messages="ARCHIVOForm.nombre.$error" ng-show="(ARCHIVOForm.nombre.$dirty || ARCHIVOForm.$submitted) && ARCHIVOForm.nombre.$invalid">
+            <div ng-messages-include="base/vistas/mensajes.html"></div>
+          </div>
+        </div>
+        <ul class="list-inline text-center opciones-panel opciones-panel--bottom">
+          <li ng-if="vm.ARCHIVO.editando">
+            <button class="btn btn-default btn-sm" ng-click="vm.editar(false)" type="button">
+              <i class="fa fa-fw fa-ban"></i>
+              <span class="hidden-xs">Cancelar</span>
+            </button>
+          </li>
+          <li ng-if="vm.ARCHIVO.editando || !vm.ARCHIVO._id">
+            <button class="btn btn-success" type="submit" ng-click="ARCHIVOForm.$submitted = true; vm.guardar(ARCHIVOForm.$valid)">
+              <i class="fa fa-fw fa-download"></i>
+              <span class="hidden-xs">Guardar</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

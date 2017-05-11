@@ -1,0 +1,31 @@
+@import "../bootstrap/variables.less";
+.sortable-item, .sortable-placeholder {
+    display: block;
+    min-height: 20px;
+    margin: 1px 2px 5px 1px;
+}
+
+.sortable-item {
+    background-color: #ffffff;
+}
+
+.sortable-handle {
+    cursor: move;
+}
+
+.sortable-placeholder {
+    border: 1px dashed @gray-light;
+    box-sizing: border-box;
+    background-color: @gray-lighter;
+}
+
+.sortable-drag {
+    position: absolute;
+    pointer-events: none;
+    opacity: .8;
+    z-index: 9999;
+}
+
+.sortable-hidden {
+    display: none !important;
+}

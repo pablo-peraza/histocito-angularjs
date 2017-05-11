@@ -1,0 +1,25 @@
+before_script:
+  - . ~/.nvm/nvm.sh
+  - nvm use 6.9.1
+  - npm install -g gulp bower
+
+cache:
+  paths:
+    - node_modules/
+    - bower_components
+
+stages:
+  - deploy
+
+deploy_estable:
+  stage: deploy
+  script:
+    - npm install
+    - bower install
+    - NODE_ENV=production gulp dist --backend http://backend.controles.co.cr:6010
+    - rsync -rlDv --delete dist /software/monitoreo/
+  environment:
+    name: estable
+    url: http://monitoreo.controles.co.cr
+  only:
+  - estable

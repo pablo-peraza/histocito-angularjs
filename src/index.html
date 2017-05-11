@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <base href="/">
+  <title ng-bind="'Laboratorio Histocito | ' + $root.titulo">Laboratorio Histocito</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <meta http-equiv="Content-Language" content="es">
+  <meta name="Subject" content="">
+  <meta name="description" content="">
+  <meta name="abstract" content="">
+  <meta name="classification" content="">
+  <meta name="keywords" content="">
+  <meta name="country" content="Costa Rica">
+  <link rel="shortcut icon" href="/recursos/imagenes/favicon-32x32.png" type="image/png">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css" rel="stylesheet" media="all">
+  <link rel="stylesheet" type="text/css" href="estilos.css" media="all">
+  <meta name="Robots" content="index,follow">
+  <meta name="author" content="Ciris Informatic Solutions">
+  <meta name="revised" content="Ciris Informatic Solutions, 10/05/2017" />
+  <script src="/recursos/js/rangy/rangy-core.min.js"></script>
+  <script src="/recursos/js/rangy/rangy-selectionsaverestore.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script type="text/javascript" src="vendor.min.js"></script>
+  <script type="text/javascript" src="/recursos/js/angular-locale_es-cr.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/es.js"></script>
+  <script type="text/javascript" src="urlApi.js"></script>
+  <script type="text/javascript" src="logica.js"></script>
+  <script type="text/javascript" src="plantillas.js"></script>
+</head>
+
+<body>
+  <header class="hidden-print">
+    <div ng-include="'principal/htmls/navegacion.html'"></div>
+  </header>
+  <section class="paddingInterno">
+    <div ng-include="'principal/htmls/alerta.html'" class="hidden-print"></div>
+    <div ng-if="false">
+      <h4 class="text-center" style="margin-top:15%;">
+        <i class="fa fa-fw fa-circle-o-notch faa-spin animated"></i> Cargando Aplicación
+      </h4>
+    </div>
+    <div data-ng-view></div>
+  </section>
+  <script type="text/ng-template" id="platillaUsuario.html">
+    <a>
+      <span>{{match.model.nombre}} {{match.model.apellidos}}</span>
+      <small class="text-info"> {{match.model.cedula}} </small>
+      <strong> - {{match.model.correo}}</strong>
+    </a>
+  </script>
+  <script type="text/ng-template" id="template/modal/window.html">
+  <div tabindex="-1" role="dialog" class="modal fade" ng-class="{in: animate}" ng-style="{'z-index': 1050 + index*10, display: 'block'}">
+    <div class="modal-dialog" ng-class="{'modal-sm': size == 'sm', 'modal-lg': size == 'lg'}">
+      <div class="modal-content" ng-transclude></div>
+    </div>
+  </div>
+  </script>
+</body>
+
+</html>

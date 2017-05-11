@@ -1,0 +1,230 @@
+@import "./bootstrap/variables.less";
+
+.paddingInterno{
+  padding-top: 89px;
+}
+.texto-blanco{
+  color: #fff;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.cursor-block{
+  cursor: no-drop;
+}
+
+a{
+  .cursor-pointer;
+}
+
+hr.margenes{
+  margin: 5px 0;
+}
+
+.fondoBlanco{
+  background: #fefefe;
+}
+
+.fondo-gris{
+  background: #ddd;
+}
+
+.fondoMedico{
+  background: url("/recursos/imagenes/fondo.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.titulo{
+  color: #fff;
+  text-shadow: 0 2px 4px #000;
+  padding: 0.5em 0;
+  margin: 0;
+  text-align: center;
+  font-size: 3em;
+}
+
+.titulos{
+  .titulo{
+    color: #fff;
+    text-shadow: 0 2px 4px #000;
+    margin: 0;
+    text-align: center;
+    font-size: 2.8em;
+    padding: 0.5em 0 0 0;
+  }
+  .subtitulo{
+    .titulo;
+    font-size: 2.0em;
+    padding: 0 0 0.5em 0;
+  }
+}
+.menu-contextual{
+  .btn-group{
+    background: #111111;
+    border-radius: 10px;
+    .cancelar{
+      padding-top: 4px;
+      padding-bottom: 4px;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-left: 1px !important;
+    }
+  }
+}
+.contenido{
+  .fondoBlanco();
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.gabeta{
+  .fondoMedico();
+}
+
+.interiorGabeta{
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 5px #333;
+  padding-top: 15px;
+  height: 100%;
+}
+
+.texto-grande{
+  font-size: 115%;
+}
+
+.transicion-fondo{
+  -webkit-transition: background-color 500ms linear;
+  -moz-transition: background-color 500ms linear;
+  -o-transition: background-color 500ms linear;
+  -ms-transition: background-color 500ms linear;
+  transition: background-color 500ms linear;
+}
+
+.panel-default > .panel-heading {
+  color: #fff;
+  background-color: #444;
+  border-color: #444;
+}
+
+.margin-bottom{
+  margin-bottom: 15px;
+}
+
+.encendido{
+  text-shadow:0 0 5px @brand-success;
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=phone],
+input[type=tel],
+input[type=url],
+input[type=search],
+textarea,
+select,
+[type=text].form-control,
+[type=number].form-control,
+[type=phone].form-control,
+[type=email].form-control,
+[type=password].form-control,
+[type=tel].form-control,
+[type=url].form-control,
+[type=search].form-control,
+textarea.form-control,
+select.form-control {
+  &:focus {
+    box-shadow: inset 0 -2px 0 @brand-primary !important;
+  }
+}
+
+select.form-control{
+  border: 0;
+  box-shadow: inset 0 -1px 0 #dddddd;
+}
+
+.form-control-static{
+  font-size: 130%;
+}
+
+.resultado-busqueda{
+  padding-bottom: 1em;
+  padding-top: 0.3em;
+  box-shadow: inset 0 -1px #ddd;
+}
+.dimensiones{
+  box-shadow: inset -1px 0 #ddd;
+  .activo{
+    color: @brand-info;
+    font-weight: bold;
+  }
+}
+
+.switch{
+  padding: 0;
+  width: 70px;
+}
+
+.switch .knob {
+  width: 50%;
+  display: block;
+  overflow: hidden;
+  top: 0px;
+  position: relative;
+  padding: 5px;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  border-radius: 3px;
+}
+
+.switch .switch-on {
+  left: 51%;
+}
+
+.switch .switch-off {
+  left: -1%
+}
+
+.switch-animate {
+  transition: left 0.5s;
+  -o-transition: left 0.5s;
+  -moz-transition: left 0.5s;
+  -webkit-transition: left 0.5s;
+}
+
+
+.tablaFactura{
+  thead{
+    background: #222;
+    color: #fff;
+  }
+  tfoot{
+    text-align: right;
+    background: #eee;
+    border-top: 3px solid #ddd;
+    font-weight: bold;
+  }
+}
+
+.form-group .help-block {
+  display: none;
+}
+
+.form-group.has-error .help-block {
+  display: block;
+}
+
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    font-size:90%;
+    tbody > tr > td{
+      padding: 3px;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+<link rel="stylesheet" type="text/css" href="/recursos/login.css">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="cuadro-login text-center">
+
+        <img src="/recursos/imagenes/logo-completo-transparente-100px.png" class="img-responsive center-block">
+        <hr class="colorgraph">
+        <h2><span class="texto-blanco">Validando sus credenciales...</span></h2>
+        <div ng-switch on="estado">
+          <div ng-switch-when="bueno">
+            <p class="lead texto-blanco">Credenciales validados. Bienvenido de regreso <span class="text-success">{{ usuario }}</span></p>
+          </div>
+          <div ng-switch-when="malo">
+            <p class="lead texto-blanco">Sus credenciales han caducado. Redirigiendo a <a href="/">al login</a></p>
+          </div>
+          <div ng-switch-default>
+            <p class="lead texto-blanco">Por favor espere mientras verificamos sus credenciales</p>
+          </div>
+        </div>
+        <hr class="colorgraph">
+      </div>
+    </div>
+  </div>
+</div>

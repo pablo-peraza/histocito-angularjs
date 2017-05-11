@@ -1,0 +1,131 @@
+<section ng-controller="ControladorNavegacion">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+    ng-if="logueado() && !sinLogin()">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" ng-click="colapsar()">
+        <span class="sr-only">Navegación</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand">
+          <img src="/recursos/imagenes/logo-completo-transparente-100px.png" class="img-responsive" style="height: 35px; margin-top: -5px;">
+        </div>
+      </div>
+      <div class="collapse navbar-collapse" collapse="colapsado()">
+        <ul class="nav navbar-nav">
+          <li class="faa-parent animated-hover"
+            ng-if="puedePasar([permisos.medico])"
+            ng-class="{active: location.path() === '/inicio/medico/muestras'}" >
+            <a href="/inicio/medico/muestras"><i class="fa fa-flask fa-fw faa-pulse"></i> Muestras</a>
+          </li>
+          <li class="faa-parent animated-hover"
+            ng-if="puedePasar([permisos.medico])"
+            ng-class="{active: location.path() === '/inicio/medico/pacientes'}" >
+            <a href="/inicio/medico/pacientes"><i class="fa fa-folder-open fa-fw faa-pulse"></i>Pacientes</a>
+          </li>
+          <!--<li class="faa-parent animated-hover"-->
+            <!--ng-if="puedePasar([permisos.medico])"-->
+            <!--ng-class="{active: location.path() === '/inicio/medico/facturas'}" >-->
+            <!--<a href="/inicio/medico/facturas"><i class="fa fa-file-excel-o fa-fw"></i> Facturas</a>-->
+          <!--</li>-->
+          <li class="faa-parent animated-hover"
+            ng-if="puedePasar([permisos.medico])"
+            ng-class="{active: location.path() === '/inicio/medico/precios'}" >
+            <a href="/inicio/medico/precios"><i class="fa fa-money fa-fw"></i> Procedimientos y precios</a>
+          </li>
+          <li class="faa-parent animated-hover"
+            ng-if="puedePasar([permisos.medico])">
+            <a href="/public/manual.pdf" target="_blank"><i class="fa fa-question-circle fa-fw"></i> Ayuda</a>
+          </li>
+          <li class="dropdown"
+            ng-if="puedePasar([permisos.laboratorio, permisos.digitador])"
+            ng-class="{active: location.path().indexOf('/inicio/admin/') === 0}">
+            <a class="dropdown-toggle"><i class="fa fa-fw fa-gears"></i> Administración <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-class="{active: location.path() === '/inicio/admin/usuarios'}">
+                <a href="/inicio/admin/usuarios"><i class="fa fa-users fa-fw"></i> Usuarios</a>
+              </li>
+              <li ng-class="{active: location.path() === '/inicio/admin/observaciones'}">
+                <a href="/inicio/admin/observaciones"><i class="fa fa-eye fa-fw"></i> Observaciones</a>
+              </li>
+              <li ng-class="{active: location.path() === '/inicio/admin/clinicas'}">
+                <a href="/inicio/admin/clinicas"><i class="fa fa-eye fa-hospital-o"></i> Clinicas</a>
+              </li>
+              <li ng-class="{active: location.path() === '/inicio/admin/medicos'}">
+                <a href="/inicio/admin/medicos"><i class="fa fa-eye fa-user-md"></i> Médicos</a>
+              </li>
+              <li ng-class="{active: location.path() === '/inicio/admin/reportes'}">
+                <a href="/inicio/admin/reportes"><i class="fa fa-file-excel-o"></i> Reportes</a>
+              </li>
+
+            </ul>
+          </li>
+          <li class="dropdown"
+            ng-if="puedePasar([permisos.laboratorio, permisos.digitador])"
+            ng-class="{active: location.path().indexOf('/inicio/procedimientos/') === 0}">
+            <a class="dropdown-toggle"><i class="fa fa-fw fa-eyedropper"></i> Procedimientos <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-class="{active: location.path() === '/inicio/procedimientos/origenes'}">
+                <a href="/inicio/procedimientos/origenes"><i class="fa fa-code-fork fa-fw"></i> Origen de muestras</a>
+              </li>
+              <li ng-class="{active: location.path() === '/inicio/procedimientos/tipos'}">
+                <a href="/inicio/procedimientos/tipos"><i class="fa fa-cubes fa-fw"></i> Tipos</a>
+              </li>
+              <li ng-class="{active: location.path() === '/inicio/procedimientos/procedimientos'}">
+                <a href="/inicio/procedimientos/procedimientos"><i class="fa fa-eyedropper fa-fw"></i> Procedimientos</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown"
+            ng-if="puedePasar([permisos.laboratorio, permisos.patologo, permisos.digitador, permisos.histotecnologo, permisos.citotecnologo])"
+            ng-class="{active: location.path().indexOf('/inicio/pacientes/') === 0}" class="faa-parent animated-hover">
+            <a class="dropdown-toggle"><i class="fa fa-fw fa-ambulance"></i> Pacientes <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-class="{active: location.path().indexOf('/inicio/pacientes/expedientes') === 0}">
+                <a href="/inicio/pacientes/expedientes"><i class="fa fa-folder-open fa-fw faa-pulse"></i>Expedientes</a>
+              </li>
+              <li ng-class="{active: location.path().indexOf('/inicio/pacientes/muestras') === 0}">
+                <a href="/inicio/pacientes/muestras"><i class="fa fa-flask fa-fw faa-pulse"></i> Muestras</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown"
+            ng-if="puedePasar([permisos.laboratorio, permisos.digitador])"
+            ng-class="{active: location.path().indexOf('/inicio/facturacion') === 0}">
+            <a class="dropdown-toggle"><i class="fa fa-fw fa-money"></i> Facturación <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-class="{active: location.path() === '/inicio/facturacion/muestras'}">
+                <a href="/inicio/facturacion/muestras"><i class="fa fa-calculator fa-fw"></i> Muestras no facturadas</a>
+              </li>
+              <li ng-class="{active: location.path() === '/inicio/facturacion/facturas'}">
+                <a href="/inicio/facturacion/facturas"><i class="fa fa-file-excel-o fa-fw"></i> Facturas</a>
+              </li>
+            </ul>
+          </li>
+          <li
+            ng-if="puedePasar([permisos.facturacion])"
+            ng-class="{active: location.path() === '/inicio/facturacion/muestras'}">
+            <a href="/inicio/facturacion/muestras"><i class="fa fa-calculator fa-fw"></i> Muestras no facturadas</a>
+          </li>
+          <li
+            ng-if="puedePasar([permisos.facturacion])"
+            ng-class="{active: location.path() === '/inicio/facturacion/facturas'}">
+            <a href="/inicio/facturacion/facturas"><i class="fa fa-file-excel-o fa-fw"></i> Facturas</a>
+          </li>
+          </ul><!--menu-->
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a class="dropdown-toggle cursor-pointer" data-toggle="dropdown">{{hoy | Fecha:"L"}} <i class="fa fa-user-md fa-fw"></i> {{ nombreUsuario() }}<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/inicio/perfil"><i class="fa fa-briefcase fa-fw"></i> Perfil</a></li>
+                <li class="divider"></li>
+                <li><a ng-click="salir()" class="cursor-pointer"><i class="fa fa-eject fa-fw text-danger"></i> Salir</a></li>
+              </ul>
+            </li>
+          </ul>
+          </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+      </section>

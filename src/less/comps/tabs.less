@@ -1,0 +1,53 @@
+@import "../bootstrap/variables.less";
+.ciris-tabs .nav{
+  background: transparent;
+  border: 0;
+  width: 100%;
+  li,
+  .nav-tabs.nav-justified > li{
+    float: left;
+  }
+  li a{
+    text-align: center;
+    border: 0 !important;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+    border-radius: 0 !important;
+    -webkit-box-shadow: 0 0 0;
+    box-shadow: 0 0 0;
+    margin-bottom: 0 !important;
+  }
+  li a:hover{
+    border: 0;
+    color: @brand-warning !important;
+    text-shadow: 0 0 0;
+  }
+  .active a {
+    color: @brand-info !important;
+    background-color: #fff !important;
+
+    text-shadow: 0 0 0;
+  }
+  @media (min-width: 768px) {
+   li,
+   .nav-tabs.nav-justified > li {
+    float: none;
+    display: table-cell;
+    width: 1%;
+  }
+  li > a {
+    margin-bottom: 0 !important;
+    text-align: center;
+  }
+}
+}
+.table{
+  ul{
+    background: none;
+    border: none;
+    margin: 0;
+    i{
+      font-size:130%;
+    }
+  }
+}

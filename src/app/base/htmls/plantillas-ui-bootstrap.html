@@ -1,0 +1,178 @@
+<script id="template/timepicker/timepicker.html" type="text/ng-template">
+  <table>
+    <tbody>
+      <tr class="text-center" ng-show="::showSpinners">
+        <td>
+          <a class="btn btn-link" ng-class="{disabled: noIncrementHours()}" ng-click="incrementHours()" ng-disabled="noIncrementHours()" tabindex="{{::tabindex}}">
+            <span class="fa fa-fw fa-chevron-up"></span>
+          </a>
+        </td>
+        <td>&nbsp;</td>
+        <td>
+          <a class="btn btn-link" ng-class="{disabled: noIncrementMinutes()}" ng-click="incrementMinutes()" ng-disabled="noIncrementMinutes()" tabindex="{{::tabindex}}">
+            <span class="fa fa-fw fa-chevron-up"></span>
+          </a>
+        </td>
+        <td ng-show="showMeridian"></td>
+      </tr>
+      <tr>
+        <td class="form-group" ng-class="{'has-error': invalidHours}">
+          <input class="form-control text-center" maxlength="2" ng-change="updateHours()" ng-model="hours" ng-readonly="::readonlyInput" style="width:50px;" tabindex="{{::tabindex}}" type="text">
+        </td>
+        <td>:</td>
+        <td class="form-group" ng-class="{'has-error': invalidMinutes}">
+          <input class="form-control text-center" maxlength="2" ng-change="updateMinutes()" ng-model="minutes" ng-readonly="::readonlyInput" style="width:50px;" tabindex="{{::tabindex}}" type="text">
+        </td>
+        <td ng-show="showMeridian">
+          <button class="btn btn-default text-center" ng-class="{disabled: noToggleMeridian()}" ng-click="toggleMeridian()" ng-disabled="noToggleMeridian()" tabindex="{{::tabindex}}" type="button">{{meridian}}</button>
+        </td>
+      </tr>
+      <tr class="text-center" ng-show="::showSpinners">
+        <td>
+          <a class="btn btn-link" ng-class="{disabled: noDecrementHours()}" ng-click="decrementHours()" ng-disabled="noDecrementHours()" tabindex="{{::tabindex}}">
+            <span class="fa fa-fw fa-chevron-down"></span>
+          </a>
+        </td>
+        <td>&nbsp;</td>
+        <td>
+          <a class="btn btn-link" ng-class="{disabled: noDecrementMinutes()}" ng-click="decrementMinutes()" ng-disabled="noDecrementMinutes()" tabindex="{{::tabindex}}">
+            <span class="fa fa-fw fa-chevron-down"></span>
+          </a>
+        </td>
+        <td ng-show="showMeridian"></td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+<script id="template/datepicker/month.html" type="text/ng-template">
+  <table aria-activedescendant="{{activeDateId}}" aria-labelledby="{{::uniqueId}}-title" role="grid">
+    <thead>
+      <tr>
+        <th>
+          <button class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1" type="button">
+            <i class="fa fa-fw fa-chevron-left"></i>
+          </button>
+        </th>
+        <th>
+          <button aria-atomic="true" aria-live="assertive" class="btn btn-default btn-sm" id="{{::uniqueId}}-title" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" role="heading" style="width:100%;" tabindex="-1" type="button">
+            <strong>{{title}}</strong>
+          </button>
+        </th>
+        <th>
+          <button class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1" type="button">
+            <i class="fa fa-fw fa-chevron-right"></i>
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in rows track by $index">
+        <td class="text-center" id="{{::dt.uid}}" ng-class="::dt.customClass" ng-repeat="dt in row track by dt.date" role="gridcell">
+          <button class="btn btn-blanco" ng-class="{'btn-info': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" style="min-width:100%;" tabindex="-1" type="button">
+            <span ng-class="::{'text-info': dt.current}">{{::dt.label}}</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+<script id="template/datepicker/year.html" type="text/ng-template">
+  <table aria-activedescendant="{{activeDateId}}" aria-labelledby="{{::uniqueId}}-title" role="grid">
+    <thead>
+      <tr>
+        <th>
+          <button class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1" type="button">
+            <i class="fa fa-fw fa-chevron-left"></i>
+          </button>
+        </th>
+        <th colspan="3">
+          <button aria-atomic="true" aria-live="assertive" class="btn btn-default btn-sm" id="{{::uniqueId}}-title" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" role="heading" style="width:100%;" tabindex="-1" type="button">
+            <strong>{{title}}</strong>
+          </button>
+        </th>
+        <th>
+          <button class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1" type="button">
+            <i class="fa fa-fw fa-chevron-right"></i>
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in rows track by $index">
+        <td class="text-center" id="{{::dt.uid}}" ng-class="::dt.customClass" ng-repeat="dt in row track by dt.date" role="gridcell">
+          <button class="btn btn-blanco" ng-class="{'btn-info': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" style="min-width:100%;" tabindex="-1" type="button">
+            <span ng-class="::{'text-info': dt.current}">{{::dt.label}}</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+<script id="template/datepicker/day.html" type="text/ng-template">
+  <table aria-activedescendant="{{activeDateId}}" aria-labelledby="{{::uniqueId}}-title" role="grid">
+    <thead>
+      <tr>
+        <th>
+          <button class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1" type="button">
+            <i class="fa fa-fw fa-chevron-left"></i>
+          </button>
+        </th>
+        <th colspan="{{::5 + showWeeks}}">
+          <button aria-atomic="true" aria-live="assertive" class="btn btn-default btn-sm" id="{{::uniqueId}}-title" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" role="heading" style="width:100%;" tabindex="-1" type="button">
+            <strong>{{title}}</strong>
+          </button>
+        </th>
+        <th>
+          <button class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1" type="button">
+            <i class="fa fa-fw fa-chevron-right"></i>
+          </button>
+        </th>
+      </tr>
+      <tr>
+        <th class="text-center" ng-if="showWeeks"></th>
+        <th class="text-center" ng-repeat="label in ::labels track by $index">
+          <small aria-label="{{::label.full}}">{{::label.abbr}}</small>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in rows track by $index">
+        <td class="text-center h6" ng-if="showWeeks">
+          <em>{{ weekNumbers[$index] }}</em>
+        </td>
+        <td class="text-center" id="{{::dt.uid}}" ng-class="::dt.customClass" ng-repeat="dt in row track by dt.date" role="gridcell">
+          <button class="btn btn-blanco btn-sm" ng-class="{'btn-info': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" style="min-width:100%;" tabindex="-1" type="button">
+            <span ng-class="::{'text-muted': dt.secondary, 'text-info': dt.current}">{{::dt.label}}</span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+<script id="template/pagination/pagination.html" type="text/ng-template">
+  <ul class="pagination center-block text-center">
+    <li class="pagination-first" ng-class="{disabled: noPrevious()||ngDisabled}">
+      <a href ng-click="selectPage(1, $event)">
+        <i class="fa fa-fw fa-fast-backward"></i>
+      </a>
+    </li>
+    <li class="pagination-prev" ng-class="{disabled: noPrevious()||ngDisabled}">
+      <a href ng-click="selectPage(page - 1, $event)">
+        <i class="fa fa-fw fa-step-backward"></i>
+      </a>
+    </li>
+    <li class="pagination-page" ng-class="{active: page.active,disabled: ngDisabled&&!page.active}" ng-repeat="page in pages track by $index">
+      <a href ng-click="selectPage(page.number, $event)">{{page.text}}</a>
+    </li>
+    <li class="pagination-next" ng-class="{disabled: noNext()||ngDisabled}">
+      <a href ng-click="selectPage(page + 1, $event)">
+        <i class="fa fa-fw fa-step-forward"></i>
+      </a>
+    </li>
+    <li class="pagination-last" ng-class="{disabled: noNext()||ngDisabled}">
+      <a href ng-click="selectPage(totalPages, $event)">
+        <i class="fa fa-fw fa-fast-forward"></i>
+      </a>
+    </li>
+  </ul>
+</script>

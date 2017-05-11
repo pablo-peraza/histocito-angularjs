@@ -1,0 +1,102 @@
+<link rel="stylesheet" type="text/css" href="/recursos/login.css">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <section ng-switch="vista">
+        <div ng-switch-when="existe">
+          <form class="form-horizontal" role="form" novalidate name="form" autocomplete="off"
+            ng-submit="recuperar(usuario.password, form)">
+            <fieldset class="cuadro-login">
+              <h2 class="texto-blanco text-center">Digite una nueva contraseña</h2>
+              <hr class="colorgraph">
+              <div class="form-group"
+                ng-class="{'has-error': (form.passwd.$invalid && form.passwd.$dirty) ||
+                (form.passwd2.$invalid && form.passwd2.$dirty),
+                'has-success': form.passwd.$valid && form.passwd2.$valid}">
+                <label class="col-sm-3 control-label texto-blanco">Contraseña</label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control texto-blanco"
+                  name="passwd" placeholder=""
+                  ng-disabled="datos.cargando"
+                  ng-model="usuario.password"
+                  ng-required="true">
+                </div>
+              </div>
+              <div class="form-group"
+                ng-class="{'has-error': form.passwd2.$invalid && form.passwd2.$dirty, 'has-success': form.passwd2.$valid}">
+                <label class="col-sm-3 control-label texto-blanco">
+                  Compruebe su contraseña
+                </label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control texto-blanco" name="passwd2" placeholder=""
+                  ng-model="usuario.verpassword"
+                  password-iguales="usuario.password"
+                  ng-disabled="datos.cargando"
+                  ng-required="true">
+                  <small ng-show="form.passwd2.$dirty && form.passwd2.$invalid" class="help-block">Las contraseñas no coinciden.</small>
+                </div>
+              </div>
+              <hr class="colorgraph">
+              <div class="form-group">
+                <div class=" col-sm-12">
+                  <button id="aceptarButton"
+                  class="btn btn-lg btn-primary btn-block" type="submit"
+                  ng-disabled="datos.cargando">
+                  <cis-cargando modelo="bloqueado">
+                    <i class="fa fa-fw fa-lock"></i> Reasignar Contraseña
+                  </cis-cargando>
+                  </button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div ng-switch-default>
+          <form class="form-horizontal" role="form" novalidate name="form" autocomplete="off"
+            ng-submit="enviarCorreo(datos.correo, form)">
+            <fieldset class="cuadro-login">
+              <h2 class="texto-blanco text-center">Recuperar su contraseña</h2>
+              <h5 class="texto-blanco text-center">Digite su correo electrónico</h5>
+              <hr class="colorgraph">
+              <div class="form-group" show-errors>
+                <label class="control-label col-sm-2 texto-blanco lead">Correo</label>
+                <div class="col-sm-10">
+                  <input name="correo" class="form-control input-lg texto-blanco" type="email" placeholder="usuario@mediciris.com"ng-model="datos.correo"
+                  ng-required="true"
+                  autofocus ng-focus="true"
+                  ng-disabled="datos.cargando">
+                </div>
+              </div>
+              <hr class="colorgraph">
+              <div class="form-group">
+                <div class=" col-sm-12">
+                  <button id="aceptarButton"
+                  class="btn btn-lg btn-primary btn-block" type="submit">
+                  <cis-cargando modelo="bloqueado">
+                    <i class="fa fa-fw fa-envelope"></i> Enviar Correo
+                  </cis-cargando>
+                  </button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<footer id="footer" class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <a href="http://www.ciriscr.com" target="_blank">
+        <img src="/recursos/imagenes/Ciris-contraforma.png" alt="Mediciris" class="center-block img-responsive" style="height: 40px;">
+      </a>
+      <div class="text-center">
+        <small>3-101-625445 | San José, Costa Rica</small>
+      </div>
+      <div class="text-center">
+        <small>2014 © Todos los derechos reservados | <strong>Ciris Informatic Solutions S.A</strong></small>
+      </div>
+    </div>
+  </div>
+</footer>

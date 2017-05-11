@@ -1,0 +1,42 @@
+body {
+  background: url("/recursos/imagenes/fondo.jpg") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  margin-bottom: 130px !important;
+}
+
+.cuadro-login{
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1em;
+  margin-top: 3em;
+  border-radius: 6px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.8)
+}
+
+.lead {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.colorgraph{
+  height: 5px;
+  margin: 10px 0;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 500;
+  padding-top: 5px;
+  border-radius: 0 !important;
+  height: 100px;
+  overflow:hidden;
+  margin: 0 !important;
+  color: #fff;
+}

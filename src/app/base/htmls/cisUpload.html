@@ -1,0 +1,32 @@
+<div>
+  <!--Botón de seleccion-->
+  <div ng-if="estado === estados.seleccion">
+    <button class="btn btn-primary" ngf-select="archivoSeleccionado($file)" accept="{{acepta}}" ng-class="small | Booleano:'btn-sm':''">
+      <i class="fa fa-upload"></i>
+      <span ng-if="!small">&nbsp;Seleccionar archivo</span>
+      <span ng-if="small">&nbsp;Archivo</span></button>
+  </div>
+  <!--Prevista del archivo-->
+  <div ng-if="estado === estados.previa">
+    <span ng-bind="cisArchivo.name"></span>
+    <button class="btn btn-success" ng-click="subirArchivo()" ng-class="small | Booleano:'btn-sm':''">
+      <i class="fa fa-fw fa-upload"></i>Subir
+    </button>
+    <button class="btn btn-danger" ng-click="borrarSeleccion()" ng-class="small | Booleano:'btn-sm':''">
+      <i class="fa fa-fw fa-ban"></i>Cancelar
+    </button>
+  </div>
+  <!--Barra de progreso-->
+  <div class="row" ng-if="estado === estados.subiendo">
+    <div class="col-sm-12">
+
+        <progressbar class="progress-striped active" max="cisArchivo.size" value="uploaded" type="info"><span sytle="color:white; white-space:nowrap;">{{uploaded}} / {{cisArchivo.size}}</span></progressbar>
+
+      <div class="text-center" style="margin-top:-12px; margin-bottom:8px;">
+        <button class="btn btn-danger" ng-click="cancelarSubida()" ng-class="small | Booleano:'btn-sm':''">
+          <i class="fa fa-fw fa-ban"></i>Abortar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
