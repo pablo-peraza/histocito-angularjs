@@ -30,6 +30,7 @@ var modulo = angular.module( "Proyecto", [
   "pasvaz.bindonce",
   "textAngular",
   "cfp.hotkeys",
+  "Backend",
   require( "./base" ),
   require( "./principal" ),
   require( "./login" )

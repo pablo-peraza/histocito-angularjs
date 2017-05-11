@@ -1,9 +1,5 @@
-# Proyecto Controles
+# FrontEnd Histocito 2017 (Usando proyecto-base 2015)
 
-Rama Desarrollo: [![Medalla](http://ci.ciriscr.com/ciris/controles-angular/badge?branch=desarrollo)](http://ci.ciriscr.com/ciris/controles-angular/)
-
-
-Proyecto de frontend que sirve como base para los desarrollos.
 Las principales tecnologias del proyecto son:
 
 * Angular           → https://angularjs.org/  |  Egghead: https://egghead.io/technologies/angularjs
@@ -36,11 +32,11 @@ Las principales tecnologias del proyecto son:
 
 Una vez cargado nvm en sesión, se debe instalar node ejecutando el siguiente comando el siguiente comando:
 
-    nvm install 4
+    nvm install 6
 
 Luego, para usar node, se debe hacer:
 
-    nvm use 4
+    nvm use 6
 
 >Se puede agregar ese comando al final del .bashrc para que se cargue nvm automáticamente
 
