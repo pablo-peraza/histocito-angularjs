@@ -2,7 +2,10 @@
 
 var angular = window.angular;
 
-var modulo = angular.module( "Proyecto.base", [] );
+var modulo = angular.module( "Proyecto.base", [
+  require( "./directivas/galeria" ),
+  require( "./directivas/dimensiones" )
+] );
 
 //modulo.config( require( "./rutas" ) );
 
