@@ -2,21 +2,21 @@
 
 module.exports = Imagenes;
 
-Imagenes.$inject = [ "$http" ];
-function Imagenes( $http ) {
+Imagenes.$inject = [ "$http", "urlApi" ];
+function Imagenes( $http, urlApi ) {
   var funciones = {};
   funciones.previstas = function( ids ) {
-    return $http.post( "/api/imagenes/", {
+    return $http.post( urlApi + "/api/imagenes/", {
       ids: ids
     } );
   };
   funciones.previstasPublicas = function( ids ) {
-    return $http.post( "/api/imagenes/publica/", {
+    return $http.post( urlApi + "/api/imagenes/publica/", {
       ids: ids
     } );
   };
   funciones.obtener = function( id ) {
-    return $http.get( "/api/imagenes/" + id );
+    return $http.get( urlApi + "/api/imagenes/" + id );
   };
   return funciones;
 } //servicio

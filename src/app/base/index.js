@@ -23,7 +23,7 @@ modulo.factory( "Token", require( "./servicios/token.js" ) );
 modulo.factory( "Credenciales", require( "./servicios/credenciales.js" ) );
 modulo.factory( "Alertas", require( "./servicios/alertas.js" ) );
 modulo.factory( "Dimensionador", require( "./servicios/dimensionador.js" ) );
-modulo.factory( "Dimensionador", require( "./servicios/tabs.js" ) );
+modulo.factory( "Tabs", require( "./servicios/tabs.js" ) );
 
 modulo.directive( "clickEn", require( "./directivas/clickEn.js" ) );
 modulo.directive( "cisSwitch", require( "./directivas/cisSwitch.js" ) );
@@ -42,5 +42,7 @@ modulo.filter( "Porcentaje", filtros.porcentaje );
 modulo.filter( "Booleano", filtros.bool );
 modulo.filter( "TrustAsResourceUrl", filtros.trustAsResourceUrl );
 modulo.filter( "Numero", filtros.numero );
+modulo.filter( "Llave", filtros.llave );
+modulo.filter( "Dimension", filtros.llave );
 
 module.exports = modulo.name;

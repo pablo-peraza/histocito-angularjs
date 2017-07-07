@@ -2,17 +2,17 @@
 
 module.exports = token;
 
-token.$inject = [ "$http" ];
+token.$inject = [ "$http", "urlApi" ];
 
-function token( $http ) {
+function token( $http, urlApi ) {
   var funciones = {};
 
   funciones.obtener = function() {
-    return $http.get( "/api/usuarios/" );
+    return $http.get( urlApi + "/api/usuarios/" );
   };
 
   funciones.actualizar = function( perfil ) {
-    return $http.put( "/api/usuarios/actualizar", perfil );
+    return $http.put( urlApi + "/api/usuarios/actualizar", perfil );
   };
 
   funciones.verificarToken = function( token ) {
@@ -21,7 +21,7 @@ function token( $http ) {
         "Authorization": "JWT " + token
       }
     };
-    return $http.get( "/api/verificacion/token", head );
+    return $http.get( urlApi + "/api/verificacion/token", head );
   };
 
   funciones.revalidar = function( clave, recordarPor ) {
@@ -29,7 +29,7 @@ function token( $http ) {
       password: clave,
       recordarPor: recordarPor
     };
-    return $http.put( "/api/usuarios/revalidar", obj );
+    return $http.put( urlApi + "/api/usuarios/revalidar", obj );
   };
 
   return funciones;

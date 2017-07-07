@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<button class="btn btn-info visible-xs-block" ng-click="mostrarFiltros = !mostrarFiltros"><i class="fa fa-fw fa-filter"></i></button>
+<section ng-if="!vacio(modelo.dimensiones)" collapse="!mostrarFiltros">
+  <p class="text-muted">Resultados para:</p>
+  <div class="row">
+    <div ng-repeat="llave in modelo.llaves" class="col-xs-6">
+    <p><strong>{{llave | Llave}} <i class="fa fa-fw fa-angle-right"></i></strong></p>
+    <ul class="list-unstyled">
+      <li  class="cursor-pointer"
+      ng-repeat="val in modelo.dimensiones[llave]"
+      ng-click="cambiar(val)"
+      ng-class="{activo:val.activado, 'text-muted':cargando}">
+      <i class="fa fa-fw fa-check" ng-if="val.activado"></i> {{val.nombre | Dimension}} -
+      <span ng-class="{'text-activo':val.activado, 'text-muted':!val.activado}">{{val.cantidad}}</span>
+      </li>
+    </ul>
+  </div>
+  </div>
+</section>
+<section ng-if="!vacio(modelo.dimensiones)" class="hidden-xs">
+  <p class="text-muted">Resultados para:</p>
+  <div class="row">
+    <div ng-repeat="llave in modelo.llaves" class="col-sm-12 col-md-12">
+    <p><strong>{{llave | Llave}} <i class="fa fa-fw fa-angle-right"></i></strong></p>
+    <ul class="list-unstyled">
+      <li  class="cursor-pointer"
+      ng-repeat="val in modelo.dimensiones[llave]"
+      ng-click="cambiar(val)"
+      ng-class="{activo:val.activado, 'text-muted':cargando}">
+      <i class="fa fa-fw fa-check" ng-if="val.activado"></i> {{val.nombre | Dimension}} -
+      <span ng-class="{'text-activo':val.activado, 'text-muted':!val.activado}">{{val.cantidad}}</span>
+      </li>
+    </ul>
+  </div>
+  </div>
+</section>
+
+<p class="text-muted" ng-if="vacio(modelo.dimensiones)"><i class="fa fa-fw fa-filter"></i> Sin filtros</p>

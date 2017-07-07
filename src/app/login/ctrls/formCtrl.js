@@ -10,21 +10,21 @@ function validateEmail( email ) {
   return re.test( email );
 }
 
-function formCtrl( $root, $scope, ServiciosIndex, Alertas ) {
+function formCtrl( $rootScope, $scope, ServiciosIndex, Alertas ) {
   $scope.enviando = false;
   $scope.correoValidado = false;
   $scope.validarCorreo = function( correo, campo ) {
     if ( validateEmail( correo ) ) {
-      $root.cargando = true;
+      $rootScope.cargando = true;
       try {
         ServiciosIndex.buscarPorCorreo( correo ).then(
           function() {
-            $root.cargando = false;
+            $rootScope.cargando = false;
             $scope.correoValidado = true;
             campo.$setValidity( "yaexiste", true );
           },
           function( data ) {
-            $root.cargando = false;
+            $rootScope.cargando = false;
             switch ( data.status ) {
               case 471:
                 campo.$setValidity( "yaexiste", false );
@@ -32,7 +32,7 @@ function formCtrl( $root, $scope, ServiciosIndex, Alertas ) {
                 break;
               default:
                 var str = "No se ha podido realizar la validación del correo";
-                $root.alerta = Alertas.alerta( 400, str );
+                $rootScope.alerta = Alertas.alerta( 400, str );
                 $scope.correoValidado = true;
                 break;
             } //switch
@@ -45,17 +45,17 @@ function formCtrl( $root, $scope, ServiciosIndex, Alertas ) {
   }; //function
 
   $scope.enviar = function( usuario ) {
-    $root.cargando = true;
+    $rootScope.cargando = true;
     ServiciosIndex.registrarUsuario( usuario ).then(
       function( data ) {
         $scope.usuario = undefined;
         $scope.formRegistro.$setPristine();
-        $root.cargando = false;
-        $root.alerta = Alertas.alerta( data.status );
+        $rootScope.cargando = false;
+        $rootScope.alerta = Alertas.alerta( data.status );
       },
       function( data ) {
-        $root.cargando = false;
-        $root.alerta = Alertas.alerta( data.status );
+        $rootScope.cargando = false;
+        $rootScope.alerta = Alertas.alerta( data.status );
       }
     );
   }; //function
