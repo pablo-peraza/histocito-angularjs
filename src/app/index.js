@@ -33,7 +33,8 @@ var modulo = angular.module( "Proyecto", [
   "Backend",
   require( "./base" ),
   require( "./principal" ),
-  require( "./login" )
+  require( "./login" ),
+  require( "./admin" )
 ] );
 
 modulo.run( run );

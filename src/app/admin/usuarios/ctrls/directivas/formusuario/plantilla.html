@@ -1,0 +1,79 @@
+<div novalidate ng-form="form">
+  <div class="row">
+    <div class="col-sm-4">
+      <div cis-buscar-cedula="obj.nombre + ' ' + obj.apellidos for obj in buscar($viewValue)"
+      modelo="modelo.cedula"
+      buscar="buscar"
+      en-seleccion="seleccionar(item)"
+      editando="editando" cargando="cargando" focus="true"></div>
+    </div>
+    <div class="col-sm-4">
+      <div cis-buscar-nombre="obj.nombre + ' ' + obj.apellidos for obj in buscar($viewValue)"
+      modelo="modelo.nombre"
+      buscar="buscar"
+      en-seleccion="seleccionar(item)"
+      editando="editando" cargando="cargando" focus="true"></div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group"
+        ng-class="{'has-error': form.apellidos.$invalid && form.apellidos.$dirty, 'has-success': form.apellidos.$valid}">
+        <label for="" class="control-label">Apellidos</label>
+        <input type="text" class="form-control" placeholder="Apellidos" name="apellidos"
+        ng-if="editando"
+        ng-disabled="cargando"
+        ng-required="true"
+        ng-pattern="/^[A-ZÁÉÍÓÚÑ]+(\s[A-ZÁÉÍÓÚÑ]+)*$/"
+        ng-model="modelo.apellidos">
+        <p class="form-control-static"
+        ng-if="!editando">{{modelo.apellidos}}</p>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group"
+        ng-class="{'has-error': form.correo.$invalid && form.correo.$dirty, 'has-success': form.correo.$valid}">
+        <label for="" class="control-label">Correo</label>
+        <input type="text" class="form-control" placeholder="Correo" name="correo"
+        ng-if="editando"
+        ng-disabled="cargando || !isUndefined(modelo.id)"
+        ng-required="true"
+        ng-model="modelo.correo">
+        <p class="form-control-static"
+        ng-if="!editando">{{modelo.correo}}</p>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group"
+        ng-class="{'has-error': form.tipo.$invalid && form.tipo.$dirty, 'has-success': form.tipo.$valid}">
+        <label for="" class="control-label">Tipo Usuario</label>
+        <select class="form-control" name="tipo"
+        ng-if="editando"
+        ng-disabled="cargando"
+        ng-options="tipo for tipo in tipos"
+        ng-model="modelo.configuracion.tipoUsuario"
+        ng-required="true">
+        </select>
+        <p class="form-control-static"
+        ng-if="!editando">{{modelo.configuracion.tipoUsuario}}</p>
+      </div>
+    </div>
+
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group"
+        ng-class="{'has-error': form.recordatorios.$invalid && form.recordatorios.$dirty, 'has-success': form.recordatorios.$valid}">
+        <label style="display: block;" class="control-label">Recordatorios por correo</label>
+        <div cis-boolean
+        ng-if="editando"
+        cis-capturar-teclado="{{tecla}}" hacer="{{hacer}}"
+        ng-model="modelo.configuracion.enviarRecordatorios"></div>
+        <p class="form-control-static"
+        ng-if="!editando">{{modelo.configuracion.enviarRecordatorios && "Si" || "No"}}</p>
+      </div>
+    </div>
+  </div>
+</div>

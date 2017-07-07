@@ -1,0 +1,21 @@
+<section ng-form="form">
+  <div class="form-group"
+  ng-class="{'has-error': form.nombre.$invalid && form.nombre.$dirty,
+  'has-success' : form.nombre.$valid && form.nombre.$dirty}">
+  <label for="" class="control-label">Nombre</label>
+  <input type="text" class="form-control" name="nombre" placeholder="Nombre completo"
+  cis-autofocus="{{focus}}"
+  typeahead="{{formato}}"
+  typeahead-min-length="3"
+  ng-pattern="/^[A-ZÁÉÍÓÚÑ]+(\s[A-ZÁÉÍÓÚÑ]+)*$/"
+  typeahead-loading="buscando"
+  typeahead-on-select="enSeleccion({item: $item})"
+  ng-model="temp.busqueda"
+  ng-change="cambiar(temp.busqueda)"
+  ng-if="editando"
+  ng-required="true"
+  ng-disabled="cargando">
+  <i class="fa fa-fw fa-circle-o-notch faa-spin animated" ng-if="buscando"></i>
+  <p class="form-control-static" ng-if="!editando">{{modelo}}</p>
+</div>
+</section>

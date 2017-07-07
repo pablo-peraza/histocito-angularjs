@@ -1,0 +1,16 @@
+<div class="input-group">
+<input type="text" class="form-control" name="busqueda" placeholder="Buscar por nombre o cédula"
+typeahead="medico as medico.nombre for medico in buscar($viewValue)"
+ng-model="medico"
+typeahead-min-length="3"
+typeahead-editable="false"
+typeahead-on-select="enSeleccion($item)"
+typeahead-wait-ms="300"
+typeahead-focus-first="false"
+typeahead-template-url="platillaUsuario.html"
+>
+<span class="input-group-btn">
+  <button type="button" class="btn btn-danger" ng-click="limpiar(); $event.stopPropagation();"><i class="fa fa-fw fa-eraser"></i> Limpiar</button>
+</span>
+</div>
+<div cis-cargando modelo="buscando"></div>
