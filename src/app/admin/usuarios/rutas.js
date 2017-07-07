@@ -7,7 +7,7 @@ var permisos = require( "../../principal/modelos/permisos.js" );
 rutas.$inject = [ "$routeProvider" ];
 function rutas( $routeProvider ) {
   $routeProvider.when( "/inicio/admin/usuarios", {
-    templateUrl: "admin/usuarios/htmls/lista",
+    templateUrl: "admin/usuarios/htmls/lista.html",
     controller: "AdminUsuariosCtrl",
     titulo: "Administración de usuarios",
     permisos: [ permisos.valores.laboratorio, permisos.valores.digitador ],
@@ -32,7 +32,7 @@ function rutas( $routeProvider ) {
   } );
 
   $routeProvider.when( "/inicio/admin/usuarios/nuevo", {
-    templateUrl: "admin/usuarios/htmls/uno",
+    templateUrl: "admin/usuarios/htmls/uno.html",
     controller: "formUsuarioCtrl",
     titulo: "Nuevo Usuario",
     permisos: [ permisos.valores.laboratorio ],
@@ -55,7 +55,7 @@ function rutas( $routeProvider ) {
   } );
 
   $routeProvider.when( "/inicio/admin/usuarios/:id", {
-    templateUrl: "admin/usuarios/htmls/uno",
+    templateUrl: "admin/usuarios/htmls/uno.html",
     controller: "formUsuarioCtrl",
     titulo: "Usuario - ",
     permisos: [ permisos.valores.laboratorio, permisos.valores.digitador ],

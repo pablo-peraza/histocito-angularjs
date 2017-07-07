@@ -6,6 +6,8 @@ exports.porcentaje = porcentaje;
 exports.bool = bool;
 exports.trustAsResourceUrl = trustAsResourceUrl;
 exports.numero = numero;
+exports.llave = llave;
+exports.dimension = dimension;
 
 function duracion() {
   return function( segundos ) {
@@ -104,3 +106,28 @@ function numero( ) {
     return accounting.formatMoney( num || 0, "", decimales, " ", "," );
   };
 } //function
+
+function llave() {
+  var llaves = {
+    categoria: "Categoría",
+    tipo: "Tipo",
+    origen: "Origen",
+    estado: "Estado",
+    tipoUsuario: "Tipo de Usuario",
+    pagada: "Pagada",
+    cobrada: "Cobrada",
+    sexo: "Sexo",
+    femenino: "Femenino",
+    masculino: "Masculino"
+  };
+  return function( valor ) {
+    return llaves[valor] ? llaves[valor] : valor;
+  };
+}
+
+dimension.$inject = [ "Cache" ];
+function dimension( Cache ) {
+  return function( valor ) {
+    return Cache[valor] ? Cache[valor] : valor;
+  }; //function
+}

@@ -50,16 +50,16 @@ run.$inject = [
   "Alertas"
 ];
 
-function run( $root, $location, Credenciales, Token, Configuraciones, Navbar, $timeout, Alertas ) {
+function run( $rootScope, $location, Credenciales, Token, Configuraciones, Navbar, $timeout, Alertas ) {
   var configurado = false;
-  $root.location = $location;
-  $root.permisos = permisos.valores;
-  $root.vacio = _.isEmpty;
-  $root.hoy = moment().endOf( "day" );
-  $root.puedePasar = puedePasar;
-  $root.clickEn = clickEn;
-  $root.$on( "$routeChangeStart", routeChangeStart );
-  $root.$on( "$routeChangeSuccess", routeChangeSuccess );
+  $rootScope.location = $location;
+  $rootScope.permisos = permisos.valores;
+  $rootScope.vacio = _.isEmpty;
+  $rootScope.hoy = moment().endOf( "day" );
+  $rootScope.puedePasar = puedePasar;
+  $rootScope.clickEn = clickEn;
+  $rootScope.$on( "$routeChangeStart", routeChangeStart );
+  $rootScope.$on( "$routeChangeSuccess", routeChangeSuccess );
 
   function puedePasar( deUsuario ) {
     return Credenciales.estaLogueado() &&
@@ -82,7 +82,7 @@ function run( $root, $location, Credenciales, Token, Configuraciones, Navbar, $t
           configurado = true;
         } //if
         //si el usuario no tiene permisos sobre la ruta solicitada
-        if ( !$root.puedePasar( currentRoute.permisos ) ) {
+        if ( !$rootScope.puedePasar( currentRoute.permisos ) ) {
           $location.path( "/inicio/noautorizado" );
         } //if
       } else {
@@ -93,7 +93,7 @@ function run( $root, $location, Credenciales, Token, Configuraciones, Navbar, $t
 
   function routeChangeSuccess( event, currentRoute ) {
     Navbar.colapsado = true;
-    $root.titulo = currentRoute.titulo;
+    $rootScope.titulo = currentRoute.titulo;
   }
 
 }

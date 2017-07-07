@@ -2,8 +2,8 @@
 
 module.exports = reporteCtrl;
 
-reporteCtrl.$inject = [ "$root", "$scope", "$window", "$location", "$http", "Alertas", "urlApi" ];
-function reporteCtrl( $root, $scope, $window, $location, $http, Alertas, urlApi ) {
+reporteCtrl.$inject = [ "$rootScope", "$scope", "$window", "$location", "$http", "Alertas", "urlApi" ];
+function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, urlApi ) {
   $scope.datos = {
     "desde": "2017-",
     "hasta": "2017-"

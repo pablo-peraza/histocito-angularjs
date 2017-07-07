@@ -3,7 +3,7 @@
 module.exports = formUsuarioCtrl;
 
 formUsuarioCtrl.$inject = [ "$scope", "hotkeys" ];
-function formUsuarioCtrl( $root, $scope, $window, $location, Usuarios,
+function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
   Alertas, Selecciones, usuario, procedimientos, hotkeys ) {
 
   function configurarTeclado( $scope, hotkeys ) {
@@ -116,7 +116,7 @@ function formUsuarioCtrl( $root, $scope, $window, $location, Usuarios,
       $scope.datos.tipos = resp.lista;
     } );
     if ( !$scope.datos.usuario.nuevo ) {
-      $root.titulo += usuario.nombre + " " + usuario.apellidos;
+      $rootScope.titulo += usuario.nombre + " " + usuario.apellidos;
       $scope.datos.elementoActual = 0;
       if ( usuario.configuracion.tipoUsuario === "Médico" ) {
         $scope.datos.muestras = {
@@ -130,7 +130,7 @@ function formUsuarioCtrl( $root, $scope, $window, $location, Usuarios,
       usuario.configuracion.tipoUsuario : "" );
 
     $scope.editar = function( usuario ) {
-      if ( $root.puedePasar( [ $root.permisos.laboratorio ] ) ) {
+      if ( $rootScope.puedePasar( [ $rootScope.permisos.laboratorio ] ) ) {
         original = angular.copy( usuario );
         procedimientosOriginales = angular.copy( $scope.datos.procedimientos );
         usuario.editando = true;
@@ -159,7 +159,7 @@ function formUsuarioCtrl( $root, $scope, $window, $location, Usuarios,
       function ultima() {
         $scope.datos.cargando = false;
       }
-      if ( $root.puedePasar( [ $root.permisos.laboratorio ] ) && !$scope.datos.cargando ) {
+      if ( $rootScope.puedePasar( [ $rootScope.permisos.laboratorio ] ) && !$scope.datos.cargando ) {
         $scope.datos.cargando = true;
         Usuarios.guardar( usuario ).then( ok, error ).finally( ultima );
       }
