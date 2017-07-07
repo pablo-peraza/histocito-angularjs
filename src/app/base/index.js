@@ -4,7 +4,8 @@ var angular = window.angular;
 
 var modulo = angular.module( "Proyecto.base", [
   require( "./directivas/galeria" ),
-  require( "./directivas/dimensiones" )
+  require( "./directivas/dimensiones" ),
+  require( "./directivas/buscarpor" )
 ] );
 
 //modulo.config( require( "./rutas" ) );
@@ -22,6 +23,7 @@ modulo.factory( "Token", require( "./servicios/token.js" ) );
 modulo.factory( "Credenciales", require( "./servicios/credenciales.js" ) );
 modulo.factory( "Alertas", require( "./servicios/alertas.js" ) );
 modulo.factory( "Dimensionador", require( "./servicios/dimensionador.js" ) );
+modulo.factory( "Dimensionador", require( "./servicios/tabs.js" ) );
 
 modulo.directive( "clickEn", require( "./directivas/clickEn.js" ) );
 modulo.directive( "cisSwitch", require( "./directivas/cisSwitch.js" ) );

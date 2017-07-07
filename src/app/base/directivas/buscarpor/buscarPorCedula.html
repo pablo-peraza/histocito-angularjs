@@ -1,0 +1,42 @@
+<section ng-form="form" ng-init="temp.nacional=esNacional()">
+  <div class="form-group"
+  ng-class="{'has-error': form.cedula.$invalid && form.cedula.$dirty,
+  'has-success' : form.cedula.$valid && form.cedula.$dirty}">
+  <label for="" class="control-label">
+    <span>{{temp.nacional && "Cédula" || "Identificación"}}</span>
+    <button class="btn btn-xs" ng-click="temp.nacional=!temp.nacional"
+    ng-if="editando"
+    ng-class="{true:'btn-info', false:'btn-default'}[temp.nacional]">
+      {{temp.nacional && "Nacional" || "Extranjero"}}
+    </button>
+  </label>
+  <div ng-switch="temp.nacional" ng-if="editando">
+    <div ng-switch-when="true">
+      <input type="text" class="form-control" name="cedula" placeholder="XXXXXXXXX"
+        cis-autofocus="{{focus}}"
+        typeahead="{{formato}}"
+        typeahead-min-length="3"
+        typeahead-loading="buscando"
+        typeahead-on-select="enSeleccion({item: $item})"
+        ng-model="temp.busqueda"
+        ng-change="cambiar(temp.busqueda)"
+        ng-pattern="/^\d{9}$/"
+        ng-disabled="cargando">
+    </div>
+    <div ng-switch-when="false">
+      <input type="text" class="form-control" name="cedula" placeholder="Identificación"
+        cis-autofocus="{{focus}}"
+        typeahead="{{formato}}"
+        typeahead-min-length="3"
+        typeahead-loading="buscando"
+        typeahead-on-select="enSeleccion({item: $item})"
+        ng-model="temp.busqueda"
+        ng-change="cambiar(temp.busqueda)"
+        ng-pattern="/[\d\w]+/"
+        ng-disabled="cargando">
+    </div>
+  </div>
+  <i class="fa fa-fw fa-circle-o-notch faa-spin animated" ng-if="buscando"></i>
+  <p class="form-control-static" ng-if="!editando">{{modelo}}</p>
+</div>
+</section>

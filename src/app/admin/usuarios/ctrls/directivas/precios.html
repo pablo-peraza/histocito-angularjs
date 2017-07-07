@@ -1,0 +1,34 @@
+<section class="table-cascade">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Alias</th>
+        <th>Tipo</th>
+        <th>Origen</th>
+        <th>Precio Sugerido</th>
+        <th style="width: 20%;">Precio para el usuario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="proc in procedimientos">
+        <td data-title="Alias">{{proc.alias}}</td>
+        <td data-title="Tipo">{{proc.tipo | Dimension }}</td>
+        <td data-title="Origen">{{proc.origen | Dimension }}</td>
+        <td data-title="Precio Sugerido">{{(proc.precio.centavos / 100) | Colones}}</td>
+        <td data-title="Precio Sugerido" ng-form="form">
+          <div class="form-group" show-errors ng-show="editando">
+            <input type="colones" name="monto" class="form-control"
+            min="0"
+            ng-required="true"
+            ng-model="proc.precioUsuario"
+            ng-disabled="cargando">
+            <span class="help-block" ng-if="form.monto.$error.required">Requerido</span>
+            <span class="help-block" ng-if="form.monto.$error.max">El monto no puede ser superior a {{((total(datos.factura.detalle) - totalPagos(datos.factura.pagos)) / 100) | Colones}}</span>
+            <span class="help-block" ng-if="form.monto.$error.min">El monto no puede ser igual o inferior a 0</span>
+          </div>
+          <span ng-if="!editando">{{proc.precioUsuario && ((proc.precioUsuario  / 100)| Colones) || "Sin Asignar"}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

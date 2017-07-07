@@ -1,0 +1,77 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+    <li ng-if="puedePasar([permisos.laboratorio])">
+      <a href="/inicio/admin/usuarios/nuevo" class="btn btn-primary" ><i class="fa fa-fw fa-file"></i> <span class="hidden-xs">Nuevo</span></a>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-users fa-fw"></i> Administración de Usuarios</h1>
+</section>
+<section class="container-fluid">
+  <ul class="list-inline text-center hidden-xs hidden-sm" ng-if="puedePasar([permisos.laboratorio])">
+    <li><div cis-tecla="mod+shift+enter" tipo="primary" accion="Nuevo Usuario"></div></li>
+  </ul>
+  <div class="row">
+    <div class="col-sm-2 dimensiones">
+      <div cis-dimensiones="{{datos.dimensiones}}" actuales="datos.usuarios.dimensiones"
+          on-change="aplicarDimension(dimensiones)" cargando="datos.cargando"></div>
+    </div>
+    <div class="col-sm-10">
+      <form novalidate ng-submit="buscar()">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="search" class="form-control" placeholder="Buscar por nombre, cédula o correo"
+            ng-model="datos.filtro"
+            ng-required="true">
+            <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+          </div>
+        </div>
+      </form>
+      <section>
+        <p class="text-muted">Mostrando: {{datos.usuarios.lista.length}} de {{datos.usuarios.cantidad}}</p>
+        <div class="table-responsive">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Cédula</th>
+                <th>Correo</th>
+                <th>Tipo Usuario</th>
+                <th>Clínica</th>
+                <th ng-if="puedePasar([permisos.laboratorio])">Habilitado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer"
+                ng-repeat="usuario in datos.usuarios.lista" bindonce>
+                <td data-title="Nombre" ng-click="location.path('/inicio/admin/usuarios/' + usuario.id)" bo-text="usuario.nombre"></td>
+                <td data-title="Apellidos" ng-click="location.path('/inicio/admin/usuarios/' + usuario.id)" bo-text="usuario.apellidos"></td>
+                <td data-title="Cédula" ng-click="location.path('/inicio/admin/usuarios/' + usuario.id)" bo-text="usuario.cedula"></td>
+                <td data-title="Correo" ng-click="location.path('/inicio/admin/usuarios/' + usuario.id)" bo-text="usuario.correo"></td>
+                <td data-title="Tipo Usuario" ng-click="location.path('/inicio/admin/usuarios/' + usuario.id)" bo-text="usuario.tipoUsuario"></td>
+                <td data-title="Clínica" ng-click="location.path('/inicio/admin/usuarios/' + usuario.id)" bo-text="usuario.clinica"></td>
+                <td data-title="Habilitado" ng-if="puedePasar([permisos.laboratorio])">
+                  <i class="fa fa-fw fa-2x cursor-pointer"
+                  ng-click="cambiarHabilitacion(usuario)"
+                  ng-class="{true:'fa-toggle-on text-success encendido', false:'fa-toggle-off text-muted'}[usuario.habilitado]"></i>
+                  <span ng-if="!usuario.habilitado">No</span>
+                  <span class="text-success" ng-if="usuario.habilitado">Si</span>
+                </td>
+              </tr>
+              <tr ng-if="vacio(datos.usuarios.lista)" class="text-center">
+                <td colspan="7"><strong>No hay resultados</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMas" umbral="50"
+            debe-cargar="(datos.usuarios.lista.length < datos.usuarios.cantidad) && !datos.cargando"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

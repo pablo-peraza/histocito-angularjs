@@ -1,0 +1,54 @@
+<section>
+  <h5>Historial de Muestras</h5>
+  <section>
+        <p class="text-muted">Mostrando: {{datos.muestras.lista.length}} de {{datos.muestras.cantidad}}</p>
+        <div class="table-cascade">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Consecutivo</th>
+                <th>Categoría</th>
+                <th>Procedimiento</th>
+                <th>Paciente</th>
+                <th>Estado</th>
+                <th>Lesión</th>
+                <th>Fecha Toma</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fx-fade-down cursor-pointer" ng-repeat="muestra in datos.muestras.lista">
+                <td data-title="Consecutivo" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.numero"></td>
+                <td data-title="Categoría" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.categoria"></td>
+                <td data-title="Procedimiento" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.procedimiento.nombre"></td>
+                <td data-title="Paciente" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.paciente.nombre"></td>
+                <td data-title="Estado" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)">
+                  <span ng-class="{
+                    'En espera':'text-danger',
+                    'Registrada':'text-info',
+                    'En análisis':'text-warning',
+                    'Completada':'text-success',
+                    'En diagnostico':'text-primary'}[muestra.estado]" ng-bind="muestra.estado">
+                  </span>
+                </td>
+                <td data-title="Lesión" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" class="text-center">
+                  <i class="fa fa-fw" ng-class="{false:'fa-times', true:'fa-check text-danger'}[muestra.tieneLesion]"></i>
+                </td>
+                <td data-title="Fecha Toma" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)">
+                  <span ng-bind="muestra.fechaToma | Fecha:'LL'"></span> - <span class="text-danger" ng-bind="muestra.fechaToma | HaceCuanto"></span>
+                </td>
+              </tr>
+              <tr ng-if="vacio(datos.muestras.lista)" class="text-center">
+                <td colspan="8"><strong>No hay resultados</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMasMuestras" umbral="50"
+              debe-cargar="(datos.muestras.lista.length < datos.muestras.cantidad) && !datos.cargando">
+            </div>
+          </div>
+        </div>
+      </section>
+  <br>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

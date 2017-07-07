@@ -1,0 +1,134 @@
+<nav class="menu-contextual">
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-flask fa-fw"></i> Reporte de Muestras</h1>
+</section>
+<section class="container-fluid">
+  <ul class="list-inline text-center hidden-xs hidden-xs hidden-sm">
+    <li>
+      <a download="download.xls" href="#" ng-click="exportarExcel(this);">Export to Excel</a>
+    </li>
+  </ul>
+  <div class="row">
+    <div class="col-sm-10 col-md-12">
+      <form ng-submit="buscar(searchForm)" name="searchForm">
+          <div class="row">
+            <div class="col-sm-2 col-md-3">
+              <div class="form-group">
+                  <label for="" class="control-label">Secuencia inicial</label>
+                  <input type="search" class="form-control" placeholder="2015-00001"
+                  ng-model="datos.desde"
+                  ng-required="true" name="desde" required>
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-3 ">
+              <div class="form-group">
+                  <label for="" class="control-label">Secuencia final</label>
+                  <input type="search" class="form-control" placeholder="2017-99999"
+                  ng-model="datos.hasta"
+                  ng-required="true" name="hasta" required >
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-3 ">
+              <div class="form-group">
+                <label for="sel1">Categoría:</label>
+                <select class="form-control" ng-model="categoria" required name="categoria">
+                  <option value="Citología">Citología</option>
+                  <option value="Biopsia">Biopsia</option>
+                  <option value="Patología molecular">Patología</option>
+                  <option value="Citología no ginecológica">Citología no ginecológica</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-2 col-md-3">
+              <br>
+              <button class="btn">
+                <span class="input-group-addon">
+                  <i class="fa fa-fw fa-search"></i>
+                  Buscar
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <p class="help-block" ng-show="searchForm.$invalid  && searchForm.$submitted ">**Debe completar todos los campos**</p>
+            <div class="col-sm-1 col-md-3">
+              <div class="form-group" ng-show="datos.muestras.lista.length">
+                <label for="sel1">Agrupar por:</label>
+                <select class="form-control" ng-model="opcion" ng-change="agruparPor(opcion)">
+                  <option value="medico">Médico</option>
+                  <option value="histotecnologo">Histotecnologo</option>
+                  <option value="citotecnologo">Citotecnologo</option>
+                  <option value="patologo">Patologo</option>
+                </select>
+              </div>
+            </div>
+          </div>
+      </form>
+
+
+
+      <section>
+        <p class="text-muted" ng-show="datos.muestras? datos.muestras.lista.length: false">Mostrando: {{datos.muestras.lista.length}} de {{datos.muestras.cantidad}}</p>
+        <div class="table-responsive">
+
+              <accordion ng-repeat="muestrasPorUsuario in datos.muestras.porUsuario" ng-click="muestrasPorUsuario.isOpen = !muestrasPorUsuario.isOpen">
+                <accordion-group heading="{{muestrasPorUsuario.nombre + ' (' + muestrasPorUsuario.length + ')'}}" is-open="muestrasPorUsuario.isOpen">
+                  <table class="table table-condensed table-hover">
+                    <thead>
+                      <tr>
+
+                        <th>Consecutivo</th>
+                        <th>Procedimiento</th>
+                        <th>Paciente</th>
+                        <th>Médico</th>
+                        <th>Patólogo</th>
+                        <th>Histotecnólogo</th>
+                        <th>Citotecnólgo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="cursor-pointer"
+                        bindonce ng-repeat="muestraUsuario in muestrasPorUsuario | orderBy: 'consecutivo' track by muestraUsuario._id">
+                        <td data-title="Consecutivo" ng-click="location.path('/inicio/pacientes/muestras/' + muestraUsuario._id)" ng-bind="muestraUsuario.consecutivo"></td>
+                        <td data-title="Procedimiento" ng-click="location.path('/inicio/pacientes/muestras/' + muestraUsuario._id)" ng-bind="muestraUsuario._idProcedimiento.alias"></td>
+                        <td data-title="Paciente" ng-click="location.path('/inicio/pacientes/muestras/' + muestraUsuario._id)" ng-bind="muestraUsuario._idExpediente.ficha.nombre"></td>
+                        <td data-title="Médico" ng-click="location.path('/inicio/pacientes/muestras/' + muestraUsuario._id)" ng-bind="muestraUsuario.medico.nombre"></td>
+                        <td data-title="Patólogo" ng-click="location.path('/inicio/pacientes/muestras/' + muestraUsuario._id)" ng-bind="muestraUsuario.equipo.patologo.nombre + ' ' + muestraUsuario.equipo.patologo.apellidos"></td>
+                        <td data-title="Histotecnólogo" ng-click="location.path('/inicio/pacientes/muestras/' + muestraUsuario._id)" ng-bind="muestraUsuario.equipo.histotecnologo.nombre + ' ' + muestraUsuario.equipo.histotecnologo.apellidos"></td>
+                        <td data-title="Citotecnólgo" ng-click="location.path('/inicio/pacientes/muestras/' + muestraUsuario._id)" ng-bind="muestraUsuario.equipo.citotecnologo.nombre + ' ' + muestraUsuario.equipo.citotecnologo.apellidos"></td>
+
+                      </tr>
+                      <tr ng-if="vacio(datos.muestras.lista)" class="text-center">
+                        <td colspan="8"><strong>No hay resultados</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </accordion-group>
+              </accordion>
+
+
+
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMas" umbral="50"
+            debe-cargar="(datos.muestras.lista.length < datos.muestras.cantidad) && !datos.cargando"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+<script type="text/ng-template" id="motivo.html">
+<div class="modal-header">
+  <h5 class="modal-title">Motivo del cambio al estado 'En Espera'</h5>
+</div>
+<div class="modal-body">
+  <label for="" class="cotrol-label">Digite el motivo por el cual la muestra está ahora En Espera</label>
+  <textarea class="form-control" ng-model="datos.motivo" cis-autofocus="true"></textarea>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
+  <button class="btn btn-success" ng-click="ok(datos.motivo)" ng-disabled="!datos.motivo">Aceptar</button>
+</div>
+</script>

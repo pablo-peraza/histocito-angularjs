@@ -1,0 +1,101 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+    <li ng-if="!datos.mostrarForm">
+      <button class="btn btn-primary" ng-click="datos.mostrarForm = true"><i
+          class="fa fa-fw fa-file"></i> <span class="hidden-xs">Nuevo</span></button>
+    </li>
+    <li ng-if="datos.mostrarForm">
+      <div class="btn-group">
+        <button class="btn btn-success" ng-click="clickEn('enviarForm')"
+                ng-disabled="datos.cargando">
+          <div cis-cargando modelo="datos.cargando">
+            <i class="fa fa-fw fa-download"></i><span class="xs-hidden"> Guardar</span>
+          </div>
+        </button>
+        <button class="btn btn-default cancelar" ng-click="clickEn('resetForm')">
+      <span class="fa-stack fa-fw">
+        <i class="fa fa-money fa-stack-1x fa-inverse"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+      </span>
+        </button>
+      </div>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-eye fa-fw"></i> Administración de Clínicas</h1>
+</section>
+<section class="container-fluid">
+  <ul class="list-inline text-center hidden-xs hidden-sm">
+    <li ng-if="!datos.mostrarForm">
+      <div cis-tecla="mod+shift+enter" tipo="primary" accion="Nuevo"></div>
+    </li>
+    <li ng-if="datos.mostrarForm">
+      <div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div>
+    </li>
+  </ul>
+  <div class="form-nuevo form-nuevo-success" ng-if="datos.mostrarForm">
+    <h5>Digite los datos solicitados</h5>
+    <form name="form" novalidate ng-submit="guardar(datos.nuevo, form)">
+      <div class="form-group" show-errors>
+        <label for="nombre" class="control-label">Nombre</label>
+        <input type="text" class="form-control" placeholder="Nombre" name="nombre" id="nombre" cis-autofocus
+               ng-disabled="datos.cargando" ng-required="true" ng-model="datos.nuevo.nombre">
+      </div>
+      <div class="form-group">
+        <label for="cedula" class="control-label">Cédula</label>
+        <input type="text" class="form-control" placeholder="Cédula" name="cedula" id="cedula"
+               ng-disabled="datos.cargando" ng-model="datos.nuevo.cedula">
+      </div>
+      <button type="submit" ng-show="false" id="enviarForm"></button>
+      <button type="reset" ng-show="false" id="resetForm" ng-click="cancelar(form)"></button>
+    </form>
+  </div>
+  <section class="fx-fade-down">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="search" class="form-control" placeholder="Buscar por nombre o cédula"
+               ng-model="filtro">
+        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="fx-fade-down" ng-repeat="clinica in datos.clinicas.lista | filter:filtro track by clinica.id">
+            <td data-title="Nombre" ng-bind="clinica.nombre"></td>
+            <td data-title="Cédula" ng-bind="clinica.cedula"></td>
+            <td data-title="Acciones">
+              <ul class="list-inline text-center">
+                <li>
+                  <small><i class="fa fa-fw fa-edit fa-2x text-info cursor-pointer"
+                            ng-click="editar(clinica)"></i></small>
+                </li>
+                <li>
+                  <small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer"
+                            ng-click="eliminar(clinica)"></i></small>
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr ng-if="vacio(datos.clinicas.lista)">
+            <td colspan="3" class="text-center"><strong>No hay resultados</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div cis-cargando modelo="datos.cargando" class="text-center">
+        <div cis-scroll cargador="cargarMasMuestras" umbral="50"
+             debe-cargar="(datos.clinicas.lista.length < datos.clinicas.cantidad) && !datos.cargando">
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
