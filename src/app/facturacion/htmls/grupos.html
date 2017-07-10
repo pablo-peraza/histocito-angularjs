@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-offset-5 col-sm-2">
+      <h5>Agrupar por:</h5> <br>
+      <div class="form-inline" style="font-size: 15px">
+        <div class="radio-inline">
+          <label class="text-large">
+            <input type="radio" ng-change="agrupar(datos.muestrasSeleccionadas, datos.agrupacion)" ng-model="datos.agrupacion" value="usuario"> Dueño
+          </label>
+        </div>
+        <div class="radio-inline">
+          <label>
+            <input type="radio" ng-change="agrupar(datos.muestrasSeleccionadas, datos.agrupacion)" ng-model="datos.agrupacion" value="medico"> Médico
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="datos.agrupacion">
+    <h5>Seleccione las muestras que desea incluir por factura</h5>
+    <p>Las muestras seleccionadas dentro de un médico, se incluiran en una sola factura. Las muestras
+      que queden desmarcadas, generan su propia factura.</p>
+    <div class="breeze">
+      <div class="row">
+        <div class="col-sm-12" ng-repeat="grupo in datos.agrupadas">
+          <div class="entrada">
+            <h5 ng-if="datos.agrupacion === 'medico'">{{grupo[0].medico.nombre && grupo[0].medico.nombre || "Sin Médico"}}</h5>
+            <h5 ng-if="datos.agrupacion === 'clinica'">{{grupo[0].clinica.nombre && grupo[0].clinica.nombre || "Sin Clínica"}}</h5>
+            <h5 ng-if="datos.agrupacion === 'usuario'">{{grupo[0].dueno.nombre && grupo[0].dueno.nombre || "Sin Usuario"}}</h5>
+            <div class="table-responsive">
+              <table class="table table-condensed">
+                <thead>
+                <tr>
+                  <th>&nbsp;</th>
+                  <th>Muestra</th>
+                  <th>Categoría</th>
+                  <th>Procedimiento</th>
+                  <th>Paciente</th>
+                  <th>Fecha Toma</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="muestra in grupo" bindonce>
+                  <td><input type="checkbox" ng-model="muestra.seleccionada"></td>
+                  <td bo-text="muestra.numero"></td>
+                  <td bo-text="muestra.categoria"></td>
+                  <td bo-text="muestra.procedimiento.nombre"></td>
+                  <td bo-text="muestra.paciente.nombre"></td>
+                  <td bo-text="muestra.fechaToma | Fecha:'LL'"></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<nav class="menu-contextual hidden-print">
+  <ul class="list-inline text-center" ng-if="datos.factura !== 404">
+    <li ng-if="puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">
+      <button class="btn btn-success" ng-click="modalConsecutivo()">
+      <i class="fa fa-fw fa-pencil"></i><span class="hidden-sm hidden-xs"> Editar Número</span>
+      </button>
+    </li>
+    <li ng-if="!datos.mostrarForm && totalPagos(datos.factura.pagos) < total(datos.factura.detalle) && puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">
+      <button class="btn btn-info" ng-click="datos.mostrarForm=!datos.mostrarForm; tabs[1].activo=true;">
+      <i class="fa fa-fw fa-money"></i><span class="hidden-sm hidden-xs"> Nuevo Pago</span>
+      </button>
+    </li>
+    <li ng-if="datos.mostrarForm && puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">
+      <div class="btn-group">
+        <button class="btn btn-success"
+        ng-click="clickEn('enviarForm')"
+        ng-disabled="datos.cargando">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-money"></i><span class="hidden-sm hidden-xs"> Registrar Pago</span>
+        </div>
+        </button>
+        <button class="btn btn-default cancelar"
+        ng-click="clickEn('resetForm')">
+        <span class="fa-stack fa-fw">
+        <i class="fa fa-money fa-stack-1x fa-inverse"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+        </span>
+        </button>
+      </div>
+    </li>
+    <li ng-if="!datos.mostrarForm && vacio(datos.factura.pagos) && puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">
+      <button class="btn btn-danger" ng-click="anular(datos.factura.id)">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-ban"></i><span class="hidden-sm hidden-xs"> Anular</span>
+      </div>
+      </button>
+    </li>
+    <li>
+      <button class="btn btn-default" cis-imprimir>
+      <i class="fa fa-fw fa-print"></i><span class="hidden-sm hidden-xs"> Imprimir</span>
+      </button>
+    </li>
+    <li>
+      <button class="btn btn-default btn-sm" cis-atras>
+      <i class="fa fa-fw fa-reply"></i><span class="hidden-sm hidden-xs"> Atrás</span>
+      </button>
+    </li>
+  </ul>
+  <ul class="list-inline text-center" ng-if="datos.factura === 404">
+    <li>
+      <button class="btn btn-default btn-sm" cis-atras>
+      <i class="fa fa-fw fa-reply"></i><span class="hidden-sm hidden-xs"> Atrás</span>
+      </button>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo hidden-print">
+  <span>Factura <span ng-if="datos.factura.consecutivo">No. {{datos.factura.consecutivo}}</span></span>
+  </h1>
+  <div class="ciris-tabs">
+    <tabset>
+    <tab ng-repeat="tab in tabs" active="tab.activo" disabled="tab.inhabilitado">
+    <tab-heading ng-swipe-left="siguiente()" ng-swipe-right="anterior()">
+    <i class="fa fa-fw {{tab.icono}}"></i> <span class="hidden-xs">{{tab.titulo}}</span>
+    </tab-heading>
+    <div class="container-fluid fondoBlanco">
+      <br>
+      <ul class="list-inline text-center hidden-xs hidden-sm">
+        <li ng-if="tabActual() > 0"><div cis-tecla="mod+left" tipo="default" accion="Paso Anterior"></div></li>
+        <li ng-if="tabActual() < tabs.length -1"><div cis-tecla="mod+right" tipo="default" accion="Paso Siguiente"></div></li>
+      </ul>
+      <div ng-include="tab.contenido"></div>
+    </div>
+    </tab>
+    </tabset>
+  </div>
+</section>
+<section class="container-fluid" ng-if="datos.factura === 404">
+  <div  class="text-center">
+    <h2><i class="fa fa-chain-broken fa-fw"></i> 404</h2>
+    <p class="lead text-info">
+    La Factura solicitada no existe.
+    </p>
+  </div>
+</section>
+<script type="text/ng-template" id="consecutivo.html">
+<div class="modal-header">
+  <h5 class="modal-title">Editar el número de la factura</h5>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="" class="control-label">No. Factura</label>
+    <input type="text" class="form-control" ng-model="datos.consecutivo"
+    ng-disabled="datos.cargando">
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="cancelar()" ng-disabled="cargando">
+  <div cis-cargando modelo="datos.cargando">
+    Cancelar
+  </div>
+  </button>
+  <button class="btn btn-success" ng-click="guardar(datos.consecutivo)">
+  <div cis-cargando modelo="datos.cargando">
+    <i class="fa fa-fw fa-download"></i> Guardar
+  </div>
+  </button>
+</div>
+</script>

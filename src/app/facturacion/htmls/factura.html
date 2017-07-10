@@ -1,0 +1,45 @@
+<div class="panel container-fluid factura">
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-6">
+        <h5>Cliente:</h5>
+        {{datos.factura.cliente}}
+      </div>
+      <div class="col-xs-6 text-right">
+        <label for="" class="control-label">Fecha: </label>
+        {{datos.factura.fecha | Fecha : "LL"}}
+      </div>
+    </div>
+    <div class="text-right">
+      <label for="" class="control-label">Total</label>
+      <p class="lead">{{(total(datos.factura.detalle) / 100) | Colones}}</p>
+    </div>
+    <table class="table tablaFactura table-condensed">
+      <thead id="thead">
+        <tr>
+          <th style="width:12%">No. Muestra</th>
+          <th style="width:40%">Procedimiento</th>
+          <th style="width:40%">Paciente</th>
+          <th style="width:8%" class="text-right">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="detalle in datos.factura.detalle">
+          <td>{{detalle.numero}}</td>
+          <td>{{detalle.procedimiento}}</td>
+          <td>{{detalle.nombrePaciente}}</td>
+          <td class="text-right">{{(detalle.precioFinal.centavos / 100) | Colones}}</td>
+        </tr>
+        <tfoot id="tfoot">
+        <tr>
+          <td style="width:12%">&nbsp;</td>
+          <td style="width:40%">&nbsp;</td>
+          <td style="width:40%" class="text-left">TOTAL: </td>
+          <td style="width:8%" class="text-right">{{(total(datos.factura.detalle) / 100) | Colones}}</td>
+        </tr>
+        </tfoot>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
