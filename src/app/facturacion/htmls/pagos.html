@@ -1,0 +1,88 @@
+<section class="form-nuevo form-nuevo-success fx-fade-down" ng-if="datos.mostrarForm">
+  <h5>Nuevo Pago</h5>
+  <form novalidate ng-submit="registrarPago(datos.nuevo, form)" name="form">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group" show-errors>
+          <label class="control-label">Monto</label>
+          <input type="colones" name="monto" class="form-control"
+          min="0" max="total(datos.factura.detalle) - totalPagos(datos.factura.pagos)"
+          ng-required="true"
+          ng-model="datos.nuevo.monto"
+          ng-disabled="datos.cargando">
+          <span class="help-block" ng-if="form.monto.$error.required">Requerido</span>
+          <span class="help-block" ng-if="form.monto.$error.max">El monto no puede ser superior a {{((total(datos.factura.detalle) - totalPagos(datos.factura.pagos)) / 100) | Colones}}</span>
+          <span class="help-block" ng-if="form.monto.$error.min">El monto no puede ser igual o inferior a 0</span>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group" show-errors>
+          <label class="control-label">No. Recibo</label>
+          <input type="text" name="pago" class="form-control"
+          ng-required="false"
+          ng-model="datos.nuevo.consecutivo"
+          ng-disabled="datos.cargando">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group" ng-class="{'has-error':form.fecha.$dirty && form.fecha.$invalid}">
+          <div
+          cis-fecha-inexacta
+          ng-init="datos.nuevo.fecha=hoy"
+          name="fecha"
+          label="Fecha de Pago"
+          max="{{hoy}}"
+          ng-model="datos.nuevo.fecha"
+          ng-model-options="{ getterSetter: true }"
+          ng-disabled="datos.cargando"
+          ng-required="true">
+          </div>
+          <span class="help-block" ng-if="form.fecha.$error.required">Requerido</span>
+          <span class="help-block" ng-if="form.fecha.$error.fechaInvalida">Fecha Inválida</span>
+          <span class="help-block" ng-if="form.fecha.$error.fechaMinima">La fecha no puede ser anterior a {{datos.factura.fecha | Fecha:"LL"}}</span>
+          <span class="help-block" ng-if="form.fecha.$error.fechaMaxima">La fecha no puede ser superior a {{hoy | Fecha:"LL"}}</span>
+        </div>
+      </div>
+    </div>
+    <button type="submit" ng-show="false" id="enviarForm"></button>
+    <button type="reset" ng-show="false" id="resetForm" ng-click="cancelar(form)"></button>
+  </form>
+</section>
+<section class="form-nuevo form-nuevo-primary">
+  <h5>Historial de Pagos</h5>
+  <p class="lead">Total factura: {{(total(datos.factura.detalle) / 100) | Colones}}</p>
+  <p class="lead">Total pagado: {{(totalPagos(datos.factura.pagos) / 100) | Colones}}</p>
+  <p class="lead" ng-if="total(datos.factura.detalle) - totalPagos(datos.factura.pagos) > 0">Total adeudado: {{((total(datos.factura.detalle) - totalPagos(datos.factura.pagos)) / 100) | Colones}}</p>
+  <section>
+    <div class="table-responsive">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Fecha de pago</th>
+            <th>No. Recibo</th>
+            <th>Monto pagado</th>
+            <th ng-if="puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr bindonce
+          ng-repeat="pago in datos.factura.pagos">
+          <td data-title="Fecha de pago" bo-text="pago.fecha | Fecha:'LL'"></td>
+          <td data-title="No. Recibo" bo-text="pago.consecutivo"></td>
+          <td data-title="Monto pagado" bo-text="(pago.cantidad.centavos / 100) | Colones"></td>
+          <td data-title="Eliminar" ng-if="puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">
+            <ul class="list-inline text-center">
+              <li><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer" ng-click="eliminarPago(pago)"></i></small></li>
+            </ul>
+          </td>
+        </tr>
+        <tr ng-if="vacio(datos.factura.pagos)" class="text-center">
+          <td colspan="3"><strong>No hay resultados</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<br>
+</section>
+<div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>

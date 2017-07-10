@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <h5>Seleccione las muestras que desea facturar</h5>
+  <form novalidate ng-submit="buscar()">
+    <div class="form-group">
+      <div class="input-group">
+        <input type="search" class="form-control"
+               placeholder="Buscar por paciente, consecutivo o médico"
+               ng-model="datos.filtro"
+               ng-required="true">
+        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+      </div>
+    </div>
+  </form>
+  <section>
+    <p class="text-muted">Mostrando: {{datos.muestras.lista.length}} de
+      {{datos.muestras.cantidad}}</p>
+    <div class="table-responsive">
+      <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+          <th>
+            <input type="checkbox" ng-model="datos.seleccionadas" ng-change="marcarTodas(datos.seleccionadas)">
+          </th>
+          <th>Consecutivo</th>
+          <th>Categoría</th>
+          <th>Procedimiento</th>
+          <th>Paciente</th>
+          <th>Médico</th>
+          <th>Clínica</th>
+          <th>Estado</th>
+          <th>Fecha Toma</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="cursor-pointer" bindonce
+            ng-repeat="muestra in datos.muestras.lista">
+          <td><input type="checkbox" ng-model="muestra.seleccionada"></td>
+          <td data-title="Consecutivo"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
+              bo-text="muestra.numero"></td>
+          <td data-title="Categoría"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
+              bo-text="muestra.categoria"></td>
+          <td data-title="Prodecimiento"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
+              bo-text="muestra.procedimiento.nombre"></td>
+          <td data-title="Paciente"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
+              bo-text="muestra.paciente.nombre"></td>
+          <td data-title="Médico"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
+              bo-text="muestra.medico.nombre"></td>
+          <td data-title="Médico"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
+              bo-text="muestra.clinica.nombre"></td>
+          <td data-title="Estado"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"><span ng-class="{
+                'En espera':'text-danger',
+                'Registrada':'text-info',
+                'En análisis':'text-warning',
+                'Completada':'text-success',
+                'En diagnostico':'text-primary'}[muestra.estado]" bo-text="muestra.estado"></span>
+          </td>
+          <td data-title="Fecha Toma"
+              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
+              bo-text="muestra.fechaToma | Fecha:'LL'"></span></td>
+        </tr>
+        <tr ng-if="vacio(datos.muestras.lista)" class="text-center">
+          <td colspan="8"><strong>No hay resultados</strong></td>
+        </tr>
+        </tbody>
+      </table>
+      <div cis-cargando modelo="datos.cargando" class="text-center">
+        <div cis-scroll cargador="cargarMas" umbral="50"
+             debe-cargar="(datos.muestras.lista.length < datos.muestras.cantidad) && !datos.cargando"></div>
+      </div>
+    </div>
+  </section>
+</div>

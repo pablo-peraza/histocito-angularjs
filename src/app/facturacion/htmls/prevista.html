@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <h5>Vista previa de las facturas a generar</h5>
+  <div class="breeze">
+    <div class="row">
+      <div class="col-sm-12 fx-fade-down fx-speed-800"
+           ng-repeat="factura in datos.facturasGeneradas">
+        <div class="entrada">
+          <h5 class="clearfix">Factura
+            <div class="pull-right" ng-if="!factura.id">
+              <i class="fa fa-fw fa-2x fa-check text-success cursor-pointer"
+                 ng-click="aceptar(factura)" tooltip-placement="bottom" tooltip="Aceptar factura"></i>
+              <i class="fa fa-fw fa-2x fa-times text-danger cursor-pointer"
+                 ng-click="rechazar(factura)"  tooltip-placement="bottom" tooltip="Rechazar factura"></i>
+            </div>
+            <div class="pull-right fx-fade-down" ng-if="factura.id">
+              <a href="/inicio/facturacion/facturas/{{factura.id}}">
+                <i class="fa fa-fw fa-2x fa-print text-primary cursor-pointer" tooltip-placement="bottom" tooltip="Imprimir factura"></i>
+              </a>
+            </div>
+          </h5>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="text" class="control-label">Cliente</label>
+                <input type="text" id="text" class="form-control" ng-model="factura.cliente"
+                       ng-if="!factura.id" ng-disabled="factura.cargando">
+                <p class="form-control-static fx-fade-down" ng-if="factura.id">
+                  {{factura.cliente}}</p>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="" class="control-label">No. Factura</label>
+                <input type="text" class="form-control" ng-model="factura.consecutivo"
+                       ng-if="!factura.id"
+                       ng-disabled="factura.cargando">
+                <p class="form-control-static fx-fade-down" ng-if="factura.id">{{factura.consecutivo
+                  && factura.consecutivo || "Sin Asignar"}}</p>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="" class="control-label">Fecha</label>
+                <p class="form-control-static">{{hoy() | Fecha: "LL"}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th>Muestra</th>
+                  <th>Procedimiento</th>
+                  <th>Paciente</th>
+                  <th>Precio Sugerido para el médico</th>
+                  <th style="width: 16%">Precio final</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="detalle in factura.detalle" bindonce>
+                  <td bo-text="detalle.numero"></td>
+                  <td bo-text="detalle.procedimiento.nombre"></td>
+                  <td bo-text="detalle.paciente.nombre"></td>
+                  <td bo-text="(detalle.precioUsuario.centavos / 100) | Colones"></td>
+                  <td ng-init="detalle.precioFinal.centavos = detalle.precioUsuario.centavos">
+                    <input type="colones" class="form-control"
+                           ng-if="!factura.id"
+                           ng-model="detalle.precioFinal.centavos"
+                           ng-required="true"
+                           ng-disabled="factura.cargando">
+                    <p class="form-control-static fx-fade-down" ng-if="factura.id">
+                      {{(detalle.precioFinal.centavos / 100) | Colones}}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h4 class="text-right">Total: {{(total(factura.detalle) / 100 ) | Colones}}</h4>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

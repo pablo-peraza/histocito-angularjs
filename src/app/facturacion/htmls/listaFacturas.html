@@ -1,0 +1,63 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-file-excel-o fa-fw"></i> Administración de Facturas</h1>
+</section>
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2 dimensiones">
+      <div cis-dimensiones="{{datos.dimensiones}}" actuales="datos.facturas.dimensiones"
+          on-change="aplicarDimension(dimensiones)" cargando="datos.cargando"></div>
+    </div>
+    <div class="col-sm-10">
+      <form novalidate ng-submit="buscar()">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="search" class="form-control" placeholder="Buscar por cliente, número de muestra, número de factura o número de recibo de pago"
+            ng-model="datos.filtro"
+            ng-required="true">
+            <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+          </div>
+        </div>
+      </form>
+      <section>
+        <p class="text-muted">Mostrando: {{datos.facturas.lista.length}} de {{datos.facturas.cantidad}}</p>
+        <div class="table-responsive">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Fecha Facturación</th>
+                <th>No. Factura</th>
+                <th>Monto Total</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer" bindonce
+                ng-repeat="factura in datos.facturas.lista">
+                <td data-title="Cliente" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="factura.cliente"></td>
+                <td data-title="Fecha Facturación" ng-click="location.path('/inicio/facturacion/facturas/' +
+                factura.id)" bo-text="factura.fechaFacturacion | Fecha: 'L'"></td>
+                <td data-title="No. Factura" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="factura.consecutivo"></td>
+                <td data-title="Monto Total" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="(factura.monto.centavos / 100) | Colones"></td>
+                <td data-title="Acciones"></td>
+              </tr>
+              <tr ng-if="vacio(datos.facturas.lista)" class="text-center">
+                <td colspan="5"><strong>No hay resultados</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMas" umbral="50"
+            debe-cargar="(datos.facturas.lista.length < datos.facturas.cantidad) && !datos.cargando"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
