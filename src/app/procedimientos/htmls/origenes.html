@@ -1,0 +1,104 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+    <li ng-if="!datos.mostrarForm">
+      <button class="btn btn-primary" ng-click="datos.mostrarForm = true"><i class="fa fa-fw fa-file"></i> <span class="hidden-xs">Nuevo</span></button>
+    </li>
+    <li ng-if="datos.mostrarForm">
+      <button class="btn btn-success" ng-click="guardar(datos.temp)">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-download"></i> <span class="hidden-xs">Guardar</span>
+        </div>
+      </button>
+    </li>
+    <li ng-if="datos.mostrarForm">
+      <button class="btn btn-default" ng-click="cancelar()">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-ban"></i> <span class="hidden-xs">Cancelar</span>
+        </div>
+      </button>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-code-fork fa-fw"></i> Orígenes de las muestras</h1>
+</section>
+<section class="container-fluid">
+  <ul class="list-inline text-center hidden-xs hidden-sm">
+    <li ng-if="!datos.mostrarForm"><div cis-tecla="mod+shift+enter" tipo="primary" accion="Nuevo"></div></li>
+    <li ng-if="datos.mostrarForm"><div cis-tecla="mod+enter" tipo="success" accion="Guardar"></div></li>
+    <li ng-if="datos.mostrarForm"><div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div></li>
+  </ul>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-nuevo form-nuevo-success" ng-if="datos.mostrarForm">
+        <h5>Digite los datos solicitados</h5>
+        <div ng-form="form">
+          <div class="row" ng-init="nombreForm(form)">
+            <div class="col-sm-6 form-group"
+            ng-class="{'has-error':form.nombre.$invalid && form.nombre.$dirty,
+            'has-success':form.nombre.$valid && form.nombre.$dirty}">
+              <label for="" class="control-label">Nombre</label>
+              <input type="text" class="form-control" placeholder="Nombre" name="nombre"
+              cis-autofocus
+              ng-disabled="datos.cargando"
+              ng-required="true"
+              ng-model="datos.temp.nombre">
+            </div>
+            <div class="col-sm-6 form-group"
+            ng-class="{'has-error':form.desc.$invalid && form.desc.$dirty,
+            'has-success':form.desc.$valid && form.desc.$dirty}">
+              <label for="" class="control-label">Descripción</label>
+              <input type="text" class="form-control" placeholder="Descripción" name="desc"
+              ng-disabled="datos.cargando"
+              ng-required="true"
+              ng-model="datos.temp.descripcion">
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="fx-fade-down">
+        <p class="text-muted">Mostrando: {{datos.origenes.lista.length}} de {{datos.origenes.cantidad}}</p>
+        <form novalidate ng-submit="buscar()">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="search" class="form-control" placeholder="Buscar por nombre o descripción"
+            ng-model="datos.filtro"
+            ng-required="true">
+            <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+          </div>
+        </div>
+      </form>
+        <div class="table-responsive">
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th ng-if="puedePasar([permisos.laboratorio])">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fx-fade-down"
+                ng-repeat="origen in datos.origenes.lista">
+                <td data-title="Nombre">{{origen.nombre}}</td>
+                <td data-title="Descripción">{{origen.descripcion}}</td>
+                <td data-title="Acciones" ng-if="puedePasar([permisos.laboratorio])">
+                  <ul class="list-inline text-center">
+                    <li><small><i class="fa fa-fw fa-edit fa-2x text-info cursor-pointer" ng-click="editar(origen)"></i></small></li>
+                    <li><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer" ng-click="eliminar(origen)"></i></small></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p ng-if="!datos.cargando && vacio(datos.origenes.lista)" class="text-center lead">No hay resultados</p>
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMas" umbral="50"
+            debe-cargar="(datos.origenes.lista.length < datos.origenes.cantidad) && !datos.cargando"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

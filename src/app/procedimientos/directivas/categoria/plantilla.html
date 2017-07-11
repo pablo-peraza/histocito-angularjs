@@ -1,0 +1,15 @@
+<div ng-form="form">
+  <div class="form-group" ng-class="{'has-error': form.categoria.$invalid && form.categoria.$dirty, 'has-success': form.categoria.$valid}">
+    <label for="" class="control-label">Categoría</label>
+    <select class="form-control" name="categoria"
+    ng-show="editando"
+    ng-disabled="cargando"
+    ng-options="categoria for categoria in categorias"
+    ng-model="modelo"
+    ng-required="true"
+    cis-autofocus="{{focus}}">
+    </select>
+    <p class="form-control-static"
+    ng-if="!editando">{{modelo}}</p>
+  </div>
+</div>

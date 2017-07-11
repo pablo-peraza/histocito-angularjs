@@ -1,0 +1,127 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center" ng-if="puedePasar([permisos.laboratorio])">
+    <li ng-if="!datos.form">
+      <button class="btn btn-primary" ng-click="datos.form = true"><i class="fa fa-fw fa-file"></i> <span class="hidden-xs">Nuevo</span></button>
+    </li>
+    <li ng-if="datos.form">
+      <div class="btn-group">
+        <button class="btn btn-success"
+        ng-click="clickEn('guardarProc')"
+        ng-disabled="datos.cargando">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-download"></i><span class="xs-hidden">Guardar</span>
+        </div>
+        </button>
+        <button class="btn btn-default cancelar"
+        ng-disabled="datos.cargando"
+        ng-click="clickEn('resetForm')">
+        <span class="fa-stack fa-fw">
+        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+        </span>
+        </button>
+      </div>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-eyedropper fa-fw"></i> Administración de Procedimientos</h1>
+</section>
+<section class="container-fluid">
+  <ul class="list-inline text-center hidden-xs hidden-sm" ng-if="puedePasar([permisos.laboratorio])">
+    <li ng-if="!datos.form"><div cis-tecla="mod+shift+enter" tipo="primary" accion="Nuevo"></div></li>
+    <li ng-if="datos.form"><div cis-tecla="mod+enter" tipo="success" accion="Guardar"></div></li>
+    <li ng-if="datos.form"><div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div></li>
+  </ul>
+  <div class="row">
+    <div class="col-sm-2 dimensiones">
+      <div cis-dimensiones="{{datos.dimensiones}}" actuales="datos.procedimientos.dimensiones"
+      on-change="aplicarDimension(dimensiones)" cargando="datos.cargando"></div>
+    </div>
+    <div class="col-sm-10">
+      <div class="form-nuevo form-nuevo-success" ng-show="datos.form">
+        <h5>Procedimiento</h5>
+        <form novalidate name="form" ng-submit="guardar(datos.temp, form)">
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label for="" class="control-label">Tipo</label>
+              <div cis-selector-tipos ng-model="datos.temp.tipo" cargando="datos.cargando"></div>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="" class="control-label">Origen</label>
+              <div cis-selector-origen ng-model="datos.temp.origen" cargando="datos.cargando"></div>
+            </div>
+            <div class="col-md-3 form-group" show-errors>
+              <label for="" class="control-label">Alias</label>
+              <input type="text" class="form-control" placeholder="Alias" name="alias"
+              ng-disabled="datos.cargando"
+              ng-required="true"
+              ng-model="datos.temp.alias">
+              <span class="help-block" ng-if="form.alias.$error.required">Requerido</span>
+            </div>
+            <div class="col-md-3 form-group" show-errors>
+              <label for="" class="control-label">Precio Base</label>
+              <input type="colones" name="monto" class="form-control"
+              min="0"
+              ng-required="true"
+              ng-model="datos.temp.precio.centavos"
+              ng-disabled="datos.cargando">
+              <span class="help-block" ng-if="form.monto.$error.required">Requerido</span>
+              <span class="help-block" ng-if="form.monto.$error.min">El monto no puede ser igual o inferior a 0</span>
+              <button type="submit" id="guardarProc" ng-show="false"></button>
+              <button type="reset" id="resetForm" ng-show="false"  ng-click="cancelar(); datos.form = false"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <p ng-if="!datos.cargando && vacio(datos.procedimientos.lista)" class="text-center lead">No hay resultados</p>
+      <section>
+        <p class="text-muted">Mostrando: {{datos.procedimientos.lista.length}} de {{datos.procedimientos.cantidad}}</p>
+        <form novalidate ng-submit="buscar()">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="search" class="form-control" placeholder="Buscar por alias"
+              ng-model="datos.filtro"
+              ng-required="true">
+              <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+            </div>
+          </div>
+        </form>
+        <div class="table-responsive">
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>Alias</th>
+                <th>Precio</th>
+                <th>Tipo</th>
+                <th>Categoría</th>
+                <th>Origen</th>
+                <th ng-if="puedePasar([permisos.laboratorio])">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fx-fade-down"
+                ng-repeat="proc in datos.procedimientos.lista">
+                <td data-title="Alias">{{proc.alias}}</td>
+                <td data-title="Precio">{{(proc.precio.centavos / 100) | Colones}}</td>
+                <td data-title="Tipo">{{proc.tipo | Dimension}}</td>
+                <td data-title="Categoría">{{proc.categoria | Dimension}}</td>
+                <td data-title="Origen">{{proc.origen | Dimension}}</td>
+                <td data-title="Acciones" ng-if="puedePasar([permisos.laboratorio])">
+                  <ul class="list-inline text-center">
+                    <li><small><i class="fa fa-fw fa-edit fa-2x text-info cursor-pointer" ng-click="editar(proc); datos.form = true;"></i></small></li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMas" umbral="50"
+            debe-cargar="(datos.procedimientos.lista.length < datos.procedimientos.cantidad) && !datos.cargando"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
