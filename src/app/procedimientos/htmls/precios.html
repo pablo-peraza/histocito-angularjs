@@ -1,0 +1,24 @@
+<nav class="menu-contextual">
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-money fa-fw"></i> Procedimientos y precios</h1>
+</section>
+<section class="container-fluid">
+  <section class="table-cascade">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Alias</th>
+        <th>Precio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="proc in datos.procedimientos.lista">
+        <td data-title="Alias">{{proc.alias}}</td>
+        <td data-title="Precio">{{datos.precios[proc.id] && ((datos.precios[proc.id] / 100) | Colones) || ((proc.precio.centavos / 100) | Colones)}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</section>

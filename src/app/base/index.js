@@ -24,6 +24,7 @@ modulo.factory( "Credenciales", require( "./servicios/credenciales.js" ) );
 modulo.factory( "Alertas", require( "./servicios/alertas.js" ) );
 modulo.factory( "Dimensionador", require( "./servicios/dimensionador.js" ) );
 modulo.factory( "Tabs", require( "./servicios/tabs.js" ) );
+modulo.factory( "Selecciones", require( "./servicios/selecciones.js" ) );
 
 modulo.directive( "clickEn", require( "./directivas/clickEn.js" ) );
 modulo.directive( "cisSwitch", require( "./directivas/cisSwitch.js" ) );

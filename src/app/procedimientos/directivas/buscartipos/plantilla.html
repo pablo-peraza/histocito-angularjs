@@ -1,0 +1,17 @@
+<section ng-form="form">
+  <div class="form-group"
+  ng-class="{'has-success' : form.cat.$valid && form.cat.$dirty}">
+    <label for="" class="control-label">Tipo</label>
+    <input type="text" name="cat" placeholder="Tipo" class="form-control"
+      cis-autofocus="{{focus}}"
+      ng-model="modelo"
+      ng-disabled="cargando"
+      typeahead="cat.nombre for cat in buscar($viewValue)"
+      typeahead-min-length="3"
+      typeahead-editable="false"
+      typeahead-on-select="enSeleccion($item.id)"
+      ng-show="editando">
+      <div cis-cargando modelo="buscando"></div>
+    <p class="form-control-static" ng-if="!editando">{{modelo}}</p>
+  </div>
+</section>

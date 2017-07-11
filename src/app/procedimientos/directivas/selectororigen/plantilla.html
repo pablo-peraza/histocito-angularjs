@@ -1,0 +1,10 @@
+<div>
+  <input type="text" placeholder="Origen" class="form-control"
+    ng-model="vm.modelo"
+    ng-disabled="cargando"
+    typeahead="cat.nombre for cat in vm.buscar($viewValue)"
+    typeahead-min-length="3"
+    typeahead-editable="false"
+    typeahead-on-select="vm.enSeleccion($item.id)">
+  <div cis-cargando modelo="vm.buscando"></div>
+</div>
