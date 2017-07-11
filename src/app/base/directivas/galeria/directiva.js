@@ -6,7 +6,7 @@ function cisGaleria() {
   return {
     restrict: "EA",
     replace: "true",
-    templateUrl: "/htmls/partials/comps/galeria.html",
+    templateUrl: "base/directivas/galeria/plantilla.html",
     scope: {
       modelo: "=",
       unico: "=?",

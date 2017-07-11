@@ -1,0 +1,42 @@
+<section>
+  <div ng-if="imagenes">
+    <p class="text-muted hidden-print" ng-if="!unico">Mostrando: {{imagenes.lista.length}} de {{imagenes.cantidad}}</p>
+    <div class="row">
+      <div class="galeria fx-fade-down fx-speed-1000 col-md-2 col-sm-3 col-xs-4" ng-if="!unico" ng-repeat="imagen in imagenes.lista">
+        <img src="{{imagen.url}}" class="img-responsive img-rounded"  ng-click="abrir(imagen)"/>
+        <div class="texto text-center" ng-click="abrir(imagen)">
+          <p>
+            <strong>{{imagen.titulo | characters:22 :true}}</strong>
+          </p>
+          <p>
+            <small>{{imagen.descripcion}}</small>
+          </p>
+          <!--<p>-->
+            <!--<small>{{imagen.fecha | Fecha:"DD/MM/YYYY"}}</small>-->
+          <!--</p>-->
+        </div>
+      </div>
+      <div class="galeria fx-fade-down fx-speed-1000 col-md-6 col-md-offset-3" ng-if="unico" ng-repeat="imagen in imagenes.lista">
+        <img src="{{imagen.url}}" class="img-responsive img-rounded"  />
+      </div>
+    </div>
+  </div>
+  <p class="hidden-print" ng-if="!imagenes && !cargando">No hay im&aacute;genes que mostrar</p>
+  <p class="lead" ng-if="cargando">
+    <i class="fa fa-fw fa-gear faa-spin animated"></i> <span>Cargando</span>
+  </p>
+  <script type="text/ng-template" id="lightbox.html">
+  <div class="modal-galeria">
+  <div class="modal-body">
+    <img src="{{imagen.url}}" class="center-block"/>
+    <div class="texto">
+      <h2>{{imagen.titulo}}</h2>
+      <p>
+      <strong>{{imagen.fecha | Fecha:"dddd, LL"}}</strong>
+      </p>
+      <p>{{imagen.descripcion}}</p>
+    </div>
+  </div>
+  </div>
+  </script>
+</section>
