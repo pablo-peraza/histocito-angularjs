@@ -1,0 +1,48 @@
+<div>
+  <nav class="menu-contextual">
+    <ul class="list-inline text-center" ng-if="datos.perfil !== 404">
+      <li ng-if="!datos.perfil.editando">
+        <button class="btn btn-info"
+        ng-click="editar(datos)">
+        <i class="fa fa-fw fa-edit"></i><span class="xs-hidden">Editar</span>
+        </button>
+      </li>
+      <li ng-if="datos.perfil.editando">
+      <div class="btn-group">
+        <button type="button" class="btn btn-success"
+        ng-disabled="datos.cargando"
+        ng-click="clickEn('enviarForm')">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-download"></i><span class="xs-hidden">Guardar</span>
+        </div>
+        </button>
+        <button class="btn btn-default cancelar"
+        ng-disabled="datos.cargando"
+        ng-click="clickEn('resetForm')">
+        <span class="fa-stack fa-fw">
+        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+        </span>
+        </button>
+      </div>
+    </li>
+    </ul>
+    <hr class="colorgraph">
+  </nav>
+</div>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-briefcase fa-fw"></i>
+  <span>{{datos.credenciales.nombre}} {{datos.credenciales.apellidos}}</span>
+  </h1>
+  <div class="container-fluid fondoBlanco">
+    <ul class="list-inline text-center hidden-xs hidden-sm">
+      <li ng-if="!datos.usuario.editando"><div cis-tecla="mod+shift+enter" tipo="info" accion="Editar"></div></li>
+      <li ng-if="datos.usuario.editando"><div cis-tecla="mod+enter" tipo="success" accion="Guardar"></div></li>
+      <li ng-if="datos.usuario.editando"><div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div></li>
+    </ul>
+    <div class="form-nuevo"
+    ng-class="{'form-nuevo-success':datos.perfil.editando, 'form-nuevo-primary':!datos.perfil.editando}">
+      <div ng-include="'perfil/htmls/datos.html'"></div>
+    </div>
+  </div>
+</section>

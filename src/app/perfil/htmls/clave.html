@@ -1,0 +1,37 @@
+<section ng-if="datos.perfil.editando">
+<h5>Contraseña</h5>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="form-group" show-errors>
+      <label for="" class="control-label">Contraseña Actual</label>
+      <div class="input-group input-group-lg" ng-init="visible = false">
+          <input name="actual" class="form-control" type="{{visible && 'text' || 'password'}}"
+          ng-disabled="bloqueado"
+          ng-model="datos.password.actual"
+          ng-required="true">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"
+            ng-disabled="bloqueado"
+            ng-click="visible = !visible"><i class="fa fa-eye"></i></button>
+          </span>
+        </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group" show-errors>
+      <label for="" class="control-label">Contraseña nueva</label>
+      <div class="input-group input-group-lg" ng-init="visible = false">
+          <input name="nuevo" class="form-control" type="{{visible && 'text' || 'password'}}"
+          ng-disabled="bloqueado"
+          ng-model="datos.password.nueva"
+          ng-required="true">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"
+            ng-disabled="bloqueado"
+            ng-click="visible = !visible"><i class="fa fa-eye"></i></button>
+          </span>
+        </div>
+    </div>
+  </div>
+</div>
+</section>

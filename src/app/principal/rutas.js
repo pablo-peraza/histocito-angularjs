@@ -64,7 +64,7 @@ function rutas( $routeProvider, $locationProvider, $httpProvider, hotkeysProvide
   } //perfilResolve
 
   $routeProvider.when( "/inicio/perfil", {
-    templateUrl: plantilla( "perfil/inicio" ),
+    templateUrl: "perfil/htmls/inicio.html",
     permisos: [ permisos.valores.todos ],
     titulo: "Mi Perfil",
     controller: "PerfilCtrl",

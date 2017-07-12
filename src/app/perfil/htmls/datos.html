@@ -1,0 +1,61 @@
+<main>
+<form name="form" novalidate ng-submit="guardar(datos.perfil, datos.password, form)">
+  <section>
+    <h5>Datos del usuario</h5>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group" ng-class="{'has-error': form.recordatorios.$invalid && form.recordatorios.$dirty, 'has-success': form.recordatorios.$valid}">
+          <label style="display: block;" class="control-label">Recordatorios por correo</label>
+          <div cis-boolean ng-if="datos.perfil.editando" cis-capturar-teclado="{{tecla}}" hacer="{{hacer}}" ng-model="datos.perfil.recordatorios"></div>
+          <p class="form-control-static" ng-if="!datos.perfil.editando">{{datos.perfil.recordatorios && "Si" || "No"}}</p>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group" show-errors>
+          <label style="display: block;" class="control-label">Recordar sesión por</label>
+          <select name="recordar" class="form-control"
+          ng-model="datos.recordarPor" ng-show="datos.perfil.editando">
+            <option value="1">1 Día</option>
+            <option value="3">3 Días</option>
+            <option value="5">5 Días</option>
+            <option value="8">8 Días</option>
+            <option value="15">15 Días</option>
+          </select>
+          <p class="form-control-static" ng-if="!datos.perfil.editando">{{datos.recordarPor}} días</p>
+        </div>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+  </section>
+  <section>
+    <button type="button" class="btn btn-default"
+    ng-if="datos.perfil.editando"
+    ng-click="datos.editarClave=!datos.editarClave"
+    >{{datos.editarClave && "Cancelar" || "Editar Contraseña"}}</button>
+    <div ng-if="datos.editarClave" class="fx-fade-down">
+      <div ng-include="'perfil/htmls/clave.html'"></div>
+    </div>
+  </section>
+  <section ng-if="puedePasar([permisos.patologo])">
+    <h5>Firma</h5>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="" class="control-label">Texto de la firma</label>
+          <textarea   class="form-control" name="firma" placeholder="Firma"
+          rows="3" cols="20"
+          ng-model="datos.perfil.firma.texto" ng-disabled="cargando || !datos.perfil.editando"></textarea>
+
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div cis-subida-imagenes modelo="datos.perfil.firma.imagen" unico="true"
+        ng-if="datos.perfil.editando" class="fx-fade-down"></div>
+        <div cis-galeria modelo="datos.perfil.firma.imagen" unico="true"></div>
+      </div>
+    </div>
+  </section>
+  <button type="submit" ng-show="false" id="enviarForm"></button>
+  <button type="reset" ng-show="false" id="resetForm" ng-click="cancelar(form)"></button>
+</form>
+</main>
