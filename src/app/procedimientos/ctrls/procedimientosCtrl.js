@@ -3,7 +3,7 @@
 module.exports = ProcedimientosCtrl;
 
 ProcedimientosCtrl.$inject = [
-  "$rootScopeScope",
+  "$rootScope",
   "$scope",
   "$timeout",
   "procedimientos",

@@ -35,6 +35,7 @@ modulo.directive( "cisEnter", require( "./directivas/cisEnter.js" ) );
 modulo.directive( "cisUpload", require( "./directivas/cisUpload.js" ) );
 modulo.directive( "ocultarAccion", require( "./directivas/ocultarAccion.js" ) );
 modulo.directive( "btnVolver", require( "./directivas/btnVolver.js" ) );
+modulo.directive( "cisTecla", require( "./directivas/cisTecla.js" ) );
 
 var filtros = require( "./filtros" );
 modulo.filter( "Duracion", filtros.duracion );
@@ -45,5 +46,6 @@ modulo.filter( "TrustAsResourceUrl", filtros.trustAsResourceUrl );
 modulo.filter( "Numero", filtros.numero );
 modulo.filter( "Llave", filtros.llave );
 modulo.filter( "Dimension", filtros.llave );
+modulo.filter( "Colones", filtros.colones );
 
 module.exports = modulo.name;

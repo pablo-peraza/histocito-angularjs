@@ -1,0 +1,121 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+  <li ng-if="datos.expediente.editando">
+    <div class="btn-group">
+        <button class="btn btn-success"
+        ng-click="clickEn('enviarForm')"
+        ng-disabled="datos.cargando">
+        <div cis-cargando cargando="datos.cargando">
+          <i class="fa fa-fw fa-download"></i> Guardar
+        </div>
+        </button>
+        <button class="btn btn-default cancelar"
+        ng-disabled="datos.cargando"
+        ng-click="clickEn('resetForm')">
+        <span class="fa-stack fa-fw">
+        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+        </span>
+        </button>
+      </div>
+  </li>
+  <li ng-if="!datos.expediente.editando && puedePasar([permisos.laboratorio, permisos.digitador])">
+    <button class="btn btn-info"
+      ng-click="editar(datos.expediente)">
+      <i class="fa fa-fw fa-edit"></i><span class="hidden-xs">Editar</span>
+    </button>
+  </li>
+  <li ng-if="!datos.edicionMedica && puedePasar([permisos.medico])">
+    <button class="btn btn-info"
+      ng-click="editadoMedico(datos.expediente)">
+      <i class="fa fa-fw fa-edit"></i><span class="hidden-xs">Editar datos de contacto</span>
+    </button>
+  </li>
+  <li ng-if="datos.edicionMedica && puedePasar([permisos.medico])">
+    <div class="btn-group">
+        <button class="btn btn-success"
+        ng-click="guardadoMedico(datos.expediente)"
+        ng-disabled="datos.cargando">
+        <div cis-cargando cargando="datos.cargando">
+          <i class="fa fa-fw fa-download"></i> Guardar
+        </div>
+        </button>
+        <button class="btn btn-default cancelar"
+        ng-disabled="datos.cargando"
+        ng-click="canceladoMedico()">
+        <span class="fa-stack fa-fw">
+        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+        </span>
+        </button>
+      </div>
+  </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo" ng-swipe-left="siguiente()" ng-swipe-right="anterior()">
+    <i class="fa fa-folder-open fa-fw"></i>
+    <span>{{datos.expediente.nuevo && "Nuevo expediente médico" || datos.expediente.ficha.nombre}}</span>
+  </h1>
+  <div class="ciris-tabs">
+    <tabset>
+      <tab ng-repeat="tab in tabs" active="tab.activo" disabled="tab.inhabilitado">
+        <tab-heading ng-swipe-left="siguiente()" ng-swipe-right="anterior()">
+        <i class="fa fa-fw {{tab.icono}}"></i> <span class="hidden-xs">{{tab.titulo}}</span>
+      </tab-heading>
+      <div class="container-fluid fondoBlanco">
+        <ul class="list-inline text-center hidden-xs hidden-sm">
+          <li ng-if="!datos.expediente.editando && puedePasar([permisos.laboratorio, permisos.digitador])"><div cis-tecla="mod+shift+enter" tipo="info" accion="Editar"></div></li>
+          <li ng-if="datos.expediente.editando"><div cis-tecla="mod+enter" tipo="success" accion="Guardar"></div></li>
+          <li ng-if="datos.expediente.editando"><div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div></li>
+          <li ng-if="tabActual() > 0"><div cis-tecla="mod+left" tipo="default" accion="Paso Anterior"></div></li>
+          <li ng-if="tabActual() < tabs.length -1"><div cis-tecla="mod+right" tipo="default" accion="Paso Siguiente"></div></li>
+        </ul>
+        <div class="form-nuevo" ng-class="{'form-nuevo-success':datos.expediente.editando, 'form-nuevo-primary':!datos.expediente.editando}">
+        <form novalidate name="form"
+          ng-submit="guardar(datos.expediente, form)">
+          <div ng-include="tab.contenido"></div>
+          <button type="submit" ng-show="false" id="enviarForm"></button>
+          <button type="reset" ng-show="false" id="resetForm" ng-click="cancelar(form)"></button>
+        </form>
+        </div>
+        <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+      </div>
+    </tab>
+  </tabset>
+</div>
+</section>
+<div ng-if="datos.expediente === 404" class="text-center">
+  <h2><i class="fa fa-chain-broken fa-fw"></i> 404</h2>
+  <p class="lead text-info">
+    El expediente solicitado no existe.
+  </p>
+</div>
+<script type="text/ng-template" id="paciente.html">
+  <div cis-datos-expediente ng-model="datos.expediente"
+  editando="datos.expediente.editando" ng-disabled="datos.cargando"></div>
+</script>
+
+<script type="text/ng-template" id="contacto.html">
+  <h5>Datos de Contacto</h5>
+  <div class="row">
+    <div class="col-sm-6">
+    <p><strong class="lead">Teléfonos</strong></p>
+      <div cis-telefonos modelo="datos.expediente.ficha.datosContacto.telefonos"
+        editando="datos.expediente.editando || datos.edicionMedica"
+        cargando="datos.cargando"></div>
+    </div>
+    <div class="col-sm-6">
+    <p><strong class="lead">Correos</strong></p>
+      <div cis-correos modelo="datos.expediente.ficha.datosContacto.correos"
+        editando="datos.expediente.editando || datos.edicionMedica"
+        cargando="datos.cargando"></div>
+    </div>
+  </div>
+  <br>
+</script>
+
+<script type="text/ng-template" id="historial.html">
+  <div cis-muestras-expediente id-expediente="{{datos.expediente.id}}"></div>
+</script>

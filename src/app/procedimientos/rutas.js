@@ -62,7 +62,7 @@ function rutas( $routeProvider ) {
   }
 
   $routeProvider.when( "/inicio/procedimientos/procedimientos", {
-    templateUrl: "procedimientos/htmls/procedimientos",
+    templateUrl: "procedimientos/htmls/procedimientos.html",
     titulo: "Administración de Procedimientos",
     controller: "ProcedimientosCtrl",
     permisos: [ permisos.valores.laboratorio, permisos.valores.digitador ],

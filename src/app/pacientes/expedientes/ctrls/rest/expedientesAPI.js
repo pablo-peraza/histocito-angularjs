@@ -13,17 +13,17 @@ function completarExpediente( expediente ) {
   return temp;
 }
 
-ExpedientesREST.$inject = [ "$http", "Dimensionador" ];
-function ExpedientesREST( $http, Dimensionador ) {
+ExpedientesREST.$inject = [ "$http", "Dimensionador", "urlApi" ];
+function ExpedientesREST( $http, Dimensionador, urlApi ) {
   var funciones = {};
 
   funciones.guardar = function( expediente ) {
     expediente.fichaMedica.cirugias = [];
-    return $http.put( "/api/expedientes/", completarExpediente( expediente ) );
+    return $http.put( urlApi + "/api/expedientes/", completarExpediente( expediente ) );
   };
 
   funciones.obtener = function( id ) {
-    return $http.get( "/api/expedientes/" + id );
+    return $http.get( urlApi + "/api/expedientes/" + id );
   };
 
   funciones.misExpedientes = function( pagina, cantidad ) {
@@ -33,7 +33,7 @@ function ExpedientesREST( $http, Dimensionador ) {
         cantidad: cantidad
       }
     };
-    return $http.get( "/api/usuarios/expedientes/", params );
+    return $http.get( urlApi + "/api/usuarios/expedientes/", params );
   };
 
   funciones.buscar = function( pagina, cantidad, texto, dimensiones ) {
@@ -46,7 +46,8 @@ function ExpedientesREST( $http, Dimensionador ) {
     if ( texto ) {
       params.params.texto = texto;
     }
-    return $http.get( "/api/expedientes/buscar", Dimensionador.hacer( params, dimensiones ) );
+    return $http.get( urlApi + "/api/expedientes/buscar",
+      Dimensionador.hacer( params, dimensiones ) );
   };
 
   funciones.muestras = function( id, pagina, cantidad ) {
@@ -56,11 +57,11 @@ function ExpedientesREST( $http, Dimensionador ) {
         cantidad: cantidad
       }
     };
-    return $http.get( "/api/expedientes/historial/muestras/" + id, params );
+    return $http.get( urlApi + "/api/expedientes/historial/muestras/" + id, params );
   };
 
   funciones.cargarEtiquetas = function( dims ) {
-    Dimensionador.cargarEtiquetas( dims, "/api/expedientes/dimensiones" );
+    Dimensionador.cargarEtiquetas( dims, urlApi + "/api/expedientes/dimensiones" );
   };
 
   return funciones;

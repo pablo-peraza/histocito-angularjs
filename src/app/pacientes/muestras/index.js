@@ -4,6 +4,8 @@ var modulo = angular.module( "Proyecto.muestras", [
   require( "./directivas/datospaciente" )
 ] );
 
+modulo.config( require( "./rutas.js" ) );
+
 modulo.controller( "FormMuestraCtrl", require( "./ctrls/formMuestraCtrl.js" ) );
 modulo.controller( "ListaMuestraCtrl", require( "./ctrls/listaMuestraCtrl.js" ) );
 modulo.controller( "ModalOpcionesCtrl", require( "./ctrls/modalOpcionesCtrl.js" ) );

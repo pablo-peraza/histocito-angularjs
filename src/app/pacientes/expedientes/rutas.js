@@ -3,12 +3,16 @@
 module.exports = rutas;
 var permisos = require( "../../principal/modelos/permisos.js" );
 
+function plantilla( nombre ) {
+  return "pacientes/expedientes/htmls/" + nombre + ".html";
+}
+
 rutas.$inject = [ "$routeProvider" ];
 function rutas( $routeProvider ) {
   $routeProvider.when( "/inicio/pacientes/expedientes", {
-    templateUrl: plantilla( "expedientes/lista" ),
+    templateUrl: plantilla( "lista" ),
     titulo: "Administración de Expedientes",
-    controller: "ListaExpedientesCtrl",
+    controller: "ListaExpedienteCtrl",
     permisos: [
       permisos.valores.laboratorio,
       permisos.valores.medico,
@@ -34,7 +38,7 @@ function rutas( $routeProvider ) {
   } );
 
   $routeProvider.when( "/inicio/pacientes/expedientes/nuevo", {
-    templateUrl: plantilla( "expedientes/uno" ),
+    templateUrl: plantilla( "uno" ),
     controller: "FormExpedienteCtrl",
     titulo: "Nuevo Expediente",
     permisos: [ permisos.valores.laboratorio, permisos.valores.digitador ],
@@ -49,7 +53,7 @@ function rutas( $routeProvider ) {
   } );
 
   $routeProvider.when( "/inicio/pacientes/expedientes/:id", {
-    templateUrl: plantilla( "expedientes/uno" ),
+    templateUrl: plantilla( "uno" ),
     controller: "FormExpedienteCtrl",
     titulo: "Expediente - ",
     permisos: [
@@ -81,7 +85,7 @@ function rutas( $routeProvider ) {
 
   $routeProvider.when( "/inicio/medico/pacientes", {
     titulo: "Mis Expedientes",
-    templateUrl: plantilla( "../medico/expedientes" ),
+    templateUrl: plantilla( "expedientes" ),
     controller: "ListaExpedientesCtrl",
     permisos: [ permisos.valores.medico ],
     resolve: {
