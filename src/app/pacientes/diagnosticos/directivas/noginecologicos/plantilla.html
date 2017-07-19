@@ -1,0 +1,28 @@
+<div class="container-fluid fondoBlanco" ng-init="modelo.comentarios=modelo.comentarios||''">
+  <ul class="list-inline text-center hidden-xs hidden-sm">
+    <li ng-if="!editando"><div cis-tecla="mod+shift+enter" tipo="info" accion="Editar"></div></li>
+          <li ng-if="editando"><div cis-tecla="mod+enter" tipo="success" accion="Guardar"></div></li>
+          <li ng-if="editando"><div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div></li>
+  </ul>
+  <div class="form-nuevo" ng-class="{true:'form-nuevo-success', false:'form-nuevo-primary'}[editando]">
+    <h5>Comentarios</h5>
+    <div class="form-group">
+      <label class="control-label">Lesión</label>
+      <div cis-boolean ng-model="modelo.lesion"
+      focus="true" inhabilitar="!editando"></div>
+    </div>
+    <div class="form-group">
+    <div class="input-group">
+      <div cis-selector-observaciones ng-model="modelo.observaciones" ng-disabled="!editando"></div>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!editando"
+        ng-click="modelo.comentarios = modelo.comentarios + modelo.observaciones">
+          <i class="fa fa-fw fa-plus"></i> <span class="hidden-xs">Agregar Observación</span>
+        </button>
+      </span>
+    </div>
+  </div>
+  <br>
+  <div text-angular ng-model="modelo.comentarios" ta-disabled="!editando"></div>
+  </div>
+</div>

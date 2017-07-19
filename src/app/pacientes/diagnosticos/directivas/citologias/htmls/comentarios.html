@@ -1,0 +1,19 @@
+<section ng-init="modelo.comentarios=modelo.comentarios||''">
+  <h5>Comentarios</h5>
+  <div class="form-group">
+    <div class="input-group">
+      <div cis-selector-observaciones ng-model="modelo.observaciones" ng-disabled="!editando"></div>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-disabled="!editando"
+        ng-click="modelo.comentarios = modelo.comentarios + modelo.observaciones">
+          <i class="fa fa-fw fa-plus"></i> <span class="hidden-xs">Agregar Observación</span>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div text-angular ng-model="modelo.comentarios" ta-disabled="!editando || bloqueoTotal"></div>
+  <br>
+  <div cis-subida-imagenes modelo="modelo.imagenes" ng-if="editando" class="fx-fade-down"></div>
+  <div cis-galeria modelo="modelo.imagenes"></div>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

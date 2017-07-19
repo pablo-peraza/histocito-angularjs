@@ -1,0 +1,17 @@
+<section>
+  <h5>Valor Estrogénico</h5>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="form-group">
+        <label for="" class="control-label">{{editando && "Seleccione una opción" || "Opción seleccionada"}}</label>
+        <select class="form-control" ng-model="modelo.valorEstrogenico"
+        ng-options="patron for patron in patrones"
+        ng-disabled="bloqueoTotal"
+        ng-if="editando"
+        ></select>
+        <p class="form-control-static" ng-if="!editando">{{modelo.valorEstrogenico}}</p>
+      </div>
+    </div>
+  </div>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

@@ -1,0 +1,19 @@
+<tabset>
+      <tab ng-repeat="tab in tabs" active="tab.activo" disabled="tab.inhabilitado">
+        <tab-heading>
+        <i class="fa fa-fw {{tab.icono}}"></i> <span class="hidden-xs">{{tab.titulo}}</span>
+      </tab-heading>
+      <div class="container-fluid fondoBlanco">
+      <ul class="list-inline text-center hidden-xs hidden-sm">
+      <li ng-if="!editando"><div cis-tecla="mod+shift+enter" tipo="info" accion="Editar"></div></li>
+          <li ng-if="editando"><div cis-tecla="mod+enter" tipo="success" accion="Guardar"></div></li>
+          <li ng-if="editando"><div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div></li>
+          <li ng-if="tabActual() > 0"><div cis-tecla="mod+left" tipo="default" accion="Paso Anterior"></div></li>
+          <li ng-if="tabActual() < tabs.length -1"><div cis-tecla="mod+right" tipo="default" accion="Paso Siguiente"></div></li>
+        </ul>
+        <div class="form-nuevo" ng-class="{true:'form-nuevo-success', false:'form-nuevo-primary'}[editando]">
+          <div ng-include="tab.contenido"></div>
+        </div>
+      </div>
+    </tab>
+</tabset>

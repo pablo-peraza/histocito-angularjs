@@ -1,0 +1,201 @@
+<section>
+  <h5>Otros Hallazgos</h5>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="" class="control-label">Reacción Inflamatoria</label>
+            <div cis-boolean ng-model="modelo.hallazgos.reaccionInflamatoria.activado"
+              relacionado="modelo.hallazgos.reaccionInflamatoria.opcion"
+              ng-change="activarReaccionInflamatoria(modelo.hallazgos.reaccionInflamatoria.activado)"
+            focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+          </div>
+          <div class="col-sm-6" ng-if="modelo.hallazgos.reaccionInflamatoria.activado">
+            <label class="control-label">Valor actual: {{modelo.hallazgos.reaccionInflamatoria.opcion}}</label>
+            <i class="fa fa-fw fa-eraser cursor-pointer"
+            ng-if="editando || bloqueoTotal"
+            ng-click="modelo.hallazgos.reaccionInflamatoria.opcion = 0"></i>
+            <rating ng-model="modelo.hallazgos.reaccionInflamatoria.opcion" min="0" max="4" state-on="
+            'fa-2x fa-plus-square'" state-off="'fa-2x fa-square-o'"
+            readonly="!editando"
+            ng-change="reaccionInflamatoria(modelo.hallazgos.reaccionInflamatoria.opcion)"></rating>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="" class="control-label">Flora Bacteriana</label>
+            <div cis-boolean ng-model="modelo.hallazgos.floraBacteriana.activado"
+              ng-change="cambiarFlora(modelo.hallazgos.floraBacteriana.activado)"
+            focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+          </div>
+          <div class="col-sm-4" ng-if="modelo.hallazgos.floraBacteriana.activado">
+            <label class="control-label">{{editando && "Seleccione una opción" || "Opción seleccionada"}}</label>
+            <select class="form-control"
+              ng-model="modelo.hallazgos.floraBacteriana.opcion"
+              ng-if="editando"
+              ng-change="cocoide(modelo.hallazgos.floraBacteriana.opcion,
+              modelo.hallazgos.floraBacteriana.valor)"
+              ng-options="flora for flora in floras"
+            ></select>
+            <p class="form-control-static" ng-if="!editando">{{modelo.hallazgos.floraBacteriana.opcion}}</p>
+          </div>
+          <div class="col-sm-4" ng-if="modelo.hallazgos.floraBacteriana.activado">
+            <label class="control-label">Valor actual: {{modelo.hallazgos.floraBacteriana.valor}}</label>
+            <i class="fa fa-fw fa-eraser cursor-pointer"
+            ng-if="editando || bloqueoTotal"
+            ng-click="modelo.hallazgos.floraBacteriana = {activado: true}"></i>
+            <rating ng-model="modelo.hallazgos.floraBacteriana.valor" min="1" max="4"
+            readonly="!editando"
+            ng-change="cocoide(modelo.hallazgos.floraBacteriana.opcion,
+            modelo.hallazgos.floraBacteriana.valor)"
+            state-on="'fa-2x fa-plus-square'" state-off="'fa-2x fa-square-o'"></rating>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="" class="control-label">Histiocitos</label>
+            <div cis-boolean ng-model="modelo.hallazgos.histocitos.activado"
+              relacionado="modelo.hallazgos.histocitos.opcion"
+              ng-change="initEnUno(modelo.hallazgos.histocitos)"
+            focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+          </div>
+          <div class="col-sm-6" ng-if="modelo.hallazgos.histocitos.activado">
+            <label class="control-label">Valor actual: {{modelo.hallazgos.histocitos.opcion}}</label>
+            <i class="fa fa-fw fa-eraser cursor-pointer"
+            ng-if="editando || bloqueoTotal"
+            ng-click="modelo.hallazgos.histocitos.opcion = 0"></i>
+            <rating ng-model="modelo.hallazgos.histocitos.opcion"
+            readonly="!editando"
+            min="1" max="4" state-on="'fa-2x fa-plus-square'" state-off="'fa-2x fa-square-o'"></rating>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="" class="control-label">Eritrocitos</label>
+            <div cis-boolean ng-model="modelo.hallazgos.eritrocitos.activado"
+              relacionado="modelo.hallazgos.eritrocitos.opcion"
+              ng-change="initEnUno(modelo.hallazgos.eritrocitos)"
+            focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+          </div>
+          <div class="col-sm-6" ng-if="modelo.hallazgos.eritrocitos.activado">
+            <label class="control-label">Valor actual: {{modelo.hallazgos.eritrocitos.opcion}}</label>
+            <i class="fa fa-fw fa-eraser cursor-pointer"
+            ng-if="editando || bloqueoTotal"
+            ng-click="modelo.hallazgos.eritrocitos.opcion = 0"></i>
+            <rating ng-model="modelo.hallazgos.eritrocitos.opcion"
+            ng-change="eritrocitos(modelo.hallazgos.eritrocitos.opcion)"
+            readonly="!editando"
+            min="1" max="4" state-on="'fa-2x fa-plus-square'" state-off="'fa-2x fa-square-o'"></rating>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="" class="control-label">Citólisis</label>
+            <div cis-boolean ng-model="modelo.hallazgos.citolisis.activado"
+              relacionado="modelo.hallazgos.citolisis.opcion"
+              ng-change="initEnUno(modelo.hallazgos.citolisis)"
+            focus="true" inhabilitar="!editando || bloqueoTotal || bloquearCitolisis"></div>
+          </div>
+          <div class="col-sm-6" ng-if="modelo.hallazgos.citolisis.activado">
+            <label class="control-label">Valor actual: {{modelo.hallazgos.citolisis.opcion}}</label>
+            <i class="fa fa-fw fa-eraser cursor-pointer"
+            ng-if="editando || bloqueoTotal"
+            ng-click="modelo.hallazgos.citolisis.opcion = 0"></i>
+            <rating ng-model="modelo.hallazgos.citolisis.opcion"
+            readonly="!editando"
+            min="1" max="4" state-on="'fa-2x fa-plus-square'" state-off="'fa-2x fa-square-o'"></rating>
+          </div>
+        </div>
+      </div>
+      </div><!--col -->
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="" class="control-label">Sugestivo por Tricomonas</label>
+          <div cis-boolean ng-model="modelo.hallazgos.tricomas"
+            ng-change="repetirDespuesTratamiento(modelo.hallazgos.tricomas)"
+          focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        </div>
+        <div class="form-group">
+          <label for="" class="control-label">Organismos fungiformes morfológicamente consistentes con Cándida SP</label>
+          <div cis-boolean ng-model="modelo.hallazgos.fungiformesCandida"
+            ng-change="repetirDespuesTratamiento(modelo.hallazgos.fungiformesCandida)"
+          focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        </div>
+        <div class="form-group">
+          <label for="" class="control-label">Predominio de cocobacilos consistentes con Vaginosis Bacteriana</label>
+          <div cis-boolean ng-model="modelo.hallazgos.cocobacilosVaginosis"
+            ng-change="cocobacilos(modelo.hallazgos.cocobacilosVaginosis)"
+          focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        </div>
+        <div class="form-group">
+          <label for="" class="control-label">Cambios celulares sugestivos de infección por Herpes Simplex</label>
+          <div cis-boolean ng-model="modelo.hallazgos.herpesSimplex"
+            ng-change="repetirDespuesTratamiento(modelo.hallazgos.herpesSimplex)"
+          focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        </div>
+        <div class="form-group">
+          <label for="" class="control-label">Bacterias de características morfológicas compatibles con ACTINOMYCES</label>
+          <div cis-boolean ng-model="modelo.hallazgos.actinomyces"
+            ng-change="repetirDespuesTratamiento(modelo.hallazgos.actinomyces)"
+          focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        </div>
+        </div><!-- col -->
+        </div><!-- row -->
+        <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+      </section>
+      <script type="text/ng-template" id="template/rating/rating.html">
+      <div ng-mouseleave="reset()" ng-keydown="onKeydown($event)" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="{{range.length}}" aria-valuenow="{{value}}">
+        <i ng-repeat="r in range track by $index" ng-mouseenter="enter($index + 1)" ng-click="rate($index + 1)" class="fa fa-fw cursor-pointer" ng-class="$index < value && (r.stateOn || 'fa-star') || (r.stateOff || 'fa-star-o')">
+        <span class="sr-only">({{ $index < value ? '*' : ' ' }})</span>
+        </i>
+      </div>
+      </script>
+      <script type="text/ng-template" id="modalEtitrocitos.html">
+      <div class="modal-header">
+        <h4 class="modal-title">Elija las opciones deseadas</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label for="" class="control-label">Material Hemorrágico</label>
+              <div cis-boolean ng-model="modelo.valor"
+              focus="true"></div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+    <div class="form-group fx-fade-down" >
+      <label for="" class="control-label">En Zonas</label>
+      <div cis-boolean ng-model="modelo.enZonas"
+      focus="true"></div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="form-group fx-fade-down" >
+      <label for="" class="control-label">Limitado por: Material Hemorrágico</label>
+      <div cis-boolean ng-model="modelo.limitado"
+      focus="true"></div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="form-group fx-fade-down">
+      <label for="" class="control-label">Inadecuado por: Material Hemorrágico</label>
+      <div cis-boolean ng-model="modelo.inadecuado"
+      focus="true"></div>
+    </div>
+  </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" ng-click="ok(modelo)">Aceptar</button>
+      </div>
+      </script>

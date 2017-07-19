@@ -1,0 +1,108 @@
+<section>
+  <div>
+    <h5>Detalles de la muestra</h5>
+    <div class="row">
+      <div class="col-sm-4 form-group" ng-if="datos.muestra.consecutivo && !datos.muestra.editando">
+        <p class="form-control-static text-info">
+          <strong ng-if="!datos.muestra.editando || datos.muestra.estado === 'Completada'">
+            {{datos.muestra.consecutivo}}
+          </strong>
+          <strong ng-if="datos.muestra.nuevo" tooltip='Los consecutivos son asignados al guardar la muestra'>Por asignar</strong>
+        </p>
+      </div>
+      <div class="col-sm-4 form-group" ng-if="datos.muestra.editando">
+
+        <div class="col-sm-4 form-group" ng-if="datos.muestra.estado === 'Completada'">
+          <p class="form-control-static text-info">
+            <strong>
+              {{datos.muestra.consecutivo}}
+            </strong>
+          </p>
+        </div>
+
+
+        <div class="row" ng-show="datos.muestra.editando && datos.muestra.estado!=='Completada'">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label for="" class="control-label">
+                Secuencia
+              </label>
+              <div class="input-group input-group-lg">
+                 <span class="input-group-addon" style="background-color: #eee;">
+                   {{datos.fecha}}
+                 </span>
+                 <input type="text" name="secuencia" class="form-control" ng-model="datos.muestra.consecutivoManual" ng-blur="cambiarSecuencia(datos.muestra.consecutivoManual)"/>
+
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-8">
+        <div class="form-group" ng-init="datos.muestra.fechaToma=datos.muestra.fechaToma?datos.muestra.fechaToma:hoy"
+        ng-class="{'has-error': form.fechaMuestra.$invalid && form.fechaMuestra.$dirty}">
+        <div ng-if="datos.muestra.editando">
+
+          <div
+          cis-fecha-inexacta
+          name="fechaMuestra"
+          label="Fecha de la Toma"
+          max="{{hoy}}"
+          min="{{minimo}}"
+          ng-model="datos.muestra.fechaToma"
+          ng-disabled="datos.cargando"
+          ng-required="true">
+        </div>
+        <span class="help-block" ng-if="form.fechaMuestra.$error.required">Requerido</span>
+        <span class="help-block" ng-if="form.fechaMuestra.$error.fechaInvalida">Fecha Inválida</span>
+        <span class="help-block" ng-if="form.fechaMuestra.$error.fechaMaxima">La fecha no puede ser superior a {{hoy | Fecha:"LL"}}</span>
+        <span class="help-block" ng-if="form.fechaMuestra.$error.fechaMinima">La fecha no puede ser inferior a {{minimo | Fecha:"LL"}}</span>
+      </div>
+      <p class="form-control-static" ng-if="!datos.muestra.editando">{{datos.muestra.fechaToma| Fecha:"LL"}}</p>
+    </div>
+  </div>
+</div>
+<div class="form-group" ng-if="datos.muestra.estado==='En espera'">
+  <label class="control-label">Motivo de muestra en espera</label>
+  <p class="form-control-static text-info">
+    <strong >{{datos.muestra.motivo}}</strong>
+  </p>
+</div>
+</div>
+<div>
+  <h5>Procedimiento</h5>
+  <div class="form-group" show-errors
+  ng-if="datos.muestra.editando && (datos.muestra.estado === 'Registrada' || datos.muestra.estado === 'En análisis' || datos.muestra.estado === 'En diagnostico') && !datos.muestra.diagnostico" ng-controller="BuscarProcedimiento">
+    <label for="" class="control-label">Digite y busque un procedimiento</label>
+    <input type="text" name="proc" placeholder="Seleccione un Procedimiento" class="form-control"
+    ng-model="datos.procedimiento"
+    ng-required="true"
+    ng-disabled="datos.cargando"
+    typeahead="proc as proc.alias for proc in buscar($viewValue)"
+    typeahead-min-length="3"
+    typeahead-editable="false"
+    typeahead-wait-ms="300"
+    typeahead-focus-first="false"
+    typeahead-template-url="platillaProc.html">
+    <div cis-cargando modelo="buscando"></div>
+    <span class="help-block" ng-if="form.proc.$error.required">Requerido</span>
+  </div>
+  <script type="text/ng-template" id="platillaProc.html">
+    <a>
+        <strong>{{match.model.alias}}</strong>
+        <span> - {{(match.model.precio.centavos / 100) | Colones}}</span>
+    </a>
+  </script>
+  <div class="row" ng-if="datos.procedimiento">
+    <div class="col-sm-6 form-group">
+      <label for="" class="control-label">Procedimiento</label>
+      <p class="form-control-static">{{datos.procedimiento.alias}}</p>
+    </div>
+    <div class="col-sm-6 form-group" ng-if="puedePasar([permisos.laboratorio, permisos.digitador])">
+      <label for="" class="control-label">Precio</label>
+      <p class="form-control-static">{{(datos.procedimiento.precio.centavos / 100) | Colones}}</p>
+    </div>
+  </div>
+</div>
+</section>

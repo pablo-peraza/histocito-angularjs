@@ -1,0 +1,46 @@
+<section>
+  <h5>Frotis</h5>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group">
+        <label for="" class="control-label">Acelular</label>
+        <div cis-boolean ng-model="modelo.frotis.acelular"
+          ng-change="repetir(modelo.frotis.acelular, 'acelular')"
+        focus="true" inhabilitar="!editando"></div>
+      </div>
+      <div class="form-group">
+        <label for="" class="control-label">Hipocelular</label>
+        <div cis-boolean ng-model="modelo.frotis.hipocelular"
+          ng-change="repetirEstudio(modelo.frotis.hipocelular)"
+        focus="true" inhabilitar="!editando"></div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        <label for="" class="control-label">Material mal preservado</label>
+        <div cis-boolean ng-model="modelo.frotis.materialMalPreservado.valor"
+        ng-change="modalMalPreservado(modelo.frotis.materialMalPreservado, 'Material mal preservado')"
+        focus="true" inhabilitar="!editando"></div>
+      </div>
+      <div class="form-group">
+        <label for="" class="control-label">Material Hemorrágico</label>
+        <div cis-boolean ng-model="modelo.frotis.materialHemorragico.valor"
+        ng-change="modalHemorragico(modelo.frotis.materialHemorragico, 'Material Hemorrágico')"
+        focus="true" inhabilitar="!editando"></div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        <label for="" class="control-label">Células endocervicales</label>
+        <div cis-boolean ng-model="modelo.frotis.celulasEndocervicales"
+        focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+      </div>
+      <div class="form-group">
+        <label for="" class="control-label">Células Metaplásicas</label>
+        <div cis-boolean ng-model="modelo.frotis.metaplasia"
+        focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+      </div>
+    </div>
+  </div>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

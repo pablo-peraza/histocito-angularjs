@@ -37,7 +37,8 @@ var modulo = angular.module( "Proyecto", [
   require( "./admin" ),
   require( "./facturacion" ),
   require( "./procedimientos" ),
-  require( "./perfil" )
+  require( "./perfil" ),
+  require( "./pacientes" )
 ] );
 
 modulo.run( run );

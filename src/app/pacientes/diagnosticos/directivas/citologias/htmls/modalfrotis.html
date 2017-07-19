@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h5 class="modal-title">Seleccione las opciones</h5>
+</div>
+<div class="modal-body">
+  <diw class="row">
+  <div class="col-sm-4">
+    <div class="form-group fx-fade-down" >
+      <label for="" class="control-label">En zonas</label>
+      <div cis-boolean ng-model="modelo.enZonas" ng-change="enZonas(modelo.enZonas)"
+      focus="true"></div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="form-group fx-fade-down" >
+      <label for="" class="control-label">Limitado por: {{titulo}}</label>
+      <div cis-boolean ng-model="modelo.limitado" ng-change="limitado(modelo.limitado)"
+      focus="true"></div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="form-group fx-fade-down">
+      <label for="" class="control-label">Inadecuado por: {{titulo}}</label>
+      <div cis-boolean ng-model="modelo.inadecuado" ng-change="inadecuado(modelo.inadecuado)"
+      focus="true"></div>
+    </div>
+  </div>
+  </diw>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" ng-click="ok(modelo)">
+  <div cis-cargando modelo="datos.cargando">
+    <i class="fa fa-fw fa-check"></i> Aplicar
+  </div>
+  </button>
+</div>

@@ -1,0 +1,98 @@
+<nav class="menu-contextual hidden-print" ng-if="datos.isPrivado">
+  <ul class="list-inline text-center" ng-if="datos.muestra !== 404">
+    <li ng-if="!datos.muestra.diagnostico.editando">
+      <button class="btn btn-default btn-sm" cis-atras>
+        <i class="fa fa-fw fa-reply"></i><span class="hidden-xs hidden-sm">Atrás</span>
+      </button>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<main class="container-fluid reporte">
+  <ul class="list-inline text-center hidden-xs hidden-sm">
+    <li><div cis-tecla="mod+p" tipo="info" accion="Imprimir"></div></li>
+  </ul>
+  <!--encabezado del machote-->
+  <div class="encabezado">
+    <div class="row">
+      <div class="col-xs-3 img-responsive">
+        <img src="/public/imagenes/logo-completo-transparente-500px.png" style="max-height: 110px">
+      </div>
+      <div class="col-xs-6 text-center">
+        <h3>Laboratorio Histocito S. A.</h3>
+        <p>Diagnóstico especializado en biopsias<br> y citologías</p>
+        <p>Dra. Claudia Quesada Matamoros<br><small>Fundadora</small></p>
+        <strong>www.histocito.net</strong>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <header class="text-center">
+    <h3 style="margin-top: 6px;">Diagnóstico de la Muestra #{{datos.muestra.consecutivo}}</h3>
+    <h4>{{datos.procedimiento.alias}}</h4>
+    <small>{{datos.muestra.fechaToma | Fecha:"LL"}}</small>
+  </header>
+  <small>
+      <div class="row">
+        <div class="col-xs-6">
+          <legend>Paciente</legend>
+          <div>
+            <small><strong>Nombre: </strong>{{datos.expediente.ficha.nombre}}</small>
+          </div>
+          <div>
+            <small><strong>Edad: </strong>{{datos.expediente.ficha.fechaNacimiento | Edad }}</small>
+          </div>
+          <div ng-if="datos.expediente.ficha.cedula">
+            <small><strong>Cédula: </strong>{{datos.expediente.ficha.cedula}}</small>
+          </div>
+          <div>
+            <small><strong>Sexo: </strong>{{datos.expediente.ficha.sexo}}</small>
+          </div>
+          <div ng-if="datos.expediente.ficha.datosContacto.telefonos">
+            <ul class="list-unstyled">
+              <li ng-repeat="tel in datos.expediente.ficha.datosContacto.telefonos | filter:{tipo:'Principal'}">
+                <i class="fa fa-fw fa-phone"></i> {{tel.numero}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-6" ng-if="datos.medico || datos.clinica">
+          <legend>Médico</legend>
+          <div ng-if="datos.medico && datos.medico.nombreCompleto">
+            <small ng-bind="datos.medico.nombreCompleto"></small>
+          </div>
+          <div ng-if="datos.clinica && datos.clinica.nombre">
+            <small ng-bind="datos.clinica.nombre"></small>
+          </div>
+        </div>
+      </div>
+    <hr>
+  </small>
+  <div ng-switch="datos.tipo.categoria">
+    <div ng-switch-when="Citología">
+      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/citologico.html'"></div>
+    </div>
+    <div ng-switch-when="Citología no ginecológica">
+      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/noginecologica.html'"></div>
+    </div>
+    <div ng-switch-when="Biopsia">
+      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/biopsia.html'"></div>
+    </div>
+    <div ng-switch-when="Patología molecular">
+      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/molecular.html'"></div>
+    </div>
+  </div>
+  <section ng-if="datos.patologo && datos.patologo.firma">
+    <br>
+    <div class="row">
+      <div class="col-xs-4 col-xs-offset-4" ng-if="datos.patologo.urlFirma">
+        <img src="{{datos.patologo.urlFirma}}" alt="" class="img-responsive img-thumbnail center-block" style="border:none; border:0;">
+      </div>
+      <div class="col-xs-8 col-xs-offset-2">
+        <textarea  class="form-control text-center" style="border:none; border:0; line-height: 1.1; font-size: 13px;"
+          rows="5" cols="40"
+          ng-model="datos.patologo.firma.texto" ng-disabled="true"></textarea>
+      </div>
+    </div>
+  </section>
+</main>

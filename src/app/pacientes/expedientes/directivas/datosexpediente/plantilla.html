@@ -1,0 +1,256 @@
+<section ng-form="form">
+  <main>
+  <h5>Datos del Paciente</h5>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group" show-errors>
+        <label for="" class="control-label">Cédula
+          <button type="button" class="btn btn-xs" ng-click="temp.extranjero=!temp.extranjero; $event.stopPropagation();"
+          ng-if="editando"
+          ng-disabled="cargando"
+          ng-class="{'btn-info':temp.extranjero, 'btn-warning':!temp.extranjero}">
+          {{temp.extranjero && "Extranjero" || "Nacional"}}
+          </button>
+        </label>
+        <input type="text" class="form-control" name="cedula" placeholder="Cédula"
+        ng-model="modelo.ficha.cedula"
+        ng-disabled="cargando"
+        ng-show="editando"
+        ng-pattern="patron(temp.extranjero)"
+        >
+        <span class="help-block" ng-if="form.cedula.$error.pattern">Cédula Inválida</span>
+        <p class="form-control-static" ng-if="!editando">{{modelo.ficha.cedula}}</p>
+      </div>
+      <div class="form-group" show-errors ng-if="editando">
+        <label for="" class="control-label">Nombre</label>
+        <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+        ng-model="modelo.ficha.nombre"
+        ng-disabled="cargando"
+        ng-pattern="/^[A-ZÁÉÍÓÚÑ]+(\s[A-ZÁÉÍÓÚÑ]+)*$/"
+        ng-required="true"
+        >
+        <span class="help-block" ng-if="form.nombre.$error.required">Requerido</span>
+        <span class="help-block" ng-if="form.nombre.$error.pattern">El nombre debe ir en mayúsculas y sin caracteres especiales</span>
+      </div>
+      <div class="form-group" ng-if="!editando">
+        <label for="" class="control-label">Nombre</label>
+        <p class="form-control-static">{{modelo.ficha.nombre}}</p>
+      </div>
+      <div class="form-group" ng-class="{'has-error': form.fechaNacimiento.$invalid && form.fechaNacimiento.$dirty}">
+        <label for="" class="control-label" ng-init="temp.edad=true">
+          <span>{{temp.edad && "Fecha de Nacimiento" || "Edad aproximada"}}</span>
+          <button type="button" class="btn btn-xs" ng-click="temp.edad=!temp.edad; $event.stopPropagation();"
+          ng-if="editando"
+          ng-class="{true:'btn-info', false:'btn-warning'}[temp.edad]">
+          {{temp.edad && "Fecha" || "Edad"}}
+          </button>
+        </label>
+        <p class="form-control-static" ng-if="!editando">{{modelo.ficha.fechaNacimiento| Fecha:"LL"}}</p>
+        <div ng-show="temp.edad && editando">
+          <div
+            cis-fecha-inexacta
+            name="fechaNacimiento"
+            max="{{hoy}}"
+            ng-model="modelo.ficha.fechaNacimiento"
+            ng-disabled="cargando">
+          </div>
+          <span class="help-block" ng-if="form.fechaNacimiento.$error.fechaInvalida">Fecha Inválida</span>
+          <span class="help-block" ng-if="form.fechaNacimiento.$error.fechaMaxima">La fecha no puede ser superior a {{hoy | Fecha:"LL"}}</span>
+        </div>
+        <aside ng-if="!temp.edad && editando">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="number" class="form-control" min="0" max="100" name="campo"
+              ng-change="calcularEdad(modelo.ficha.edad)"
+              ng-model="modelo.ficha.edad">
+              <span class="input-group-addon">Años</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group" show-errors ng-if="editando">
+        <label for="" class="control-label">Género</label>
+        <select class="form-control" name="genero"
+          ng-model="modelo.ficha.sexo"
+          ng-required="true"
+          ng-change="eliminarAGO(modelo.ficha.sexo)"
+          ng-options="genero for genero in sexos"
+          ng-disabled="cargando">
+        </select>
+        <span class="help-block" ng-if="form.genero.$error.required">Requerido</span>
+      </div>
+      <div class="form-group" ng-if="!editando">
+        <label for="" class="control-label">Género</label>
+        <p class="form-control-static">{{modelo.ficha.sexo}}</p>
+      </div>
+      <div class="form-group" show-errors ng-if="editando">
+        <label for="" class="control-label">Lugar de residencia</label>
+        <input type="text" class="form-control" name="lugarResidencia" placeholder="Lugar de residencia"
+        ng-model="modelo.ficha.lugarResidencia"
+        ng-disabled="cargando">
+      </div>
+      <div class="form-group" ng-if="!editando">
+        <label for="" class="control-label">Lugar de residencia</label>
+        <p class="form-control-static" >{{modelo.ficha.lugarResidencia}}</p>
+      </div>
+    </div>
+  </div>
+  </main>
+  <section class="fx-fade-down" ng-if="modelo.ficha.sexo === 'Femenino'">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group"
+        ng-class="{'has-error': form.menopausia.$invalid && form.menopausia.$dirty}">
+        <div class="row">
+          <div class="col-xs-3 col-md-2">
+            <label for="" class="control-label">Menopausia</label>
+            <div cis-boolean ng-model="modelo.fichaMedica.ago.menopausia.activo"
+            ng-change="menopausar(modelo.fichaMedica.ago.menopausia.activo)"
+            relacionado="modelo.fichaMedica.ago.menopausia.fecha"
+            inhabilitar="!editando"></div>
+          </div>
+          <div class="col-xs-9 col-md-10">
+
+            <div ng-show="modelo.fichaMedica.ago.menopausia.activo">
+              <div ng-show="editando">
+                <div
+                  cis-fecha-inexacta
+                  ng-required="modelo.fichaMedica.ago.menopausia.activo"
+                  name="menopausia"
+                  label="Fecha de Inicio"
+                  max="{{hoy}}"
+                  min="{{modelo.ficha.fechaNacimiento}}"
+                  ng-model="modelo.fichaMedica.ago.menopausia.fecha"
+                  ng-disabled="cargando"
+                  >
+                </div>
+                <span class="help-block" ng-if="form.menopausia.$error.required">Requerido</span>
+                <span class="help-block" ng-if="form.menopausia.$error.fechaInvalida">Fecha Inválida</span>
+                <span class="help-block" ng-if="form.menopausia.$error.fechaMinima">La fecha no puede ser anterior a {{modelo.ficha.fechaNacimiento | Fecha:"LL"}}</span>
+                <span class="help-block" ng-if="form.menopausia.$error.fechaMaxima">La fecha no puede ser superior a {{hoy | Fecha:"LL"}}</span>
+              </div>
+              <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.menopausia.fecha | Fecha:"LL"}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" show-errors>
+        <label for="" class="control-label">Embarazo</label>
+        <div class="row">
+          <div class="col-xs-3 col-md-2">
+            <div cis-boolean ng-model="modelo.fichaMedica.ago.embarazo.activo"
+              relacionado="modelo.fichaMedica.ago.embarazo.semanas"
+              ng-change="agregarGesta(modelo.fichaMedica.ago.embarazo.activo)"
+              inhabilitar="!editando || modelo.fichaMedica.ago.menopausia.activo"></div>
+          </div>
+          <div class="col-xs-9 col-md-10">
+            <div ng-show="modelo.fichaMedica.ago.embarazo.activo">
+              <input type="number" class="form-control" name="embarazo" placeholder="Semanas de embarazo"
+              max="43" min="0"
+              ng-required="modelo.fichaMedica.ago.embarazo.activo"
+              ng-model="modelo.fichaMedica.ago.embarazo.semanas"
+              ng-show="editando"
+              ng-disabled="cargando">
+              <span class="help-block" ng-if="form.embarazo.$error.required">Requerido</span>
+              <span class="help-block" ng-if="form.embarazo.$error.max">Las semanas de embarazo no pueden superar las 43</span>
+              <span class="help-block" ng-if="form.embarazo.$error.min">Las semanas de embarazo deben ser positivas</span>
+              <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.embarazo.semanas}} semanas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" show-errors>
+        <label for="" class="control-label">Contraceptivos</label>
+        <div class="row">
+          <div class="col-xs-3 col-md-2">
+            <div cis-boolean ng-model="modelo.fichaMedica.ago.contraceptivo.activo" relacionado="modelo.fichaMedica.ago.contraceptivo.tipo"
+            inhabilitar="!editando || modelo.fichaMedica.ago.menopausia.activo || modelo.fichaMedica.ago.embarazo.activo"></div>
+          </div>
+          <div class="col-xs-9 col-md-10">
+            <div ng-show="modelo.fichaMedica.ago.contraceptivo.activo">
+              <input type="text" class="form-control" name="contraceptivo" placeholder="Contraceptivos"
+              ng-model="modelo.fichaMedica.ago.contraceptivo.tipo"
+              ng-show="editando"
+              ng-disabled="cargando">
+              <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.contraceptivo.tipo}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div><!--col-md-6-->
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group" show-errors>
+              <label for="" class="control-label">No. de Gestas</label>
+              <input type="number" class="form-control" name="gestas" placeholder="No. de Gestas"
+              ng-model="modelo.fichaMedica.ago.gestas"
+              ng-show="editando"
+              min="0" max="30"
+              ng-disabled="cargando">
+              <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.gestas && modelo.fichaMedica.ago.gestas || 0}}</p>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group" show-errors>
+              <label for="" class="control-label">No. de Abortos</label>
+              <input type="number" class="form-control" name="abortos" placeholder="No. de Abortos"
+              ng-model="modelo.fichaMedica.ago.abortos"
+              ng-show="editando"
+              min="0" max="99"
+              ng-disabled="cargando">
+              <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.abortos && modelo.fichaMedica.ago.abortos || 0}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group" show-errors>
+              <label for="" class="control-label">No. de Paras</label>
+              <input type="number" class="form-control" name="paras" placeholder="No. de Paras"
+              ng-model="modelo.fichaMedica.ago.paras"
+              ng-show="editando"
+              min="0" max="30"
+              ng-disabled="cargando">
+              <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.paras && modelo.fichaMedica.ago.paras || 0}}</p>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group" show-errors>
+              <label for="" class="control-label">No. de Cesáreas</label>
+              <input type="number" class="form-control" name="cesareas" placeholder="No. de Cesáreas"
+              ng-model="modelo.fichaMedica.ago.cesareas"
+              ng-show="editando"
+              min="0" max="30"
+              ng-disabled="cargando">
+              <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.cesareas && modelo.fichaMedica.ago.cesareas || 0}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"
+          ng-class="{'has-error': form.fur.$invalid && form.fur.$dirty}">
+          <div ng-show="editando">
+            <div
+              cis-fecha-inexacta
+              name="fur"
+              label="FUR según la última muestra"
+              max="{{hoy}}"
+              min="{{fur && fur || minimo}}"
+              ng-model="modelo.fichaMedica.ago.fur"
+              ng-disabled="cargando || modelo.fichaMedica.ago.menopausia.activo"
+              >
+            </div>
+            <span class="help-block" ng-if="form.fur.$error.required">Requerido</span>
+            <span class="help-block" ng-if="form.fur.$error.fechaInvalida">Fecha Inválida</span>
+            <span class="help-block" ng-if="form.fur.$error.fechaMinima">La fecha no puede ser anterior a {{(fur && fur || minimo) | Fecha:"LL"}}</span>
+            <span class="help-block" ng-if="form.fur.$error.fechaMaxima">La fecha no puede ser superior a {{hoy | Fecha:"LL"}}</span>
+          </div>
+          <label for="" class="control-label" ng-if="!editando">FUR según la última muestra</label>
+          <p class="form-control-static" ng-if="!editando">{{modelo.fichaMedica.ago.fur && (modelo.fichaMedica.ago.fur | Fecha:"LL") || "FUR no especificado"}}</p>
+        </div>
+        </div><!--col-md-6-->
+        </div><!--row-->
+        </section>
+      </section>

@@ -1,0 +1,17 @@
+<section ng-init="modelo.observaciones=modelo.observaciones||''">
+  <h5>Observaciones</h5>
+  <div class="form-group">
+    <div class="input-group">
+      <div cis-selector-observaciones ng-model="modelo.precargados" ng-disabled="!editando"></div>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button"
+        ng-disabled="!editando"
+        ng-click="modelo.observaciones = modelo.observaciones + modelo.precargados">
+          <i class="fa fa-fw fa-plus"></i> <span class="hidden-xs">Agregar Observación</span>
+        </button>
+      </span>
+    </div>
+  </div><br>
+  <div text-angular ng-model="modelo.observaciones" ta-disabled="!editando"></div>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

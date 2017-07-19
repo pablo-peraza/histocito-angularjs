@@ -1,0 +1,28 @@
+<section>
+  <h5>Interpretación Citológica</h5>
+  <div class="form-group">
+    <div class="row">
+        <div class="col-xs-3 col-md-2">
+          <label class="control-label">Lesiones</label>
+          <div cis-boolean ng-model="modelo.lesiones.activado"
+          ng-change="activarLesion(modelo.lesiones.activado)"
+          focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        </div>
+        <div class="col-xs-9 col-md-10">
+        <p class="form-control-static" ng-if="!modelo.lesiones.activado && !bloqueoTotal">
+            <label class="control-label" style="display:block;">&nbsp;</label>
+            Negativo para lesión intraepitelial por malignidad
+        </p>
+          <div ng-show="modelo.lesiones.activado">
+            <label class="control-label">Seleccione el tipo de lesión</label>
+            <select class="form-control"
+            ng-if="editando"
+            ng-options="lesion for lesion in lesiones"
+            ng-model="modelo.lesiones.tipo" ng-required="modelo.lesiones.activado"></select>
+            <p class="form-control-static" ng-if="!editando">{{modelo.lesiones.tipo}}</p>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>
