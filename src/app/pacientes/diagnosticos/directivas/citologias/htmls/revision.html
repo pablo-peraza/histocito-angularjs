@@ -1,0 +1,185 @@
+<section>
+  <h5>Revisión</h5>
+  <section ng-if="!modelo.frotis.acelular && !modelo.frotis.materialMalPreservado.inadecuado && !modelo.frotis.materialHemorragico.inadecuado">
+    <legend><small>Interpretación Citológica</small></legend>
+    <div class="row">
+    <div class="col-sm-3">
+        <strong>Lesiones</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.lesiones.activado && modelo.lesiones.tipo || "Negativo para lesión intraepitelial por malignidad"}}</div>
+    </div>
+  </section>
+  <section ng-if="modelo.recomendaciones.repetirEstudio || modelo.recomendaciones.controlRutina || modelo.recomendaciones.estudioColposcopico || modelo.recomendaciones.tomarBiopsia || modelo.recomendaciones.controlCitologico.activado || modelo.recomendaciones.repetirDespuesTratamiento.activado || modelo.recomendaciones.estudioMolecular.activado">
+    <legend><small>Recomendaciones</small></legend>
+    <div class="row" ng-if="modelo.recomendaciones.repetirEstudio">
+      <div class="col-sm-3">
+        <strong>Repetir Estudio</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.recomendaciones.repetirEstudio && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.recomendaciones.controlRutina">
+      <div class="col-sm-3">
+        <strong>Control Citológico Según Rutina</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.recomendaciones.controlRutina && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.recomendaciones.estudioColposcopico">
+      <div class="col-sm-3">
+        <strong>Estudio Colposcópico</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.recomendaciones.estudioColposcopico && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.recomendaciones.tomarBiopsia">
+      <div class="col-sm-3">
+        <strong>Tomar Biopsia</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.recomendaciones.tomarBiopsia && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.recomendaciones.controlCitologico.activado">
+      <div class="col-sm-3">
+        <strong>Control citológico</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.recomendaciones.controlCitologico.activado && modelo.recomendaciones.controlCitologico.opcion || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.recomendaciones.repetirDespuesTratamiento.activado">
+      <div class="col-sm-12">
+        <strong>Para ser evaluado por su médico tratante</strong>
+      </div>
+      <div class="col-sm-9" ng-if="false">
+      {{modelo.recomendaciones.repetirDespuesTratamiento.activado && "Sí" || "No"}}
+      <span ng-if="modelo.recomendaciones.repetirDespuesTratamiento.antiInflamatorio"> - Anti-inflamatorio</span>
+      <span ng-if="modelo.recomendaciones.repetirDespuesTratamiento.hormonal"> - Hormonal local / Estrogenizar</span>
+      <span ng-if="modelo.recomendaciones.repetirDespuesTratamiento.estrogenizar"> - Leer descripción</span>
+      </div>
+    </div>
+    <div class="row" ng-if="modelo.recomendaciones.estudioMolecular.activado">
+      <div class="col-sm-3">
+        <strong>Realizar estudio de Patología Molecular</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.recomendaciones.estudioMolecular.activado && (modelo.recomendaciones.estudioMolecular.opcion && modelo.recomendaciones.estudioMolecular.opcion || "Si") || "No"}}</div>
+    </div>
+  </section>
+  <section ng-if="modelo.frotis.acelular || modelo.frotis.hipocelular || modelo.frotis.materialMalPreservado.valor || modelo.frotis.materialHemorragico.valor || modelo.frotis.celulasEndocervicales || modelo.frotis.metaplasia">
+    <legend><small>Frotis</small></legend>
+    <div class="row" ng-if="modelo.frotis.acelular">
+      <div class="col-sm-3">
+        <strong>Acelular</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.frotis.acelular && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.frotis.hipocelular">
+      <div class="col-sm-3">
+        <strong>Hipocelular</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.frotis.hipocelular && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.frotis.materialMalPreservado.valor">
+      <div class="col-sm-3">
+        <strong>Material mal preservado</strong>
+      </div>
+      <div class="col-sm-9">
+      {{(modelo.frotis.materialMalPreservado.valor)   && "Sí" || "No"}}
+      <strong ng-if="modelo.frotis.materialMalPreservado.enZonas"> En zonas</strong>
+      <strong ng-if="modelo.frotis.materialMalPreservado.limitado">Limitado por: Material mal preservado</strong>
+      <strong ng-if="modelo.frotis.materialMalPreservado.inadecuado">Inadecuado por: Material mal preservado</strong>
+      </div>
+    </div>
+    <div class="row" ng-if="modelo.frotis.materialHemorragico.valor">
+      <div class="col-sm-3">
+        <strong>Material Hemorrágico</strong>
+      </div>
+      <div class="col-sm-9">
+      {{(modelo.frotis.materialHemorragico.valor) && "Sí" || "No"}}
+      <strong ng-if="modelo.frotis.materialHemorragico.enZonas"> En zonas</strong>
+      <strong ng-if="modelo.frotis.materialHemorragico.limitado">Limitado por: Material Hemorrágico</strong>
+      <strong ng-if="modelo.frotis.materialHemorragico.inadecuado">Inadecuado por: Material Hemorrágico</strong>
+      </div>
+    </div>
+    <div class="row" ng-if="modelo.frotis.celulasEndocervicales">
+      <div class="col-sm-3">
+        <strong>Células Endocervicales</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.frotis.celulasEndocervicales && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.frotis.metaplasia">
+      <div class="col-sm-3">
+        <strong>Células Metaplásicas</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.frotis.metaplasia && "Sí" || "No"}}</div>
+    </div>
+  </section>
+  <section ng-if="modelo.hallazgos.reaccionInflamatoria.activado || modelo.hallazgos.floraBacteriana.activado || modelo.hallazgos.histocitos.activado || modelo.hallazgos.eritrocitos.activado || modelo.hallazgos.citolisis.activado || modelo.hallazgos.tricomas || modelo.hallazgos.fungiformesCandida || modelo.hallazgos.cocobacilosVaginosis || modelo.hallazgos.herpesSimplex || modelo.hallazgos.actinomyces">
+    <legend><small>Otros Hallazgos</small></legend>
+    <div class="row" ng-if="modelo.hallazgos.reaccionInflamatoria.activado">
+      <div class="col-sm-3">
+        <strong>Reacción Inflamatoria</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.reaccionInflamatoria.activado && modelo.hallazgos.reaccionInflamatoria.opcion || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.floraBacteriana.activado">
+      <div class="col-sm-3">
+        <strong>Flora Bacteriana</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.floraBacteriana.activado && modelo.hallazgos.floraBacteriana.opcion || "No"}} {{modelo.hallazgos.floraBacteriana.activado && modelo.hallazgos.floraBacteriana.valor || ""}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.histocitos.activado">
+      <div class="col-sm-3">
+        <strong>Histiocitos</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.histocitos.activado && modelo.hallazgos.histocitos.opcion || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.eritrocitos.activado">
+      <div class="col-sm-3">
+        <strong>Eritrocitos</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.eritrocitos.activado && modelo.hallazgos.eritrocitos.opcion || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.citolisis.activado">
+      <div class="col-sm-3">
+        <strong>Citólisis</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.citolisis.activado && modelo.hallazgos.citolisis.opcion || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.tricomas">
+      <div class="col-sm-3">
+        <strong>Sugestivo por Tricomonas</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.tricomas && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.fungiformesCandida">
+      <div class="col-sm-3">
+        <strong>Organismos fungiformes morfológicamente consistentes con Cándida SP</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.fungiformesCandida && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.cocobacilosVaginosis">
+      <div class="col-sm-3">
+        <strong>Predominio de cocobacilos consistentes con Vaginosis Bacteriana</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.cocobacilosVaginosis && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.herpesSimplex">
+      <div class="col-sm-3">
+        <strong>Cambios celulares sugestivos de infección por Herpes Simplex</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.herpesSimplex && "Sí" || "No"}}</div>
+    </div>
+    <div class="row" ng-if="modelo.hallazgos.actinomyces">
+      <div class="col-sm-3">
+        <strong>Bacterias de características morfológicas compatibles con ACTINOMYCES</strong>
+      </div>
+      <div class="col-sm-9">{{modelo.hallazgos.actinomyces && "Sí" || "No"}}</div>
+    </div>
+  </section>
+  <section>
+    <legend><small>Valor Estrogénico</small></legend>
+    <div class="row">
+      <div class="col-sm-12">{{modelo.valorEstrogenico}}</div>
+    </div>
+  </section>
+  <section>
+    <legend><small>Comentarios</small></legend>
+    <div ta-bind ng-model="modelo.comentarios"></div>
+  </section>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

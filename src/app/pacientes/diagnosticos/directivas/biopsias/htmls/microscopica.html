@@ -1,0 +1,20 @@
+<section ng-init="modelo.descripcionMicroscopica=modelo.descripcionMicroscopica||''">
+  <h5>Descripción Microscópica</h5>
+  <div class="form-group">
+    <div class="input-group">
+      <div cis-selector-observaciones ng-model="modelo.observacionesMicroscopica" ng-disabled="!editando"></div>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button"
+        ng-disabled="!editando"
+        ng-click="modelo.descripcionMicroscopica = modelo.descripcionMicroscopica + modelo.observacionesMicroscopica">
+          <i class="fa fa-fw fa-plus"></i> <span class="hidden-xs">Agregar Observación</span>
+        </button>
+      </span>
+    </div>
+  </div>
+  <br>
+  <div text-angular ng-model="modelo.descripcionMicroscopica" ta-disabled="!editando"></div>
+  <div cis-subida-imagenes modelo="modelo.imagenesMicroscopica" ng-if="editando" class="fx-fade-down"></div>
+  <div cis-galeria modelo="modelo.imagenesMicroscopica"></div>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

@@ -1,0 +1,98 @@
+<nav class="menu-contextual hidden-print">
+  <ul class="list-inline text-center" ng-if="datos.muestra !== 404 && datos.muestra !== 401">
+    <li ng-if="datos.muestra.diagnostico.editando">
+      <div class="btn-group">
+        <button class="btn btn-success"
+          ng-click="guardar(datos.muestra.id, datos.muestra.diagnostico)"
+          ng-disabled="datos.cargando || form.$invalid">
+          <div cis-cargando modelo="datos.cargando">
+            <i class="fa fa-fw fa-download"></i><span class="hidden-xs hidden-sm">Guardar</span>
+          </div>
+        </button>
+        <button class="btn btn-default cancelar"
+          ng-click="cancelar()">
+          <span class="fa-stack fa-fw">
+            <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+            <i class="fa fa-ban fa-stack-2x text-danger"></i>
+          </span>
+        </button>
+      </div>
+    </li>
+    <li ng-init="datos.ocultarPaciente=true">
+      <button class="btn btn-default btn-sm" ng-click="datos.ocultarPaciente = !datos.ocultarPaciente"><i class="fa fa-fw fa-archive"></i> <span class="hidden-xs hidden-sm">Datos Paciente</span></button>
+    </li>
+    <li ng-if="!datos.muestra.diagnostico.nuevo && !datos.muestra.diagnostico.editando && datos.muestra.estado !=='Completada' && puedePasar([permisos.laboratorio, permisos.patologo])">
+      <button class="btn btn-success"
+      ng-click="completar(datos.muestra)">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-check"></i><span class="hidden-xs hidden-sm">Aceptar Diagnóstico</span>
+      </div>
+    </button>
+    </li>
+    <li ng-if="!datos.muestra.diagnostico.editando && datos.muestra.estado ==='Completada'">
+      <a href="/inicio/pacientes/muestras/{{datos.muestra.id}}/diagnostico/reporte" class="btn btn-success">
+        <i class="fa fa-fw fa-file-text"></i><span class="hidden-xs hidden-sm">Reporte</span>
+      </a>
+    </li>
+    <li ng-if="!datos.muestra.diagnostico.editando && ((datos.muestra.estado ==='Completada' && puedePasar([permisos.laboratorio, permisos.patologo])) || (datos.muestra.estado !=='Completada' && puedePasar([permisos.laboratorio, permisos.patologo, permisos.citotecnologo, permisos.histotecnologo])) )">
+      <button class="btn btn-info"
+        ng-click="editar()">
+        <i class="fa fa-fw fa-edit"></i><span class="hidden-xs hidden-sm">Editar</span>
+      </button>
+    </li>
+    <li ng-if="!datos.muestra.diagnostico.editando">
+      <button class="btn btn-default btn-sm" cis-atras>
+      <i class="fa fa-fw fa-reply"></i><span class="hidden-xs hidden-sm">Atrás</span>
+    </button>
+    </li>
+  </ul>
+  <ul class="list-inline text-center" ng-if="datos.muestra === 404 || datos.muestra === 401">
+  <li>
+    <button class="btn btn-default btn-sm" cisAtras>
+      <i class="fa fa-fw fa-reply"></i><span class="hidden-xs hidden-sm">Atrás</span>
+    </button>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom" ng-swipe-left="siguiente()" ng-swipe-right="anterior()">
+  <header class="titulos" ng-if="datos.muestra !== 404 && datos.muestra !== 401" >
+    <h1 class="titulo">
+      <i class="fa fa-stethoscope fa-fw"></i>
+      <span>Diagnóstico de la Muestra #{{datos.muestra.consecutivo}}</span>
+    </h1>
+    <h2 class="subtitulo" ><small>{{datos.tipo.categoria}} - {{datos.procedimiento.alias}}</small></h2>
+  </header>
+  <h1 class="titulo" ng-if="datos.muestra === 404 || datos.muestra === 401">Diagnóstico de la Muestra</h1>
+  <div class="ciris-tabs" ng-switch="datos.tipo.categoria">
+    <div ng-switch-when="Citología" diagnostico-citologia
+    modelo="datos.muestra.diagnostico"
+    origen="datos.origen"
+    expediente="datos.expediente"
+    editando="datos.muestra.diagnostico.editando"
+    cargando="datos.cargando"
+    estado="{{datos.muestra.estado}}"></div>
+    <div ng-switch-when="Citología no ginecológica" diagnostico-noginecologico modelo="datos.muestra.diagnostico" estado="{{datos.muestra.estado}}"
+    editando="datos.muestra.diagnostico.editando" cargando="datos.cargando"></div>
+    <div ng-switch-when="Biopsia" diagnostico-biopsia modelo="datos.muestra.diagnostico"
+    editando="datos.muestra.diagnostico.editando" cargando="datos.cargando" estado="{{datos.muestra.estado}}"></div>
+    <div ng-switch-when="Patología molecular" diagnostico-molecular modelo="datos.muestra.diagnostico"
+    editando="datos.muestra.diagnostico.editando" cargando="datos.cargando" estado="{{datos.muestra.estado}}"></div>
+  </div>
+  <div class="container-fluid fondoBlanco" collapse="datos.ocultarPaciente" ng-if="datos.muestra !== 404 && datos.muestra !== 401">
+    <div class="form-nuevo form-nuevo-info">
+      <div ng-include="'/htmls/partials/pacientes/diagnosticos/paciente.html'"></div>
+    </div>
+  </div>
+</section>
+<div ng-if="datos.muestra === 404" class="text-center">
+  <h2><i class="fa fa-chain-broken fa-fw"></i> 404</h2>
+  <p class="lead text-info">
+    La muestra solicitada no existe.
+  </p>
+</div>
+<div ng-if="datos.muestra === 401" class="text-center">
+  <h2><i class="fa fa-stethoscope fa-fw"></i> 401</h2>
+  <p class="lead text-info">
+    La muestra solicitada aún no ha sido diagnosticada.
+  </p>
+</div>

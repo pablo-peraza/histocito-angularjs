@@ -1,0 +1,25 @@
+<section ng-init="modelo.diagnostico=modelo.diagnostico||''">
+  <h5>Diagnóstico</h5>
+  <div class="form-group">
+      <label class="control-label">Lesión</label>
+      <div cis-boolean ng-model="modelo.lesion"
+      focus="true" inhabilitar="!editando"></div>
+  </div>
+  <div class="form-group">
+    <div class="input-group">
+      <div cis-selector-observaciones ng-model="modelo.observaciones" ng-disabled="!editando"></div>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button"
+        ng-disabled="!editando"
+        ng-click="modelo.diagnostico = modelo.diagnostico + modelo.observaciones">
+          <i class="fa fa-fw fa-plus"></i> <span class="hidden-xs">Agregar Observación</span>
+        </button>
+      </span>
+    </div>
+  </div>
+  <br>
+  <div text-angular ng-model="modelo.diagnostico" ta-disabled="!editando"></div>
+  <div cis-subida-imagenes modelo="modelo.imagenesDiagnostico" ng-if="editando" class="fx-fade-down"></div>
+  <div cis-galeria modelo="modelo.imagenesDiagnostico"></div>
+  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+</section>

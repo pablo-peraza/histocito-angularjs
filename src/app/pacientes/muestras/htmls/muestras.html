@@ -1,0 +1,74 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-flask fa-fw"></i> Mis Muestras</h1>
+</section>
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2 dimensiones">
+      <div cis-dimensiones="{{datos.dimensiones}}" actuales="datos.muestras.dimensiones"
+      on-change="aplicarDimension(dimensiones)" cargando="datos.cargando"></div>
+    </div>
+    <div class="col-sm-10">
+      <form novalidate ng-submit="buscar()">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="search" class="form-control" placeholder="Buscar por paciente o consecutivo"
+            ng-model="datos.filtro"
+            ng-required="true">
+            <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+          </div>
+        </div>
+      </form>
+      <section>
+        <p class="text-muted">Mostrando: {{datos.muestras.lista.length}} de {{datos.muestras.cantidad}}</p>
+        <div class="table-cascade">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Consecutivo</th>
+                <th>Procedimiento</th>
+                <th>Paciente</th>
+                <th>Estado</th>
+                <th>Fecha Toma</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="fx-fade-down cursor-pointer"
+                ng-repeat="muestra in datos.muestras.lista">
+                <td data-title="Consecutivo" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)">{{muestra.numero}}</td>
+                <td data-title="Procedimiento" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)">{{muestra.procedimiento.nombre}}</td>
+                <td data-title="Paciente" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)">{{muestra.paciente.nombre}}</td>
+                <td data-title="Estado" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"><span ng-class="{
+                  'En espera':'text-danger',
+                  'Registrada':'text-info',
+                  'En análisis':'text-warning',
+                  'Completada':'text-success',
+                'En diagnostico':'text-primary'}[muestra.estado]">{{(muestra.estado === "En diagnostico" && muestra.diagnosticada) && "Diagnosticada" || muestra.estado}}</span></td>
+                <td data-title="Fecha Toma" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)">{{muestra.fechaToma | Fecha:"L"}}</td>
+                <td data-title="Acciones" ng-if="puedePasar([permisos.laboratorio, permisos.digitador, permisos.medico, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo])">
+                  <ul class="list-inline text-center">
+                    <li ng-if="muestra.estado === 'Completada'"
+                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i class="fa fa-fw fa-file fa-2x text-success cursor-pointer"
+                    ng-click=""></i></a></small></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr ng-if="vacio(datos.muestras.lista)" class="text-center">
+                <td colspan="8"><strong>No hay resultados</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMas" umbral="50"
+            debe-cargar="(datos.muestras.lista.length < datos.muestras.cantidad) && !datos.cargando"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

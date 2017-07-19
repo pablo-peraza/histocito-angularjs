@@ -1,0 +1,65 @@
+<section ng-controller="BuscadorUsuarios">
+  <h5>Equipo para la muestra</h5>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group" show-errors ng-if="datos.muestra.editando">
+        <label for="" class="control-label">Patólogo</label>
+        <input type="text" name="patologo" placeholder="Seleccione un Patólogo" class="form-control"
+        ng-model="datos.muestra.equipo.patologo"
+        ng-disabled="datos.cargando"
+        typeahead="usuario as (usuario.nombre + ' ' + usuario.apellidos) for usuario in buscar($viewValue, 'patólogo')"
+        typeahead-min-length="3"
+        typeahead-editable="false"
+        typeahead-wait-ms="300"
+        typeahead-focus-first="false"
+        typeahead-template-url="platillaUsuario.html"
+        >
+        <div cis-cargando modelo="buscando"></div>
+      </div>
+      <div ng-if="!datos.muestra.editando">
+        <label for="" class="control-label">Patólogo</label>
+        <div cis-datos-usuario ng-model="datos.muestra.equipo.patologo"></div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group" show-errors ng-if="datos.muestra.editando">
+        <label for="" class="control-label">Histotecnólogo</label>
+        <input type="text" name="histotecnologo" placeholder="Seleccione un Histotecnólogo" class="form-control"
+        ng-model="datos.muestra.equipo.histotecnologo"
+        ng-disabled="datos.cargando"
+        typeahead="usuario as (usuario.nombre + ' ' + usuario.apellidos) for usuario in buscar($viewValue, 'histotecnologo')"
+        typeahead-min-length="3"
+        typeahead-editable="false"
+        typeahead-wait-ms="300"
+        typeahead-focus-first="false"
+        typeahead-template-url="platillaUsuario.html"
+        >
+        <div cis-cargando modelo="buscando"></div>
+      </div>
+      <div ng-if="!datos.muestra.editando">
+        <label for="" class="control-label">Histotecnólogo</label>
+        <div cis-datos-usuario ng-model="datos.muestra.equipo.histotecnologo"></div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group" show-errors ng-if="datos.muestra.editando">
+        <label for="" class="control-label">Citotecnólogo</label>
+        <input type="text" name="citotecnologo" placeholder="Seleccione un Citotecnólogo" class="form-control"
+        ng-model="datos.muestra.equipo.citotecnologo"
+        ng-disabled="datos.cargando"
+        typeahead="usuario as (usuario.nombre + ' ' + usuario.apellidos) for usuario in buscar($viewValue, 'citotecnologo')"
+        typeahead-min-length="3"
+        typeahead-editable="false"
+        typeahead-wait-ms="300"
+        typeahead-focus-first="false"
+        typeahead-template-url="platillaUsuario.html"
+        >
+        <div cis-cargando modelo="buscando"></div>
+      </div>
+      <div ng-if="!datos.muestra.editando">
+        <label for="" class="control-label">Citotecnólogo</label>
+        <div cis-datos-usuario ng-model="datos.muestra.equipo.citotecnologo"></div>
+      </div>
+    </div>
+  </div>
+</section>

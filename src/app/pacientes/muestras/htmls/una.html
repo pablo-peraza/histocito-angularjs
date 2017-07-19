@@ -1,0 +1,269 @@
+<nav class="menu-contextual hidden-print">
+  <ul class="list-inline text-center" ng-if="datos.muestra !== 404">
+    <li ng-if="datos.muestra.editando">
+      <div class="btn-group">
+        <button type="button" class="btn btn-success"
+            ng-disabled="datos.cargando"
+            ng-click="clickEn('enviarForm')">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-download"></i><span class="hidden-xs hidden-sm">Guardar</span>
+        </div>
+        </button>
+        <button class="btn btn-default cancelar"
+            ng-disabled="datos.cargando"
+            ng-click="clickEn('resetForm')">
+        <span class="fa-stack fa-fw">
+        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+        <i class="fa fa-ban fa-stack-2x text-danger"></i>
+        </span>
+        </button>
+      </div>
+    </li>
+    <li ng-if="puedePasar([permisos.medico]) && (datos.muestra.estado === 'Registrada' || datos.muestra.estado === 'En análisis' || (datos.muestra.estado === 'En diagnostico' && !datos.muestra.diagnostico))">
+      <button class="btn btn-info" ng-click="modalImagenesMedico(datos.muestra)"
+      ng-disabled="datos.cargando">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-image"></i><span class="hidden-xs hidden-sm">Agregar Imágenes</span>
+      </div>
+      </button>
+    </li>
+    <li ng-if="!datos.edicionMedica && puedePasar([permisos.medico])">
+    <button class="btn btn-info"
+      ng-click="editadoMedico(datos.expediente)">
+      <i class="fa fa-fw fa-edit"></i><span class="hidden-xs">Editar datos de contacto</span>
+    </button>
+  </li>
+    <li ng-if="datos.edicionMedica && puedePasar([permisos.medico])">
+      <div class="btn-group">
+          <button class="btn btn-success"
+          ng-click="guardadoMedico(datos.expediente)"
+          ng-disabled="datos.cargando">
+          <div cis-cargando cargando="datos.cargando">
+            <i class="fa fa-fw fa-download"></i> Guardar
+          </div>
+          </button>
+          <button class="btn btn-default cancelar"
+          ng-disabled="datos.cargando"
+          ng-click="canceladoMedico()">
+          <span class="fa-stack fa-fw">
+          <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+          <i class="fa fa-ban fa-stack-2x text-danger"></i>
+          </span>
+          </button>
+        </div>
+    </li>
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo, permisos.digitador]) && datos.muestra.estadoAnterior === 'Registrada'">
+      <button class="btn btn-success" ng-click="aRegistrada(datos.muestra)"
+      ng-disabled="datos.cargando">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-keyboard-o"></i><span class="hidden-xs hidden-sm">A Registrada</span>
+      </div>
+      </button>
+    </li>
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo]) && (datos.muestra.estado === 'Registrada' || datos.muestra.estadoAnterior === 'En análisis')">
+      <button class="btn btn-success" ng-click="analizar(datos.muestra)"
+      ng-disabled="datos.cargando">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-search"></i><span class="hidden-xs hidden-sm">A Análisis</span>
+      </div>
+      </button>
+    </li>
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo]) && (datos.muestra.estado === 'En análisis' || datos.muestra.estadoAnterior === 'En diagnostico')">
+      <button class="btn btn-success" ng-click="adiagnostico(datos.muestra)"
+      ng-disabled="datos.cargando">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-stethoscope"></i><span class="hidden-xs hidden-sm">A Diagnóstico</span>
+      </div>
+      </button>
+    </li>
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo]) && datos.muestra.estado !== 'Completada' && datos.muestra.estado !== 'En espera'">
+      <button class="btn btn-default" ng-click="pausar(datos.muestra)"
+      ng-disabled="datos.cargando">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-pause"></i><span class="hidden-xs hidden-sm">Poner en espera</span>
+      </div>
+      </button>
+    </li>
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.digitador])">
+      <button class="btn btn-info"
+      ng-disabled="datos.cargando"
+      ng-click="editar(datos)">
+      <i class="fa fa-fw fa-edit"></i><span class="hidden-xs hidden-sm">Editar</span>
+      </button>
+    </li>
+    <li ng-if="!datos.muestra.nuevo && !datos.muestra.editando && (datos.muestra.estado === 'En diagnostico' || datos.muestra.estado === 'Completada') && (puedePasar([permisos.laboratorio, permisos.histotecnologo, permisos.citotecnologo, permisos.patologo]) || (puedePasar([permisos.digitador]) && datos.muestra.diagnostico))">
+      <a href="/inicio/pacientes/muestras/{{datos.muestra.id}}/diagnostico" class="btn" ng-class="{'btn-info':datos.muestra.diagnostico, 'btn-success':!datos.muestra.diagnostico}">
+        <i class="fa fa-fw fa-stethoscope"></i><span class="hidden-xs hidden-sm">
+        {{datos.muestra.diagnostico && "Diagnóstico" || "Diagnosticar"}}
+        </span>
+      </a>
+    </li>
+    <li ng-if="!datos.muestra.diagnostico.editando && datos.muestra.estado ==='Completada'">
+      <a href="/inicio/pacientes/muestras/{{datos.muestra.id}}/diagnostico/reporte" class="btn btn-success">
+        <i class="fa fa-fw fa-file-text"></i><span class="hidden-xs hidden-sm">Reporte Diagnóstico</span>
+      </a>
+    </li>
+    <li ng-if="!datos.muestra.nuevo && datos.muestra.estado === 'Registrada' && puedePasar([permisos.laboratorio, permisos.digitador])">
+      <button class="btn btn-danger"
+      ng-disabled="datos.cargando"
+      ng-click="eliminar(datos.muestra)">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-trash"></i><span class="hidden-xs hidden-sm">Eliminar</span>
+      </div>
+      </button>
+    </li>
+  </ul>
+  <ul class="list-inline text-center" ng-if="datos.muestra === 404">
+    <li>
+      <button class="btn btn-default btn-sm" cisAtras ng-disabled="datos.cargando">
+      <i class="fa fa-fw fa-reply"></i><span class="hidden-xs hidden-sm">Atrás</span>
+      </button>
+    </ul>
+    <hr class="colorgraph">
+  </nav>
+  <section class="fondoMedico margin-bottom">
+    <h1 class="titulo" ng-swipe-left="siguiente()" ng-swipe-right="anterior()">
+    <i class="fa fa-flask fa-fw"></i>
+    <span ng-if="datos.muestra.nuevo">Nueva Muestra</span>
+    <span ng-if="!datos.muestra.nuevo">Muestra No. {{datos.muestra.consecutivo}}</span>
+    <small ng-if="!datos.muestra.nuevo" ng-class="{
+    'En espera':'text-danger',
+    'Registrada':'text-info',
+    'En análisis':'text-warning',
+    'Completada':'text-success',
+    'En diagnostico':'text-primary'}[datos.muestra.estado]">
+    {{(datos.muestra.estado === "En diagnostico" && datos.muestra.diagnostico) && "Diagnosticada" || datos.muestra.estado}}
+    </small>
+    </h1>
+    <div class="ciris-tabs">
+      <tabset>
+      <tab ng-repeat="tab in tabs" active="tab.activo" disabled="tab.inhabilitado">
+      <tab-heading ng-swipe-left="siguiente()" ng-swipe-right="anterior()">
+      <i class="fa fa-fw {{tab.icono}}"></i> <span class="hidden-xs">{{tab.titulo}}</span>
+      </tab-heading>
+      <div class="container-fluid fondoBlanco">
+        <ul class="list-inline text-center hidden-xs hidden-xs hidden-sm">
+          <li ng-if="datos.muestra.editando"><div cis-tecla="mod+enter" tipo="success" accion="Guardar"></div></li>
+        </ul>
+        <ul class="list-inline text-center hidden-xs hidden-xs hidden-sm">
+          <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.digitador])"><div cis-tecla="mod+shift+enter" tipo="info" accion="Editar"></div></li>
+          <li ng-if="datos.muestra.editando"><div cis-tecla="mod+backspace" tipo="default" accion="Cancelar"></div></li>
+          <li ng-if="tabActual() > 0"><div cis-tecla="mod+left" tipo="default" accion="Paso Anterior"></div></li>
+          <li ng-if="tabActual() < tabs.length -1"><div cis-tecla="mod+right" tipo="default" accion="Paso Siguiente"></div></li>
+        </ul>
+        <div class="form-nuevo" ng-class="{'form-nuevo-success':datos.muestra.editando, 'form-nuevo-primary':!datos.muestra.editando}">
+          <form novalidate name="form"
+            ng-submit="guardar(datos.muestra, datos.procedimiento, datos.expediente, datos.dueno, datos.medico, datos.clinica, datos.autorizados, form)">
+            <div ng-include="tab.contenido"></div>
+            <button type="submit" ng-show="false" id="enviarForm"></button>
+            <button type="reset" ng-show="false" id="resetForm" ng-click="cancelar(form)"></button>
+          </form>
+        </div>
+        <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+      </div>
+      </tab>
+      </tabset>
+    </div>
+  </section>
+  <div ng-if="datos.muestra === 404" class="text-center">
+    <h2><i class="fa fa-chain-broken fa-fw"></i> 404</h2>
+    <p class="lead text-info">
+    La muestra solicitada no existe.
+    </p>
+  </div>
+  <script type="text/ng-template" id="historial.html">
+    <div cis-muestras-expediente id-expediente="{{datos.expediente.id}}"></div>
+  </script>
+  <script type="text/ng-template" id="imagenes.html">
+    <h5>Imágenes</h5>
+    <div cis-subida-imagenes modelo="datos.muestra.imagenes" ng-if="datos.muestra.editando"></div>
+    <div cis-galeria modelo="datos.muestra.imagenes"></div>
+  </script>
+  <script type="text/ng-template" id="observaciones.html">
+    <h5>Observaciones</h5>
+    <div text-angular ng-model="datos.muestra.observaciones" ta-disabled="!datos.muestra.editando"></div>
+  </script>
+  <script type="text/ng-template" id="revision.html">
+    <h5>Revisión</h5>
+    <div class="row">
+      <div class="col-sm-4"><strong>Procedimiento:</strong></div>
+      <div class="col-sm-8">{{datos.procedimiento.alias}}</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4"><strong>Paciente:</strong></div>
+      <div class="col-sm-8">{{datos.expediente.ficha.nombre}}</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4"><strong>Médico:</strong></div>
+      <div class="col-sm-8">{{datos.medico.nombre}} {{datos.medico.apellidos}}</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4"><strong>Imágenes:</strong></div>
+      <div class="col-sm-8">
+        <div cis-galeria modelo="datos.muestra.imagenes"></div>
+      </div>
+    </div>
+  </script>
+  <script type="text/ng-template" id="motivo.html">
+    <div class="modal-header">
+      <h5 class="modal-title">Motivo del cambio al estado 'En Espera'</h5>
+    </div>
+    <div class="modal-body">
+      <label for="" class="cotrol-label">Digite el motivo por el cual la muestra está ahora En Espera</label>
+      <textarea class="form-control" ng-model="datos.motivo" cis-autofocus="true"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
+      <button class="btn btn-success" ng-click="ok(datos.motivo)" ng-disabled="!datos.motivo">Aceptar</button>
+    </div>
+  </script>
+  <script type="text/ng-template" id="opciones.html">
+    <div class="modal-header">
+      <h5 class="modal-title">¿Qué desea hacer?</h5>
+    </div>
+    <div class="modal-body">
+      <button type="button" class="btn-default btn btn-lg btn-block" ng-click="ver()">
+        <i class="fa fa-fw fa-eye"></i> Ver la muestra registrada
+      </button>
+      <h5>Opciones de creación de muestra</h5>
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <button type="button" class="btn-primary btn btn-lg btn-block" ng-click="cero()">
+            <i class="fa fa-fw fa-file"></i> Desde cero
+          </button>
+          <button type="button" class="btn-success btn btn-lg btn-block" ng-click="conEquipo()">
+            <i class="fa fa-fw fa-users"></i> Mantener equipo
+          </button>
+          <button type="button" class="btn-success btn btn-lg btn-block" ng-click="conMedico()">
+            <i class="fa fa-fw fa-user-md"></i> Mantener cliente
+          </button>
+          <button type="button" class="btn-success btn btn-lg btn-block" ng-click="conTodo()">
+            <i class="fa fa-fw fa-users"></i>
+            <i class="fa fa-fw fa-plus"></i>
+            <i class="fa fa-fw fa-user-md"></i>
+            Mantener equipo y cliente
+          </button>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script type="text/ng-template" id="imagenesMedico.html">
+    <div class="modal-header">
+      <h5 class="modal-title">Agregar imágenes a la muestra</h5>
+    </div>
+    <div class="modal-body">
+      <div cis-subida-imagenes modelo="muestra.imagenes"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" ng-click="cancelar()" ng-disabled="cargando">
+        <div cis-cargando modelo="datos.cargando">
+          Cancelar
+        </div>
+      </button>
+      <button class="btn btn-success" ng-click="guardar(muestra)" ng-disabled="!muestra.imagenes || cargado">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-download"></i> Guardar
+        </div>
+      </button>
+    </div>
+  </script>

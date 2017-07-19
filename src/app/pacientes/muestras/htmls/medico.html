@@ -1,0 +1,282 @@
+<section>
+  <h5>Datos del usuario dueño</h5>
+  <p ng-if="!datos.muestra.editando && !datos.dueno">
+    Esta muestra no tiene un usuario dueño
+  </p>
+  <div class="row fx-fade-down" ng-if="datos.muestra.editando">
+    <div class="col-sm-8 col-sm-offset-2 form-group">
+      <label for="" class="control-label">Búsqueda de usuario dueño</label>
+      <div cis-buscador-medicos ng-model="datos.dueno"
+        cis-autofocus
+        exec="limpiarAutorizados"
+        cargando="datos.cargando"></div>
+      <br>
+    </div>
+  </div>
+  <section
+      ng-if="puedePasar([permisos.digitador, permisos.histotecnologo, permisos.citotecnologo, permisos.medico]) && (datos.dueno && datos.dueno.id)">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="" class="control-label">Nombre</label>
+          <p class="form-control-static" ng-if="(datos.dueno && datos.dueno.id)"
+             ng-bind="datos.dueno.nombre"></p>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="" class="control-label">Apellidos</label>
+          <p class="form-control-static" ng-if="(datos.dueno && datos.dueno.id)"
+             ng-bind="datos.dueno.apellidos"></p>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label for="" class="control-label">Cédula</label>
+          <p class="form-control-static" ng-if="(datos.dueno && datos.dueno.id)"
+             ng-bind-html-unsafe="datos.dueno.cedula"></p>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <div class="form-group">
+            <label for="" class="control-label">Correo</label>
+            <p class="form-control-static" ng-if="(datos.dueno && datos.dueno.id)"
+               ng-bind="datos.dueno.correo"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section ng-if="puedePasar([permisos.laboratorio])">
+    <div class="row" ng-show="datos.muestra.editando || datos.dueno">
+      <div class="col-sm-3">
+        <div class="form-group" show-errors>
+          <label for="" class="control-label">Nombre</label>
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                 ng-model="datos.dueno.nombre"
+                 ng-disabled="datos.cargando"
+                 ng-show="datos.muestra.editando && !(datos.dueno && datos.dueno.id)"
+                 ng-pattern="/^[A-ZÁÉÍÓÚÑ]+(\s[A-ZÁÉÍÓÚÑ]+)*$/"
+          >
+          <span class="help-block" ng-if="form.nombre.$error.required">Requerido</span>
+          <span class="help-block" ng-if="form.nombre.$error.pattern">El nombre debe ir en mayúsculas y sin caracteres especiales</span>
+          <p class="form-control-static"
+             ng-if="!datos.muestra.editando || (datos.dueno && datos.dueno.id)">
+            {{datos.dueno.nombre}}</p>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group" show-errors>
+          <label for="" class="control-label">Apellidos</label>
+          <input type="text" class="form-control" placeholder="Apellidos" name="apellidos"
+                 ng-show="datos.muestra.editando && !(datos.dueno && datos.dueno.id)"
+                 ng-disabled="datos.cargando"
+                 ng-pattern="/^[A-ZÁÉÍÓÚÑ]+(\s[A-ZÁÉÍÓÚÑ]+)*$/"
+                 ng-model="datos.dueno.apellidos">
+          <p class="form-control-static"
+             ng-if="!datos.muestra.editando || (datos.dueno && datos.dueno.id)">
+            {{datos.dueno.apellidos}}</p>
+          <span class="help-block" ng-if="form.apellidos.$error.required">Requerido</span>
+          <span class="help-block" ng-if="form.apellidos.$error.pattern">El apellidos debe ir en minúsculas y sin caracteres especiales</span>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group" show-errors ng-controller="PatronCedula">
+          <label for="" class="control-label">Cédula
+            <button class="btn btn-xs" ng-click="temp.extranjero=!temp.extranjero"
+                    ng-if="datos.muestra.editando && !(datos.dueno && datos.dueno.id)"
+                    ng-disabled="datos.cargando"
+                    ng-class="{'btn-info':temp.extranjero, 'btn-warning':!temp.extranjero}">
+              {{temp.extranjero && "Extranjero" || "Nacional"}}
+            </button>
+          </label>
+          <input type="text" class="form-control" name="cedula" placeholder="Cédula"
+                 ng-model="datos.dueno.cedula"
+                 ng-disabled="datos.cargando"
+                 ng-show="datos.muestra.editando && !(datos.dueno && datos.dueno.id)"
+                 ng-pattern="patron(temp.extranjero)"
+          >
+          <span class="help-block" ng-if="form.cedula.$error.pattern">Cédula Inválida</span>
+          <p class="form-control-static"
+             ng-if="!datos.muestra.editando || (datos.dueno && datos.dueno.id)">
+            {{datos.dueno.cedula}}</p>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group" show-errors>
+          <label for="" class="control-label">Correo</label>
+          <input type="email" class="form-control" placeholder="Correo" name="correo"
+                 ng-show="datos.muestra.editando && !(datos.dueno && datos.dueno.id)"
+                 ng-disabled="datos.cargando || datos.dueno.id"
+                 ng-model="datos.dueno.correo">
+          <p class="form-control-static"
+             ng-if="!datos.muestra.editando || (datos.dueno && datos.dueno.id)">
+            {{datos.dueno.correo}}</p>
+          <span class="help-block" ng-if="form.correo.$error.required">Requerido</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</section>
+<section>
+  <h5>Organización</h5>
+  <div class="row">
+    <!--Medico-->
+    <div class="col-sm-4" ng-if="puedePasar([permisos.digitador, permisos.histotecnologo, permisos.citotecnologo, permisos.medico]) && (datos.medico && datos.medico.id)">
+      <section>
+        <div class="form-group">
+          <label for="" class="control-label">Médico</label>
+          <p class="form-control-static" ng-if="(datos.medico && datos.medico.id)"
+             ng-bind="datos.medico.nombre"></p>
+        </div>
+      </section>
+    </div>
+    <div class="col-sm-4" ng-if="puedePasar([permisos.laboratorio]) && (datos.muestra.editando || datos.medico)">
+      <section>
+        <div class="form-group" show-errors>
+          <label for="" class="control-label">Médico&nbsp;
+            <span ng-if="datos.cargandoMedico">
+              <span class="small text-muted">Cargando...&nbsp;&nbsp;</span>
+              <i class="text-info fa fa-circle-o-notch fa-spin"></i>
+            </span>
+          </label>
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                 ng-model="datos.medico"
+                 ng-disabled="datos.cargando"
+                 ng-show="datos.muestra.editando"
+                 typeahead-loading="datos.cargandoMedico"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 typeahead="medico as medico.nombreCompleto for medico in buscarMedicos($viewValue)"
+          >
+          <span class="help-block" ng-if="form.nombre.$error.required">Requerido</span>
+          <p class="form-control-static" ng-bind="datos.medico.nombreCompleto" ng-if="!datos.muestra.editando">
+          </p>
+        </div>
+      </section>
+    </div>
+    <div class="col-sm-4" ng-if="!datos.muestra.editando && !datos.medico">
+      <p>
+        Esta muestra no tiene médico asociado
+      </p>
+    </div>
+    <!--Clínica-->
+    <div class="col-sm-4" ng-if="puedePasar([permisos.digitador, permisos.histotecnologo, permisos.citotecnologo, permisos.medico]) && (datos.clinica && datos.clinica.id)">
+      <section>
+        <div class="form-group">
+          <label for="" class="control-label">Médico</label>
+          <p class="form-control-static" ng-if="(datos.clinica && datos.clinica.id)"
+             ng-bind="datos.clinica.nombre"></p>
+        </div>
+      </section>
+    </div>
+    <div class="col-sm-4" ng-if="puedePasar([permisos.laboratorio]) && (datos.muestra.editando || datos.clinica)">
+      <section>
+        <div class="form-group" show-errors>
+          <label for="" class="control-label">Clínica&nbsp;
+            <span ng-if="datos.cargandoClinica">
+              <span class="small text-muted">Cargando...&nbsp;&nbsp;</span>
+              <i class="text-info fa fa-circle-o-notch fa-spin"></i>
+            </span>
+          </label>
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                 ng-model="datos.clinica"
+                 ng-disabled="datos.cargando"
+                 ng-show="datos.muestra.editando"
+                 typeahead-loading="datos.cargandoClinica"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 typeahead="clinica as clinica.nombre for clinica in buscarClinicas($viewValue)"
+          >
+          <span class="help-block" ng-if="form.nombre.$error.required">Requerido</span>
+          <p class="form-control-static" ng-bind="datos.clinica.nombre" ng-if="!datos.muestra.editando">
+          </p>
+        </div>
+      </section>
+    </div>
+    <div class="col-sm-4" ng-if="!datos.muestra.editando && !datos.clinica">
+      <p>
+        Esta muestra no tiene clínica asociada
+      </p>
+    </div>
+  </div>
+
+</section>
+<section>
+  <div class="row">
+    <!--Autorizados-->
+    <div class="col-sm-6">
+      <h5>Autorizados</h5>
+      <div class="form-group" show-errors ng-if="datos.muestra.editando">
+        <label for="usuario" class="control-label">Usuario&nbsp;
+            <span ng-if="datos.cargandoUsuarios">
+              <span class="small text-muted">Cargando...&nbsp;&nbsp;</span>
+              <i class="text-info fa fa-circle-o-notch fa-spin"></i>
+            </span>
+        </label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar usuario" name="usuario" id="usuario"
+                 ng-model="datos.temporal.autorizados"
+                 typeahead-loading="datos.cargandoUsuarios"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 typeahead="usuario as usuario.display for usuario in buscarUsuarios($viewValue)"
+                 cis-enter="agregarUsuario( datos.temporal.autorizados )">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button" ng-click="agregarUsuario( datos.temporal.autorizados )">Agregar</button>
+        </span>
+        </div>
+      </div>
+
+      <div class="well">
+        <p class="text-muted" ng-if="datos.autorizados.length === 0">No hay usuarios autorizados</p>
+        <ul ng-if="datos.autorizados.length > 0">
+          <li ng-repeat="usuario in datos.autorizados track by usuario.id">
+            <span class="cursor-pointer text-danger" ng-click="borrarAutorizado(usuario)" ng-if="datos.muestra.editando">
+              <i class="fa fa-fw fa-times"></i>
+            </span>
+            {{usuario.display}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--Correos adicionales-->
+    <div class="col-sm-6">
+      <h5>Notificaciones adicionales</h5>
+      <div class="form-group" ng-class="{ 'has-error': form.correo.$touched && form.correo.$invalid }" ng-if="datos.muestra.editando">
+        <label class="control-label" for="correo">Agregar Correo
+          <span class="text-muted small">&nbsp; Puede agregar varios separados por , (coma)</span>
+        </label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="correo" name="correo"
+                 placeholder="correo@ejemplo.com"
+                 ng-model="datos.temporal.correo"
+                 cis-enter="agregarMultiplesCorreo( datos.temporal.correo )">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" ng-click="agregarMultiplesCorreo( datos.temporal.correo )">Agregar</button>
+          </span>
+        </div>
+        <div ng-if="correosInvalidos.length > 0">
+          Los siguientes correos tienen un formato inválido:
+          <ul>
+            <li ng-repeat="correo in correosInvalidos" ng-bind="correo"></li>
+          </ul>
+        </div>
+      </div>
+      <br>
+
+      <div class="well">
+        <p class="text-muted" ng-if="datos.muestra.correos.length === 0">No hay correos registrados</p>
+        <span class="label label-info" style="margin-right:5px; font-size:95%; display: inline-block" ng-repeat="correo in datos.muestra.correos track by correo">
+          {{correo}} &nbsp;&nbsp;
+          <span class="cursor-pointer" ng-click="borrarCorreo(correo)" ng-if="datos.muestra.editando">
+            <i class="fa fa-fw fa-times"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+</section>

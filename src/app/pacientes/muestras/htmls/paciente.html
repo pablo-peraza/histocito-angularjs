@@ -1,0 +1,29 @@
+<section>
+    <div class="row f-fade-down" ng-if="datos.muestra.editando">
+      <div class="col-sm-8 col-sm-offset-2 form-group">
+        <label for="" class="control-label">Búsqueda de paciente</label>
+        <div cis-buscador-expedientes ng-model="datos.expediente" cargando="datos.cargando"></div>
+        <br>
+      </div>
+    </div>
+    <div cis-datos-expediente ng-model="datos.expediente" fur="fechaFur"
+         editando="datos.muestra.editando" ng-disabled="datos.cargando">
+    </div>
+  <h5>Datos de Contacto</h5>
+  <div class="row">
+    <div class="col-sm-6">
+      <p><strong class="lead">Teléfonos</strong></p>
+      <div cis-telefonos modelo="datos.expediente.ficha.datosContacto.telefonos"
+        editando="datos.muestra.editando || datos.edicionMedica"
+        cargando="datos.cargando">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <p><strong class="lead">Correos</strong></p>
+      <div cis-correos modelo="datos.expediente.ficha.datosContacto.correos"
+        editando="datos.muestra.editando || datos.edicionMedica"
+        cargando="datos.cargando">
+      </div>
+    </div>
+  </div>
+</section>
