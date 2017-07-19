@@ -7,6 +7,8 @@ var modulo = angular.module( "Proyecto.diagnosticos", [
   require( "./directivas/noginecologicos" )
 ] );
 
+modulo.config( require( "./rutas.js" ) );
+
 modulo.controller( "DiagnosticoCtrl", require( "./ctrls/diagnosticoCtrl.js" ) );
 modulo.controller( "ReporteCtrl", require( "./ctrls/reporteCtrl.js" ) );
 

@@ -11,7 +11,7 @@ function cisSelectorOrigen() {
     },
     link: link,
     restrict: "A",
-    templateUrl: "procedimientos/directivas/selectororigen/plantillas.html",
+    templateUrl: "procedimientos/directivas/selectororigen/plantilla.html",
     controller: "cisSelectorOrigenCtrl as vm"
   };
 } //function

@@ -4,6 +4,8 @@ var modulo = angular.module( "Proyecto.expedientes", [
   require( "./directivas/datosexpediente" )
 ] );
 
+modulo.config( require( "./rutas.js" ) );
+
 modulo.controller( "FormExpedienteCtrl", require( "./ctrls/formExpedienteCtrl.js" ) );
 modulo.controller( "ListaExpedienteCtrl", require( "./ctrls/listaExpedienteCtrl.js" ) );
 modulo.controller( "PatronCedula", require( "./ctrls/patronCedula.js" ) );

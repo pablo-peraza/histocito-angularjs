@@ -8,6 +8,7 @@ exports.trustAsResourceUrl = trustAsResourceUrl;
 exports.numero = numero;
 exports.llave = llave;
 exports.dimension = dimension;
+exports.colones = colones;
 
 function duracion() {
   return function( segundos ) {
@@ -130,4 +131,10 @@ function dimension( Cache ) {
   return function( valor ) {
     return Cache[valor] ? Cache[valor] : valor;
   }; //function
+}
+
+function colones() {
+  return function( monto ) {
+    return accounting.formatMoney( monto, "₡", ",", " " );
+  };
 }

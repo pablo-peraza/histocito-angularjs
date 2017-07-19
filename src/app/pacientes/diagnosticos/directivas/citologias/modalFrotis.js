@@ -1,5 +1,7 @@
 "use strict";
 
+module.exports = modalFrotisCtrl;
+
 modalFrotisCtrl.$inject = [ "$scope", "$modalInstance", "modelo", "titulo" ];
 function modalFrotisCtrl( $scope, $modalInstance, modelo, titulo ) {
   $scope.modelo = modelo;

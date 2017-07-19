@@ -19,7 +19,7 @@ function rutas( $routeProvider ) {
       permisos.valores.digitador
     ],
     resolve: {
-      params: [ "$route", "$rootScopeScope", "Muestras", "Alertas", "Futuros", paraDiagnostico ]
+      params: [ "$route", "$rootScope", "Muestras", "Alertas", "Futuros", paraDiagnostico ]
     }
   } );
 

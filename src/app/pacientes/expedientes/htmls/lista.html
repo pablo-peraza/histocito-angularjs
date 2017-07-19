@@ -1,0 +1,67 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+    <li ng-if="puedePasar([permisos.laboratorio, permisos.digitador])">
+      <a href="/inicio/pacientes/expedientes/nuevo" class="btn btn-primary" ><i class="fa fa-fw fa-file"></i> <span class="hidden-xs">Nuevo Expediente</span></a>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-flask fa-fw"></i> Administración de Expedientes</h1>
+</section>
+<section class="container-fluid">
+  <ul class="list-inline text-center hidden-xs hidden-sm">
+    <li ng-if="puedePasar([permisos.laboratorio, permisos.digitador])"><div cis-tecla="mod+enter" tipo="primary" accion="Nuevo Expediente"></div></li>
+  </ul>
+  <div class="row">
+    <div class="col-sm-2 dimensiones">
+      <div cis-dimensiones="{{datos.dimensiones}}" actuales="datos.expedientes.dimensiones"
+          on-change="aplicarDimension(dimensiones)" cargando="datos.cargando"></div>
+    </div>
+    <div class="col-sm-10">
+      <form novalidate ng-submit="buscar()">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="search" class="form-control" placeholder="Buscar por nombre o cédula"
+            ng-model="datos.filtro"
+            ng-required="true">
+            <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+          </div>
+        </div>
+      </form>
+      <section>
+        <p class="text-muted">Mostrando: {{datos.expedientes.lista.length}} de {{datos.expedientes.cantidad}}</p>
+        <div class="table-responsive">
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Edad</th>
+                <th>Sexo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cursor-pointer" bindonce
+                ng-repeat="expediente in datos.expedientes.lista">
+                <td data-title="Cédula" ng-click="location.path('/inicio/pacientes/expedientes/' + expediente.id)" bo-text="expediente.cedula && expediente.cedula || 'N/A'"></td>
+                <td data-title="Nombre" ng-click="location.path('/inicio/pacientes/expedientes/' + expediente.id)" bo-text="expediente.nombre"></td>
+                <td data-title="Fecha de Nacimiento" ng-click="location.path('/inicio/pacientes/expedientes/' + expediente.id)" bo-text="expediente.fechaNacimiento | Fecha:'LL'"></td>
+                <td data-title="Edad" ng-click="location.path('/inicio/pacientes/expedientes/' + expediente.id)" bo-text="expediente.fechaNacimiento | Edad"></td>
+                <td data-title="Sexo" ng-click="location.path('/inicio/pacientes/expedientes/' + expediente.id)" bo-text="expediente.sexo"></td>
+              </tr>
+              <tr ng-if="vacio(datos.expedientes.lista)" class="text-center">
+                <td colspan="5"><strong>No hay resultados</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <div cis-cargando modelo="datos.cargando" class="text-center">
+            <div cis-scroll cargador="cargarMas" umbral="50"
+            debe-cargar="(datos.expedientes.lista.length < datos.expedientes.cantidad) && !datos.cargando"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

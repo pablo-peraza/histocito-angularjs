@@ -1,29 +1,29 @@
 "use strict";
 
-MuestrasREST.$inject = MuestrasREST;
+module.exports = MuestrasREST;
 
-MuestrasREST.$inject = [ "$http", "Dimensionador" ];
-function MuestrasREST( $http, Dimensionador ) {
+MuestrasREST.$inject = [ "$http", "Dimensionador", "urlApi" ];
+function MuestrasREST( $http, Dimensionador, urlApi ) {
   var funciones = {};
 
   funciones.guardar = function( muestra ) {
-    return $http.put( "/api/muestra/", muestra );
+    return $http.put( urlApi + "/api/muestra/", muestra );
   };
 
   funciones.obtener = function( id ) {
-    return $http.get( "/api/muestra/" + id );
+    return $http.get( urlApi + "/api/muestra/" + id );
   };
 
   funciones.breeze = function() {
-    return $http.get( "/api/muestra/breeze" );
+    return $http.get( urlApi + "/api/muestra/breeze" );
   };
 
   funciones.eliminar = function( id ) {
-    return $http["delete"]( "/api/muestra/" + id );
+    return $http["delete"]( urlApi + "/api/muestra/" + id );
   };
 
   funciones.diagnosticar = function( id, diagnostico ) {
-    return $http.put( "/api/muestra/" + id + "/diagnosticar", diagnostico );
+    return $http.put( urlApi + "/api/muestra/" + id + "/diagnosticar", diagnostico );
   };
 
   funciones.buscar = function( pagina, cantidad, texto, dimensiones ) {
@@ -40,19 +40,19 @@ function MuestrasREST( $http, Dimensionador ) {
         params.params.texto = texto;
       }
     }
-    return $http.get( "/api/muestra/", Dimensionador.hacer( params, dimensiones ) );
+    return $http.get( urlApi + "/api/muestra/", Dimensionador.hacer( params, dimensiones ) );
   };
 
   funciones.informePublico = function( hash ) {
-    return $http.get( "/api/muestra/informePublico/" + hash );
+    return $http.get( urlApi + "/api/muestra/informePublico/" + hash );
   };
 
   funciones.informePrivado = function( id ) {
-    return $http.get( "/api/muestra/" + id + "/informe" );
+    return $http.get( urlApi + "/api/muestra/" + id + "/informe" );
   };
 
   funciones.estados = function( id ) {
-    var url = "/api/muestra/";
+    var url = urlApi + "/api/muestra/";
     var params = {
       params: {
         id: id
@@ -84,7 +84,7 @@ function MuestrasREST( $http, Dimensionador ) {
   };
 
   funciones.etiquetas = function( dims ) {
-    Dimensionador.cargarEtiquetas( dims, "/api/muestra/dimensiones" );
+    Dimensionador.cargarEtiquetas( dims, urlApi + "/api/muestra/dimensiones" );
   };
 
   return funciones;
