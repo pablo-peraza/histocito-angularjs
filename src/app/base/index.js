@@ -5,7 +5,10 @@ var angular = window.angular;
 var modulo = angular.module( "Proyecto.base", [
   require( "./directivas/galeria" ),
   require( "./directivas/dimensiones" ),
-  require( "./directivas/buscarpor" )
+  require( "./directivas/buscarpor" ),
+  require( "./directivas/telefonos" ),
+  require( "./directivas/capturarteclado" ),
+  require( "./directivas/scroll" )
 ] );
 
 //modulo.config( require( "./rutas" ) );
@@ -36,6 +39,13 @@ modulo.directive( "cisUpload", require( "./directivas/cisUpload.js" ) );
 modulo.directive( "ocultarAccion", require( "./directivas/ocultarAccion.js" ) );
 modulo.directive( "btnVolver", require( "./directivas/btnVolver.js" ) );
 modulo.directive( "cisTecla", require( "./directivas/cisTecla.js" ) );
+modulo.directive( "cisBoolean", require( "./directivas/cisBoolean.js" ) );
+modulo.directive( "cisAutofocus", require( "./directivas/cisAutofocus.js" ) );
+modulo.directive( "cisCargando", require( "./directivas/cisCargando.js" ) );
+modulo.directive( "passwordIguales", require( "./directivas/passwordIguales.js" ) );
+modulo.directive( "cisMostrarPassword", require( "./directivas/cisMostrarPassword.js" ) );
+modulo.directive( "cisAtras", require( "./directivas/cisAtras.js" ) );
+modulo.directive( "cisImprimir", require( "./directivas/cisImprimir.js" ) );
 
 var filtros = require( "./filtros" );
 modulo.filter( "Duracion", filtros.duracion );
