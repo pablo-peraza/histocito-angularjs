@@ -12,7 +12,7 @@
 "use strict";
 var permisos = require( "./principal/modelos/permisos.js" );
 
-//moment.locale( "es" );
+moment.locale( "es" );
 
 //URL del backend en constante "urlApi"
 var modulo = angular.module( "Proyecto", [

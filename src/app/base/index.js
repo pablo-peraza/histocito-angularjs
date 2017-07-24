@@ -49,6 +49,7 @@ modulo.directive( "cisMostrarPassword", require( "./directivas/cisMostrarPasswor
 modulo.directive( "cisAtras", require( "./directivas/cisAtras.js" ) );
 modulo.directive( "cisImprimir", require( "./directivas/cisImprimir.js" ) );
 modulo.directive( "cisFechaInexacta", require( "./directivas/cisFechaInexacta.js" ) );
+modulo.directive( "input", require( "./directivas/inputsPropios.js" ) );
 
 var filtros = require( "./filtros" );
 modulo.filter( "Duracion", filtros.duracion );
