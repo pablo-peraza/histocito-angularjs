@@ -2,8 +2,17 @@
 
 module.exports = reporteCtrl;
 
-reporteCtrl.$inject = [ "$rootScope", "$scope", "$window", "$location", "$http", "Alertas", "urlApi" ];
-function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, urlApi ) {
+reporteCtrl.$inject = [
+  "$rootScope",
+  "$scope",
+  "$window",
+  "$location",
+  "$http",
+  "Alertas",
+  "urlApi",
+  "node"
+];
+function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, urlApi, node ) {
   $scope.datos = {
     "desde": "2017-",
     "hasta": "2017-"
@@ -40,7 +49,7 @@ function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, ur
 
   $scope.buscar = function( searchForm ) {
     if ( !searchForm.$invalid ) {
-      $http.post( urlApi + "/api/reportes",
+      $http.post( node + "/api/reportes",
       {"desde": $scope.datos.desde, "hasta": $scope.datos.hasta, "categoria": $scope.categoria} )
       .then( ok, error );
     }

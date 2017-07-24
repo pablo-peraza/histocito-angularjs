@@ -8,7 +8,8 @@ var modulo = angular.module( "Proyecto.base", [
   require( "./directivas/buscarpor" ),
   require( "./directivas/telefonos" ),
   require( "./directivas/capturarteclado" ),
-  require( "./directivas/scroll" )
+  require( "./directivas/scroll" ),
+  require( "./directivas/correos" )
 ] );
 
 //modulo.config( require( "./rutas" ) );
@@ -28,6 +29,7 @@ modulo.factory( "Alertas", require( "./servicios/alertas.js" ) );
 modulo.factory( "Dimensionador", require( "./servicios/dimensionador.js" ) );
 modulo.factory( "Tabs", require( "./servicios/tabs.js" ) );
 modulo.factory( "Selecciones", require( "./servicios/selecciones.js" ) );
+modulo.factory( "Fechas", require( "./servicios/fechas.js" ) );
 
 modulo.directive( "clickEn", require( "./directivas/clickEn.js" ) );
 modulo.directive( "cisSwitch", require( "./directivas/cisSwitch.js" ) );
@@ -46,6 +48,7 @@ modulo.directive( "passwordIguales", require( "./directivas/passwordIguales.js" 
 modulo.directive( "cisMostrarPassword", require( "./directivas/cisMostrarPassword.js" ) );
 modulo.directive( "cisAtras", require( "./directivas/cisAtras.js" ) );
 modulo.directive( "cisImprimir", require( "./directivas/cisImprimir.js" ) );
+modulo.directive( "cisFechaInexacta", require( "./directivas/cisFechaInexacta.js" ) );
 
 var filtros = require( "./filtros" );
 modulo.filter( "Duracion", filtros.duracion );
@@ -55,7 +58,13 @@ modulo.filter( "Booleano", filtros.bool );
 modulo.filter( "TrustAsResourceUrl", filtros.trustAsResourceUrl );
 modulo.filter( "Numero", filtros.numero );
 modulo.filter( "Llave", filtros.llave );
-modulo.filter( "Dimension", filtros.llave );
+modulo.filter( "Dimension", filtros.dimension );
 modulo.filter( "Colones", filtros.colones );
+modulo.filter( "unsafe", filtros.unsafe );
+modulo.filter( "MKString", filtros.mkString );
+modulo.filter( "HaceCuanto", filtros.haceCuanto );
+modulo.filter( "Mayusculas", filtros.mayusculas );
+modulo.filter( "Edad", filtros.edad );
+modulo.filter( "TamanoHumano", filtros.tamanoHumano );
 
 module.exports = modulo.name;

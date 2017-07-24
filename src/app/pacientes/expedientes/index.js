@@ -1,7 +1,8 @@
 "use strict";
 
 var modulo = angular.module( "Proyecto.expedientes", [
-  require( "./directivas/datosexpediente" )
+  require( "./directivas/datosexpediente" ),
+  require( "./directivas/muestrasexpediente" )
 ] );
 
 modulo.config( require( "./rutas.js" ) );
@@ -9,6 +10,8 @@ modulo.config( require( "./rutas.js" ) );
 modulo.controller( "FormExpedienteCtrl", require( "./ctrls/formExpedienteCtrl.js" ) );
 modulo.controller( "ListaExpedienteCtrl", require( "./ctrls/listaExpedienteCtrl.js" ) );
 modulo.controller( "PatronCedula", require( "./ctrls/patronCedula.js" ) );
+
+modulo.directive( "cisBuscadorExpedientes", require( "./directivas/cisBuscadorExpedientes.js" ) );
 
 modulo.factory( "ExpedientesTabs", require( "./servicios/expedientesTabs.js" ) );
 modulo.factory( "Expedientes", require( "./servicios/expendientes.js" ) );

@@ -3,7 +3,7 @@
 module.exports = MuestrasTabs;
 
 function plantilla( nombre ) {
-  return "pacientes/muestras/tabs/" + nombre + ".html";
+  return "pacientes/muestras/htmls/" + nombre + ".html";
 }
 
 MuestrasTabs.$inject = [ "Tabs" ];

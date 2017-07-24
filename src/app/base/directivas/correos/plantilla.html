@@ -1,0 +1,80 @@
+<div>
+  <div ng-if="editando">
+    <label class="text-success">Registrar un nuevo correo</label>
+    <div ng-form="form" class="row">
+      <div class="form-group col-sm-5"
+      ng-class="{'has-success':form.dir.$valid && form.dir.$dirty,
+       'has-error':form.dir.$invalid && form.dir.$dirty}">
+        <label class="control-label">Dirección</label>
+        <input type="email" class="form-control" placeholder="correo@dominio.tip" name="dir"
+        ng-model="modelo.temp.correo"
+        ng-required="true"
+        ng-disabled="cargando">
+      </div>
+      <div class="form-group col-sm-4"
+      ng-class="{'has-success':form.tipo.$valid && form.tipo.$dirty,
+       'has-error':form.tipo.$invalid && form.tipo.$dirty}">
+        <label class="control-label">Tipo</label>
+        <select class="form-control" name="tipo"
+        ng-model="modelo.temp.tipo"
+        ng-required="true"
+        ng-options="tipo for tipo in tipos"
+        ng-disabled="cargando"></select>
+      </div>
+      <div class="form-group col-sm-3">
+        <label style="display:block;">&nbsp;</label>
+        <div class="btn-group">
+        <button type="button" class="btn btn-success"
+          ng-click="agregar(modelo.temp, form)"
+          ng-disabled="form.$invalid">
+          <div cis-cargando modelo="cargando">
+            <i class="fa fa-fw fa-plus-circle"></i>
+            <span class="hidden-xs">Agregar</span>
+          </div>
+        </button>
+        <button type="button" class="btn btn-default cancelar"
+          ng-click="cancelar(form)"
+          ng-if="modelo.temp.editando">
+          <div cis-cargando modelo="cargando">
+            <i class="fa fa-fw fa-ban"></i>
+            <span class="hidden-xs">Cancelar</span>
+          </div>
+        </button>
+        </div>
+    </div>
+  </div>
+  <hr>
+</div>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th>Dirección</th>
+      <th>Tipo</th>
+      <th ng-if="editando">&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-if="vacio(modelo)">
+      <td colspan="3" class="text-center">
+        No hay correos registrados
+      </td>
+    </tr>
+    <tr ng-repeat="correo in modelo" class="fx-fade-down">
+      <td>{{correo.correo}}</td>
+      <td>{{correo.tipo}}</td>
+      <td ng-if="editando">
+        <ul class="list-inline text-center">
+          <li>
+            <i class="fa fa-edit fa-fw text-info cursor-pointer faa-wrench animated-hover"
+            ng-click="editar(correo)"></i>
+          </li>
+          <li>
+            <i class="fa fa-trash-o text-danger cursor-pointer fa-fw faa-flash animated-hover"
+             ng-click="eliminar(correo)"></i>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

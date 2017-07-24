@@ -91,8 +91,5 @@ function FacturasREST( $http, Dimensionador, urlApi ) {
     return $http.get( urlApi + "/api/facturas/" + id );
   };
 
-  funciones.borrar = function( id ) {
-    return $http["delete"]( urlApi + "/api/facturas/" + id );
-  };
   return funciones;
 } //FacturasREST
