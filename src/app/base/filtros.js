@@ -9,6 +9,12 @@ exports.numero = numero;
 exports.llave = llave;
 exports.dimension = dimension;
 exports.colones = colones;
+exports.unsafe = unsafe;
+exports.mkString = mkString;
+exports.haceCuanto = haceCuanto;
+exports.mayusculas = mayusculas;
+exports.edad = edad;
+exports.tamanoHumano = tamanoHumano;
 
 function duracion() {
   return function( segundos ) {
@@ -19,49 +25,11 @@ function duracion() {
   };
 }
 
-function fecha() {
-  var formatoFecha = "YYYY-MM-DDTHH:mm:ss.sssZ";
-  return filtro;
-
-  function filtro( date, formatoDespliegue ) {
-    if ( unNull( date ) ) {
-      return "No Definido";
-    }
-    var formateado = formatear( date, formatoDespliegue, formatoFecha );
-    if ( formateado ) {
-      return formateado;
-    }
-    return "Fecha Inválida";
-  }
-
-  function formatear( date, formatoDespliegue, formatoFecha ) {
-    var instancia = instanciar( date, formatoDespliegue );
-    if ( validarFormatoString( date ) ) {
-      return instancia( formatoFecha );
-    }
-    if ( date._isAMomentObject ) {
-      return instancia( );
-    }
-  }
-
-  function instanciar( date, formatoDespliegue ) {
-    return function( formato ) {
-      if ( formato ) {
-        return moment( date, formatoFecha ).format( formatoDespliegue );
-      } else {
-        return moment( date ).format( formatoDespliegue );
-      }
-    };
-  }
-
-  function unNull( obj ) {
-    return _.isUndefined( obj ) || _.isNull( obj );
-  }
-
-  function validarFormatoString( string ) {
-    var regex = /^\d{4}-[0-1]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{3}Z$/;
-    return _.isString( string ) && regex.test( string );
-  }
+fecha.$inject =  [ "Fechas" ];
+function fecha( Fechas ) {
+  return function( date, format ) {
+    return ( _.isUndefined( date ) ) ? "No Definido" : Fechas.deServidor( date ).format( format );
+  }; //function
 }
 
 trustAsResourceUrl.$inject = [ "$sce" ];
@@ -136,5 +104,50 @@ function dimension( Cache ) {
 function colones() {
   return function( monto ) {
     return accounting.formatMoney( monto, "₡", ",", " " );
+  };
+}
+
+unsafe.$inject = [ "$sce" ];
+function unsafe( $sce ) {
+  return function( val ) {
+    return $sce.trustAsHtml( val );
+  };
+}
+
+function mkString() {
+  return function( array, divisor ) {
+    return _.reduce( array, function( str, elem, index ) {
+      return str + elem + ( index === array.length - 1 ? "" : divisor );
+    }, "" );
+  };
+} //MKString
+
+function haceCuanto() {
+  return function( fecha ) {
+    return ( _.isUndefined( fecha ) ) ? "No definido" : moment( fecha ).fromNow();
+  };
+}
+
+function mayusculas() {
+  return function( val ) {
+    return val.toUpperCase();
+  };
+}
+
+function edad() {
+  return function( fecha ) {
+    if ( _.isUndefined( fecha ) ) {
+      return "No definido";
+    } else {
+      var temp = moment().startOf( "day" ).diff( moment( fecha ).startOf( "day" ), "years" );
+      return temp + " años";
+    }
+  };
+}
+
+function tamanoHumano() {
+  return function( bytes ) {
+    return ( _.isUndefined( bytes ) ) ? "Indefinido" : (
+      Math.round( ( bytes / 1048576 ) * 100 ) / 100 ) + "MB";
   };
 }

@@ -2,7 +2,18 @@
 
 module.exports = formUsuarioCtrl;
 
-formUsuarioCtrl.$inject = [ "$scope", "hotkeys" ];
+formUsuarioCtrl.$inject = [
+  "$rootScope",
+  "$scope",
+  "$window",
+  "$location",
+  "Usuarios",
+  "Alertas",
+  "Selecciones",
+  "usuario",
+  "procedimientos",
+  "hotkeys"
+];
 function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
   Alertas, Selecciones, usuario, procedimientos, hotkeys ) {
 

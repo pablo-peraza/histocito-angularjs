@@ -1,0 +1,7 @@
+<button type="button" role="checkbox" class="btn switch"
+  ng-disabled="inhabilitar"
+  ng-click="cambiar()"
+  ng-class="{true:'btn-success', false:'btn-default'}[modelo]">
+  <strong class="switch-animate knob"
+  ng-class="{false:'switch-off text-muted', true:'switch-on text-success'}[modelo]">{{modelo && "Si" || "No"}}</strong>
+</button>

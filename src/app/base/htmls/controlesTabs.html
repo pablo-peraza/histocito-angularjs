@@ -1,0 +1,14 @@
+<div class="clearfix hidden-xs">
+  <div class="pull-left" ng-if="tabActual() > 0">
+    <button class="btn btn-default btn-xs "
+      ng-click="anterior()">
+      <i class="fa fa-fw fa-arrow-left"></i> Anterior
+    </button>
+  </div>
+  <div class="pull-right" ng-if="tabActual() < tabs.length -1">
+    <button class="btn btn-default btn-xs"
+      ng-click="siguiente()">
+      Siguiente <i class="fa fa-fw fa-arrow-right"></i>
+    </button>
+  </div>
+</div>

@@ -2,13 +2,13 @@
 
 module.exports = Selecciones;
 
-Selecciones.$inject = [ "$http", "Cache" ];
-function Selecciones( $http, Cache ) {
+Selecciones.$inject = [ "$http", "Cache", "urlApi" ];
+function Selecciones( $http, Cache, urlApi ) {
   var funciones = {};
 
   function obtener( llave ) {
     if ( _.isUndefined( Cache.obtener( llave ) ) ) {
-      return $http.get( "/api/selecciones/" + llave ).then( function( data ) {
+      return $http.get( urlApi + "/api/selecciones/" + llave ).then( function( data ) {
         Cache.agregar( llave, data.data );
         return data.data;
       } );

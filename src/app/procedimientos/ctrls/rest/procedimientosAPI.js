@@ -55,7 +55,6 @@ function Procedimientos( $http, Dimensionador, urlApi ) {
       return $http.get( urlApi + "/api/tipo/" + id );
     },
     guardar: function( tipo ) {
-      console.debug( tipo );
       return $http.put( urlApi + "/api/tipo/", tipo );
     },
     eliminar: function( id ) {

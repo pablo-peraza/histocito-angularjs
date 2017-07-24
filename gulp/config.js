@@ -11,10 +11,12 @@ module.exports = configurar;
 
 function configurar( ) {
   var variable = require( "yargs" ).argv.backend || "http://localhost:9000";
+  var node = require( "yargs" ).argv.node || "http://localhost:3001";
   return ngConstant( {
       name: "Backend",
       constants: {
-        "urlApi": variable
+        "urlApi": variable,
+        "node": node
       },
       stream: true
     } )

@@ -28,19 +28,11 @@ function rutas( $routeProvider ) {
     titulo: "Tipos de Procedimientos",
     permisos: [ permisos.valores.laboratorio, permisos.valores.digitador ],
     resolve: {
-      tipos: [ "Facturas", "Alertas", "$route", function( Facturas, Alertas, $route ) {
-        return Facturas.rest.obtener( $route.current.params.id )
-          .then(
-            function( resp ) {
-              return resp.data;
-            },
-            function( resp ) {
-              Alertas.agregar( resp.status );
-              console.error( resp );
-              return 404;
-            }
-          );
-      } ],
+      tipos: [ "Procedimientos", "Alertas",
+        function( Procedimientos, Alertas ) {
+          return busqueda( Procedimientos.tipos, Alertas, 50 );
+        }
+      ],
       dimensiones: [ "Procedimientos", "Alertas",
         function( Procedimientos, Alertas ) {
           return busqueda( Procedimientos.tipos, Alertas, 0 ).then( function( datos ) {

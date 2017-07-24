@@ -1,0 +1,47 @@
+<section>
+  <h5>Historial de Muestras</h5>
+  <div ng-if="!vacio(muestras.lista)">
+    <p class="text-muted">Mostrando: {{muestras.lista.length}} de {{muestras.cantidad}}</p>
+    <div class="table-responsive">
+      <table class="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th>Consecutivo</th>
+            <th>Categoría</th>
+            <th>Procedimiento</th>
+            <th>Médico</th>
+            <th>Estado</th>
+            <th>Lesión</th>
+            <th>Fecha Toma</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cursor-pointer"
+          bindonce ng-repeat="muestra in muestras.lista">
+          <td data-title="Consecutivo" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" bo-text="muestra.numero"></td>
+          <td data-title="Categoría" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" bo-text="muestra.categoria"></td>
+          <td data-title="Procedimiento" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" bo-text="muestra.procedimiento.nombre"></td>
+          <td data-title="Médico" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" bo-text="muestra.medico.nombre"></td>
+          <td data-title="Estado" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"><span ng-class="{
+            'En espera':'text-danger',
+            'Registrada':'text-info',
+            'En análisis':'text-warning',
+            'Completada':'text-success',
+            'En diagnostico':'text-primary'}[muestra.estado]" bo-text="muestra.estado"></span></td>
+            <td data-title="Lesión" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" class="text-center">
+              <i class="fa fa-fw" ng-class="{false:'fa-times', true:'fa-check text-danger'}[muestra.tieneLesion]"></i>
+            </td>
+            <td data-title="Fecha Toma" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" bo-text="muestra.fechaToma | Fecha:'LL'"> - <span class="text-danger" bo-text="muestra.fechaToma | HaceCuanto"></span></td>
+          </tr>
+          <tr ng-if="muestras.cantidad === 0" class="text-center">
+            <td colspan="8"><strong>No hay resultados</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div cis-cargando modelo="cargando" class="text-center">
+        <div cis-scroll cargador="cargarMas" umbral="50"
+        debe-cargar="(muestras.lista.length < muestras.cantidad) && !cargando"></div>
+      </div>
+    </div>
+  </div>
+</section>

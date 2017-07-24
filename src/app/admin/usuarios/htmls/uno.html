@@ -33,10 +33,10 @@
 </ul>
 <ul class="list-inline text-center" ng-if="datos.usuario === 404">
   <li>
-    <button class="btn btn-default btn-sm"
-    ng-click="atras()">
-    <i class="fa fa-fw fa-reply"></i><span class="xs-hidden">Atrás</span>
-  </button>
+    <button class="btn btn-default btn-sm" ng-click="atras()">
+      <i class="fa fa-fw fa-reply"></i><span class="xs-hidden">Atrás</span>
+    </button>
+  </li>
 </ul>
 <hr class="colorgraph">
 </nav>
@@ -84,7 +84,7 @@
   cargando="datos.cargando"
   on-change="existe(usuario)"></div>
   <p class="text-center text-muted" ng-if="datos.usuario.nuevo">La contraseña por defecto es "histocito"</p>
-  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+  <div ng-include="'base/htmls/controlesTabs.html'"></div>
 </script>
 
 <script type="text/ng-template" id="contacto.html">
@@ -92,7 +92,7 @@
   <div cis-telefonos modelo="datos.usuario.telefonos"
   editando="datos.usuario.editando"
   cargando="datos.cargando"></div>
-  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+  <div ng-include="'base/htmls/controlesTabs.html'"></div>
 </script>
 
 <script type="text/ng-template" id="precios.html">
@@ -100,5 +100,5 @@
   <div cis-precios modelo="datos.usuario.precios" procedimientos="datos.procedimientos"
   editando="datos.usuario.editando"
   cargando="datos.cargando"></div>
-  <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
+  <div ng-include="'base/htmls/controlesTabs.html'"></div>
 </script>

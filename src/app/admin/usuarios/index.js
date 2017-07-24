@@ -1,6 +1,9 @@
 "use strict";
 
-var modulo = angular.module( "Proyecto.usuarios", [] );
+var modulo = angular.module( "Proyecto.usuarios", [
+  require( "./ctrls/directivas/datosusuario" ),
+  require( "./ctrls/directivas/formusuario" )
+] );
 
 modulo.config( require( "./rutas" ) );
 
