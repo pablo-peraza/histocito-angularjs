@@ -1,3 +1,4 @@
+
 <nav class="menu-contextual hidden-print">
   <ul class="list-inline text-center" ng-if="datos.muestra !== 404">
     <li ng-if="datos.muestra.editando">
@@ -103,6 +104,14 @@
         <i class="fa fa-fw fa-file-text"></i><span class="hidden-xs hidden-sm">Reporte Diagnóstico</span>
       </a>
     </li>
+    <li ng-if="!datos.muestra.diagnostico.editando && datos.muestra.estado ==='Completada'">
+      <button class="btn btn-success"
+        ng-click="enviarCorreoMuestrasUna(datos.muestra)">
+        <div cis-cargando modelo="datos.cargando">
+          <i class="fa fa-fw fa-envelope"></i><span class="hidden-xs hidden-sm">Enviar Correo</span>
+        </div>
+      </button>
+    </li>
     <li ng-if="!datos.muestra.nuevo && datos.muestra.estado === 'Registrada' && puedePasar([permisos.laboratorio, permisos.digitador])">
       <button class="btn btn-danger"
       ng-disabled="datos.cargando"
@@ -115,9 +124,10 @@
   </ul>
   <ul class="list-inline text-center" ng-if="datos.muestra === 404">
     <li>
-      <button class="btn btn-default btn-sm" cisAtras ng-disabled="datos.cargando">
+      <button class="btn btn-default btn-sm" cis-atras ng-disabled="datos.cargando">
       <i class="fa fa-fw fa-reply"></i><span class="hidden-xs hidden-sm">Atrás</span>
       </button>
+    </li>
     </ul>
     <hr class="colorgraph">
   </nav>
@@ -159,7 +169,7 @@
             <button type="reset" ng-show="false" id="resetForm" ng-click="cancelar(form)"></button>
           </form>
         </div>
-        <div ng-include="'base/htmls/controlesTabs.html'"></div>
+        <div ng-include="'/htmls/partials/comps/controlesTabs.html'"></div>
       </div>
       </tab>
       </tabset>
@@ -241,7 +251,7 @@
             <i class="fa fa-fw fa-users"></i>
             <i class="fa fa-fw fa-plus"></i>
             <i class="fa fa-fw fa-user-md"></i>
-            Mantener equipo y cliente
+            Mantener parametros
           </button>
         </div>
       </div>
@@ -265,5 +275,47 @@
           <i class="fa fa-fw fa-download"></i> Guardar
         </div>
       </button>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="mensajeCortoCorreoMuestrasUna.html">
+    <div class="modal-header">
+      <h5 class="modal-title">Agregue un mensaje corto adicional para adjuntar al correo.</h5>
+    </div>
+    <div class="modal-body">
+      <div ng-if="datos.expediente.ficha.datosContacto.correos.length > 0">
+        <h6 for="" ng-if="datos.expediente.ficha.datosContacto.correos.length > 0"><b>Este correo será enviado a los siguientes destinatarios:</h6>
+        <span ng-repeat="correo in datos.expediente.ficha.datosContacto.correos">{{ correo.correo }}{{$last ? '' : ', '}} </span>
+      </div>
+      <div ng-if="datos.expediente.ficha.datosContacto.correos.length === 0">
+        <h6><b>El paciente a quien desea envíar el reporte no tiene registrada una dirección de correo electrónico. Por favor agregue una dirección de envío para el paciente.</h6>
+        <div cis-correos modelo="datos.expediente.ficha.datosContacto.correos"
+          editando="true"></div>
+      </div>
+      <br>
+
+      <div>
+        <h6><b>Marque los contactos a quien desee enviar este correo:</h6>
+        <label ng-repeat="usuario in datos.usuariosParaCorreos" style="display: block;">
+          <input type="checkbox" ng-model="usuario.enviarcorreo" />
+          {{ usuario.nombre }} {{ usuario.apellidos }} <{{ usuario.correo }}>
+        </label>
+        <!--
+        <div class="form-group" ng-repeat="usuario in datos.usuariosParaCorreos">
+          <label for="" class="control-label">{{ usuario.nombre }} {{ usuario.apellidos }} <{{ usuario.correo }}></label>
+          <div cis-boolean ng-model="usuario.enviarcorreo" ng-change=""
+          focus="true"></div>
+          <br>
+        </div>
+        -->
+      </div>
+
+      <br>
+      <label for="" class="cotrol-label">Digite el comentario</label>
+        <div text-angular ng-model="datos.comentarioAdicional"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
+      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="datos.expediente.ficha.datosContacto.correos.length === 0">Aceptar</button>
     </div>
   </script>

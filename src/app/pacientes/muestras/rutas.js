@@ -121,6 +121,7 @@ function rutas( $routeProvider ) {
         nuevo: true,
         editando: true,
         estado: "Registrada",
+        enviada: false,
         imagenes: [],
         correos: []
       }

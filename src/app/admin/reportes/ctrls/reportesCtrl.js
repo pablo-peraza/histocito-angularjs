@@ -20,22 +20,17 @@ function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, ur
 
   function ok( resp ) {
     $scope.datos.muestras = {};
-    $scope.datos.muestras.lista = resp.data;
+    $scope.datos.muestras.lista = _.map( resp.data, function( muestra ) {
+      muestra.consecutivo = muestra.numero;
+      return muestra;
+    } );
     $scope.datos.muestras.porUsuario = _.groupBy( $scope.datos.muestras.lista, function( muestra ) {
       return muestra.medico ? muestra.medico._id : "sin_asignar";
     } );
     _.forEach( $scope.datos.muestras.porUsuario, function( medicoId ) {
 
-      var medico = medicoId[0].medico;
-      if ( !medico ) {
-        medico = {
-          "nombre": "Sin asignar",
-          "id": moment().unix() + "" + moment().milliseconds()
-        };
-      }
-
-      medicoId.nombre = medico.nombre;
-      medicoId.id = medico._id;
+      medicoId.nombre = medicoId[0].medico.nombre;
+      medicoId.id = medicoId[0].medico._id;
       medicoId.isOpen = true;
     } );
     $scope.opcion = "medico";
@@ -55,28 +50,28 @@ function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, ur
     }
   };
   $scope.agruparPor = function( opcion ) {
-    var lista = [];
-    $scope.datos.muestras.lista = _.sortBy( $scope.datos.muestras.lista, "consecutivo" );
     if ( opcion !== "medico" ) {
-      lista = _.groupBy( $scope.datos.muestras.lista, function( muestra ) {
-        if ( !muestra.equipo ) {
+      $scope.datos.muestras.porUsuario = _.groupBy( $scope.datos.muestras.lista,
+        function( muestra ) {
+        if ( !muestra._id.equipo ) {
           return "sin_asignar";
         }
-        var usuario = muestra.equipo[opcion];
+        var usuario = muestra._id.equipo[opcion];
         return usuario ? usuario._id : "sin_asignar";
       } );
     } else {
-      lista = _.groupBy( $scope.datos.muestras.lista, function( muestra ) {
-        return muestra.medico ? muestra.medico._id : "sin_asignar";
+      $scope.datos.muestras.porUsuario = _.groupBy( $scope.datos.muestras.lista,
+        function( muestra ) {
+        return muestra.medico ? muestra.medico.id : "sin_asignar";
       } );
     }
-    _.forEach( lista, function( medicoId ) {
+    _.forEach( $scope.datos.muestras.porUsuario, function( medicoId ) {
       var usuario = false;
       if ( opcion !== "medico" ) {
-        if ( !medicoId[0].equipo ) {
+        if ( !medicoId[0]._id.equipo ) {
           usuario = false;
         } else {
-          usuario = medicoId[0].equipo[opcion];
+          usuario = medicoId[0]._id.equipo[opcion];
         }
       } else {
         usuario = medicoId[0].medico;
@@ -85,7 +80,7 @@ function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, ur
         if ( usuario._id ) {
           medicoId.id = usuario._id;
           medicoId.nombre = usuario.nombre + ( usuario.apellidos ?
-            ( " " + usuario.apellidos ) : "" );
+            ( " " + usuario.apellidos ) : "" ) ;
         } else {
           medicoId.nombre = medicoId[0].medico.nombre;
           medicoId.id = medicoId[0].medico._id;
@@ -95,7 +90,6 @@ function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, ur
       }
       medicoId.isOpen = true;
     } );
-    $scope.datos.muestras.porUsuario = lista;
   };
   $scope.exportarExcel = function() {
     var table = document.createElement( "TABLE" );
@@ -106,8 +100,6 @@ function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, ur
         table.appendChild( newTR );
       }
     } );
-
-    //var result = window.export_table_to_excel( table, "biff2", "test.xls" );
     var result = require( "../../../../recursos/js/Export2Excel.js" )( table, "biff2", "test.xls" );
     return result;
   };

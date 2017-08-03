@@ -39,6 +39,21 @@
         </div>
       </div>
 
+
+      <div class="col-sm-12">
+        <div class="form-group">
+          <h5>Plantilla:</h5>
+          <select class="form-control" ng-model="datos.muestra.template" ng-disabled="!datos.muestra.editando">
+            <option value="default" ng-selected="{{datos.muestra.nueva}}">Default</option>
+            <option value="ciris">Ciris</option>
+            <!--
+            <option value="default" ng-selected="{{datos.muestra.template = 'default'}}">Default</option>
+            <option value="ciris" ng-selected="{{datos.muestra.template = 'ciris'}}">Ciris</option>
+            -->
+          </select>
+        </div>
+      </div>
+
       <div class="col-sm-8">
         <div class="form-group" ng-init="datos.muestra.fechaToma=datos.muestra.fechaToma?datos.muestra.fechaToma:hoy"
         ng-class="{'has-error': form.fechaMuestra.$invalid && form.fechaMuestra.$dirty}">

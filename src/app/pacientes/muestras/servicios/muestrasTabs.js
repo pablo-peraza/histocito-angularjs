@@ -46,8 +46,9 @@ function MuestrasTabs( Tabs ) {
   funciones.actual = Tabs.actual;
 
   funciones.generar = function( id, medico ) {
-    var tabs = medico ? Tabs.rechazar( Tabs.rechazar( angular.copy( tabsBase ), "Equipo" ),
-    "Médico" ) : angular.copy( tabsBase );
+    var tabs = medico ?
+    Tabs.rechazar( Tabs.rechazar( Tabs.rechazar( Tabs.rechazar( angular.copy( tabsBase ),
+    "Clientes" ), "Muestra" ), "Equipo" ), "Médico" ) : angular.copy( tabsBase );
     return id ? Tabs.rechazar( tabs, "Revisión" ) : Tabs.rechazar( tabs, "Imágenes" );
   };
   return funciones;
