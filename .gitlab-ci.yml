@@ -11,15 +11,15 @@ cache:
 stages:
   - deploy
 
-deploy_estable:
+deploy_desarrollo:
   stage: deploy
   script:
     - npm install
     - bower install
-    - NODE_ENV=production gulp dist --backend http://backend.controles.co.cr:6010
-    - rsync -rlDv --delete dist /software/monitoreo/
+    - NODE_ENV=production gulp dist --backend http://pruebas.ciriscr.com:17001 --node http://app.histocito.net:3001
+    - rsync -rlDv --delete dist /software/histocito/frontend
   environment:
-    name: estable
-    url: http://monitoreo.controles.co.cr
+    name: desarrollo
+    url: http://pruebas.ciriscr.com:3000
   only:
-  - estable
+  - desarrollo
