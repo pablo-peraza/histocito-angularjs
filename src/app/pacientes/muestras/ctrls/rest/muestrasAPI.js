@@ -26,6 +26,13 @@ function MuestrasREST( $http, Dimensionador, urlApi ) {
     return $http.put( urlApi + "/api/muestra/" + id + "/diagnosticar", diagnostico );
   };
 
+  funciones.enviarCorreo = function( id, comentario, listaUsuarios ) {
+    return $http.post( urlApi + "/api/muestra/" + id + "/enviarCorreo", {
+      comentario: comentario,
+      listaUsuarios: listaUsuarios
+    } );
+  };
+
   funciones.buscar = function( pagina, cantidad, texto, dimensiones ) {
     var params = {
       params: {

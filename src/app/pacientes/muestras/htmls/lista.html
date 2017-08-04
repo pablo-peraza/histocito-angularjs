@@ -60,6 +60,16 @@
       </form>
       <section>
         <p class="text-muted">Mostrando: {{datos.muestras.lista.length}} de {{datos.muestras.cantidad}}</p>
+        <div class="" ng-if="activado">
+
+          <h5>Filtro de diagnóstico:</h5>
+          <select class="form-control" ng-model="datos.filtroDiagnostico">
+            <option value="" >------ Sin filtro ------</option>
+            <option value="false" >En Diagnostico</option>
+            <option value="true">Diagnosticadas</option>
+          </select>
+          <br>
+        </div>
         <div class="table-responsive">
           <table class="table table-condensed table-hover">
             <thead>
@@ -79,7 +89,7 @@
             </thead>
             <tbody>
               <tr class="cursor-pointer"
-                bindonce ng-repeat="muestra in datos.muestras.lista track by muestra.id">
+                bindonce ng-repeat="muestra in datos.muestras.lista | filter: {'diagnosticada': datos.filtroDiagnostico} track by muestra.id">
                 <td><input type="checkbox" ng-model="muestra.seleccionada"></td>
                 <td data-title="Consecutivo" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.numero"></td>
                 <td data-title="Procedimiento" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.procedimiento.nombre"></td>
@@ -98,12 +108,12 @@
                   <li bo-if="puedePasar([permisos.patologo, permisos.laboratorio]) && muestra.estado === 'En diagnostico' && muestra.diagnosticada"
                     ><small>
                     <span class="fa-stack" ng-click="completar(muestra)">
-  <i class="fa fa-file fa-stack-2x text-success"></i>
+  <i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"></i>
   <i class="fa fa-check fa-stack-1x fa-inverse"></i>
 </span>
                     </small></li>
                     <li bo-if="muestra.estado === 'Completada'"
-                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i class="fa fa-fw fa-file fa-2x text-info cursor-pointer"
+                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"
                     ng-click=""></i></a></small></li>
                     <li bo-if="puedePasar([permisos.laboratorio, permisos.digitador]) && muestra.estado === 'Registrada'"
                     ><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer"
@@ -137,4 +147,17 @@
   <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
   <button class="btn btn-success" ng-click="ok(datos.motivo)" ng-disabled="!datos.motivo">Aceptar</button>
 </div>
+</script>
+<script type="text/ng-template" id="mensajeCortoCorreo.html">
+  <div class="modal-header">
+    <h5 class="modal-title">Agregue un mensaje corto adicional para adjuntar al correo.</h5>
+  </div>
+  <div class="modal-body">
+    <label for="" class="cotrol-label">Digite el comentario</label>
+    <textarea class="form-control" ng-model="datos.comentarioAdicional" cis-autofocus="true"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
+    <button class="btn btn-success" ng-click="enviarPrueba(datos.comentarioAdicional)">Aceptar</button>
+  </div>
 </script>

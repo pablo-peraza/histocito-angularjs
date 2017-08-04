@@ -10,10 +10,12 @@ MuestrasMedicoCtrl.$inject = [
     "elementoActual",
     "FacturasREST",
     "Muestras",
-    "Alertas"
+    "ExpedientesREST",
+    "Alertas",
+    "$modal"
   ];
 function MuestrasMedicoCtrl( $root, $scope, muestras, dimensiones, elementoActual,
-    FacturasREST, Muestras, Alertas ) {
+    FacturasREST, Muestras, ExpedientesREST, Alertas, $modal ) {
   $scope.datos = {
     muestras: muestras,
     dimensiones: dimensiones,
@@ -79,6 +81,56 @@ function MuestrasMedicoCtrl( $root, $scope, muestras, dimensiones, elementoActua
     $scope.filtrar( function( res ) {
       res.lista = $scope.datos.muestras.lista.concat( res.lista );
       return res;
+    } );
+  };
+
+  function modalEnvioCorreos( muestra ) {
+    return $modal.open( {
+      templateUrl: "mensajeCortoCorreo.html",
+      controller: "EnviarCorreosCtrl",
+      size:"lg",
+      backdrop: "static",
+      resolve: {
+        muestras: function() {
+          return Muestras.rest.obtener( muestra.id ).then( function( resulMuestra ) {
+            return ExpedientesREST.obtener( resulMuestra.data.idExpediente )
+            .then( function( resulExp ) {
+              return {
+                "muestra": resulMuestra.data,
+                "expediente": resulExp.data
+              };
+            } );
+          } );
+        }
+      }
+    } );
+  } //modalEnvioCorreos
+
+  $scope.enviarCorreoConComentario = function( muestra ) {
+    modalEnvioCorreos( muestra ).result.then( function( res ) {
+      function ok( resp ) {
+        Alertas.agregar( resp.status );
+        muestra.enviada = true;
+      } //ok
+      function error( resp ) {
+        console.error( resp );
+        Alertas.agregar( resp.status );
+      } //error
+      function ultima() {
+        $scope.datos.cargando = false;
+      }
+
+      res.comentarioAdicional = ( typeof res.comentarioAdicional === "undefined" ) ?
+      "" : res.comentarioAdicional;
+
+      if ( res.muestra.estado === "Completada" && !$scope.datos.cargando && $root.puedePasar( [
+        $root.permisos.laboratorio, $root.permisos.patologo, $root.permisos.medico ] ) ) {
+        $scope.datos.cargando = true;
+        ExpedientesREST.guardar( res.expediente );
+        console.dir( res.expediente );
+        Muestras.rest.enviarCorreo( res.muestra.id, res.comentarioAdicional )
+        .then( ok, error ).finally( ultima );
+      }
     } );
   };
 } //ctrl

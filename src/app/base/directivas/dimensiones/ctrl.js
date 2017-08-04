@@ -51,6 +51,22 @@ function cisDimensionesCtrl( $scope ) {
 
   } //actualizar
 
+  function filtrarDimenciones() {
+    var dimensionesActivas = $scope.activas();
+    var activarFiltros = _.find( dimensionesActivas, function( o ) {
+      if ( o.estado !== undefined ) {
+        return o.estado[0] === "diagnostico";
+      } else {
+        return undefined;
+      }
+    } );
+    if ( activarFiltros ) {
+      $rootScope.activado = true;
+    } else {
+      $rootScope.activado = false;
+    }
+  } //filtrarDimenciones
+
   $scope.$watch( "actuales", function( val ) {
     if ( val ) {
       $scope.dimensiones = actualizar( val );
@@ -80,5 +96,6 @@ function cisDimensionesCtrl( $scope ) {
         dimensiones: $scope.activas()
       } );
     }
+    filtrarDimenciones();
   };
 }

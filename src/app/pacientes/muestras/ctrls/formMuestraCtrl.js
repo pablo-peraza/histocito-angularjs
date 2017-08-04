@@ -67,10 +67,12 @@ FormMuestraCtrl.$inject = [
   "$modal",
   "Tabs",
   "$timeout",
-  "Credenciales"
+  "Credenciales",
+  "ExpedientesREST",
+  "Usuarios"
 ];
 function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Muestras, Alertas,
-                         $route, $modal, Tabs, $timeout, Credenciales ) {
+                         $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios ) {
   var original;
   $scope.limpiarAutorizados = limpiarAutorizados;
   $scope.cambiarSecuencia = function( sec ) {
@@ -93,6 +95,8 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
     autorizados: _.map( params.autorizados, displayUsuario ),
     fecha: new Date().getFullYear() + "-"
   };
+  $scope.datos.muestra.template =  ( $scope.datos.muestra.template ) ?
+  $scope.datos.muestra.template : "default";
   $scope.minimo = moment().subtract( 1, "y" ).startOf( "day" );
   restriccionFur( $scope.datos.procedimiento );
 
@@ -264,6 +268,7 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
                 muestra: {
                   nuevo: true,
                   editando: true,
+                  enviada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[]
@@ -277,6 +282,7 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
                 muestra: {
                   nuevo: true,
                   editando: true,
+                  enviada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[],
@@ -291,6 +297,7 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
                 muestra: {
                   nuevo: true,
                   editando: true,
+                  enviada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[]
@@ -307,11 +314,13 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
                 muestra: {
                   nuevo: true,
                   editando: true,
+                  enviada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[],
                   equipo: muestra.equipo
                 },
+                procedimiento: procedimiento,
                 dueno: dueno,
                 medico: medico,
                 clinica: clinica,
@@ -521,4 +530,84 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
     $scope.datos.autorizados = [];
     $scope.datos.muestra.correos = [];
   }
+
+  function modalEnvioCorreosMuestrasUna( muestra ) {
+    return $modal.open( {
+      templateUrl: "mensajeCortoCorreoMuestrasUna.html",
+      controller: "EnviarCorreosMuestrasUnaCtrl",
+      size:"lg",
+      backdrop: "static",
+      resolve: {
+        muestras: function() {
+          var usuariosParaCorreos = {listaUsuarios: []};
+          return Muestras.rest.obtener( muestra.id ).then( function( resulMuestra ) {
+            return ExpedientesREST.obtener( resulMuestra.data.idExpediente )
+            .then( function( resulExp ) {
+              return Usuarios.obtener( resulMuestra.data.idUsuario ).then( function( resuldueno ) {
+                resuldueno.data.enviarcorreo = false;
+                resuldueno.data.tipoUsuario = "dueno";
+                delete resuldueno.data.id;
+                delete resuldueno.data.precios;
+                delete resuldueno.data.telefonos;
+                delete resuldueno.data.configuracion;
+                usuariosParaCorreos.listaUsuarios.push( resuldueno.data );
+                _.forEach( resulMuestra.data.autorizados, function( idUsuarioAutorizado ) {
+                  Usuarios.obtener( idUsuarioAutorizado ).then( function( resulAutorizado ) {
+                    resulAutorizado.data.enviarcorreo = false;
+                    resulAutorizado.data.tipoUsuario = "autorizado";
+                    delete resulAutorizado.data.id;
+                    delete resulAutorizado.data.precios;
+                    delete resulAutorizado.data.telefonos;
+                    delete resulAutorizado.data.configuracion;
+                    usuariosParaCorreos.listaUsuarios.push( resulAutorizado.data );
+                  } );
+                } );
+                return {
+                  "muestra": resulMuestra.data,
+                  "expediente": resulExp.data,
+                  "usuariosParaCorreos": usuariosParaCorreos.listaUsuarios
+                };
+              } );
+            } );
+          } );
+        }
+      }
+    } );
+  } //modalEnvioCorreosMuestrasUna
+
+  $scope.enviarCorreoMuestrasUna = function( muestra ) {
+    modalEnvioCorreosMuestrasUna( muestra ).result.then( function( res ) {
+      function ok( resp ) {
+        Alertas.agregar( resp.status );
+        muestra.enviada = true;
+      } //ok
+      function error( resp ) {
+        console.error( resp );
+        Alertas.agregar( resp.status );
+      } //error
+      function ultima() {
+        $scope.datos.cargando = false;
+      }
+      var listaTemp = [];
+      _.forEach( res.usuariosParaCorreos, function( usuario ) {
+        if ( usuario.enviarcorreo ) {
+          listaTemp.push( usuario.nombre + " " + usuario.apellidos + " <" + usuario.correo + ">" );
+        }
+      } );
+
+      alert( JSON.stringify( listaTemp ) );
+
+      res.comentarioAdicional = ( typeof res.comentarioAdicional === "undefined" ) ?
+      "" : res.comentarioAdicional;
+
+      if ( res.muestra.estado === "Completada" && !$scope.datos.cargando && $root.puedePasar( [
+        $root.permisos.laboratorio, $root.permisos.patologo, $root.permisos.medico ] ) ) {
+        $scope.datos.cargando = true;
+        ExpedientesREST.guardar( res.expediente );
+        console.dir( res.expediente );
+        Muestras.rest.enviarCorreo( res.muestra.id, res.comentarioAdicional, listaTemp )
+        .then( ok, error ).finally( ultima );
+      }
+    } );
+  };
 } //function
