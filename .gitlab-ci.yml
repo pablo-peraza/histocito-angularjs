@@ -11,7 +11,7 @@ cache:
 stages:
   - deploy
 
-deploy_desarrollo:
+deploy_master:
   stage: deploy
   script:
     - npm install
@@ -19,7 +19,9 @@ deploy_desarrollo:
     - NODE_ENV=production gulp dist --backend http://pruebas.ciriscr.com:17001 --node http://app.histocito.net:3001
     - rsync -rlDv --delete dist /software/histocito/frontend
   environment:
-    name: desarrollo
+    name: master
     url: http://pruebas.ciriscr.com:3000
   only:
-  - desarrollo
+  - master
+  tags:
+  - pruebas
