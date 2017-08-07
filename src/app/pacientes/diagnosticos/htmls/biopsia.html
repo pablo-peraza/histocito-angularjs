@@ -1,0 +1,25 @@
+<section>
+  <section if="datos.muestra.diagnostico.descripcionMacroscopica || (datos.muestra.diagnostico.imagenesMacroscopica && datos.muestra.diagnostico.imagenesMacroscopica.length > 0)"
+   ng-class="{'hidden-print':(datos.ocultarImagenes && !datos.muestra.diagnostico.descripcionMacroscopica)}">
+    <legend>Descripción Macroscópica</legend>
+    <div ta-bind ng-model="datos.muestra.diagnostico.descripcionMacroscopica"></div>
+    <div ng-if="(datos.muestra.diagnostico.imagenesMacroscopica && datos.muestra.diagnostico.imagenesMacroscopica.length > 0)">
+      <button class="btn btn-info hidden-print"
+      ng-click="datos.ocultarImagenes = !datos.ocultarImagenes">{{datos.ocultarImagenes && "Incluir Imágenes" || "Ocultar Imágenes"}}</button>
+      <div cis-galeria privado="datos.isPrivado" modelo="datos.muestra.diagnostico.imagenesMacroscopica" collapse="datos.ocultarImagenes"></div>
+    </div>
+  </section>
+  <section ng-if="datos.muestra.diagnostico.descripcionMicroscopica">
+    <legend>Descripción Microscópica</legend>
+    <div ta-bind ng-model="datos.muestra.diagnostico.descripcionMicroscopica"></div>
+  </section>
+  <section>
+    <legend class="text-center lead">Diagnóstico</legend>
+    <div ta-bind ng-model="datos.muestra.diagnostico.diagnostico"></div>
+    <div ng-if="(datos.muestra.diagnostico.imagenesDiagnostico && datos.muestra.diagnostico.imagenesDiagnostico.length > 0)">
+      <button class="btn btn-info hidden-print"
+      ng-click="datos.ocultarImagenes = !datos.ocultarImagenes">{{datos.ocultarImagenes && "Incluir Imágenes" || "Ocultar Imágenes"}}</button>
+      <div cis-galeria privado="datos.isPrivado" modelo="datos.muestra.diagnostico.imagenesDiagnostico" collapse="datos.ocultarImagenes"></div>
+    </div>
+  </section>
+</section>
