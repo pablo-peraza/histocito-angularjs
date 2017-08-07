@@ -20,7 +20,8 @@ modulo.factory( "LogicaRecomendaciones", require( "./servicios/logicaRecomendaci
 modulo.factory( "MuestrasEstados", require( "./servicios/muestrasEstados.js" ) );
 modulo.factory( "MuestrasTabs", require( "./servicios/muestrasTabs.js" ) );
 modulo.factory( "Muestras", require( "./servicios/muestras.js" ) );
-
 modulo.factory( "MuestrasREST", require( "./ctrls/rest/muestrasAPI.js" ) );
+
+modulo.directive( "multipleEmails", require( "./directivas/multipleEmails.js" ) );
 
 module.exports = modulo.name;

@@ -12,10 +12,12 @@ MuestrasMedicoCtrl.$inject = [
     "Muestras",
     "ExpedientesREST",
     "Alertas",
-    "$modal"
+    "Credenciales",
+    "$modal",
+    "Usuarios"
   ];
-function MuestrasMedicoCtrl( $root, $scope, muestras, dimensiones, elementoActual,
-    FacturasREST, Muestras, ExpedientesREST, Alertas, $modal ) {
+function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elementoActual,
+    FacturasREST, Muestras, ExpedientesREST, Alertas, Credenciales, $modal, Usuarios ) {
   $scope.datos = {
     muestras: muestras,
     dimensiones: dimensiones,
@@ -86,19 +88,40 @@ function MuestrasMedicoCtrl( $root, $scope, muestras, dimensiones, elementoActua
 
   function modalEnvioCorreos( muestra ) {
     return $modal.open( {
-      templateUrl: "mensajeCortoCorreo.html",
+      templateUrl: "mensajeCortoCorreoMuestras.html",
       controller: "EnviarCorreosCtrl",
       size:"lg",
       backdrop: "static",
       resolve: {
         muestras: function() {
+          var usuariosParaCorreos = {listaUsuarios: []};
           return Muestras.rest.obtener( muestra.id ).then( function( resulMuestra ) {
-            return ExpedientesREST.obtener( resulMuestra.data.idExpediente )
-            .then( function( resulExp ) {
-              return {
-                "muestra": resulMuestra.data,
-                "expediente": resulExp.data
-              };
+            return ExpedientesREST.obtener( resulMuestra.data.idExpediente ).then( function( resulExp ) {
+              return Usuarios.obtener( resulMuestra.data.idUsuario ).then( function( resuldueno ) {
+                resuldueno.data.enviarcorreo = false;
+                resuldueno.data.tipoUsuario = "dueno";
+                delete resuldueno.data.id;
+                delete resuldueno.data.precios;
+                delete resuldueno.data.telefonos;
+                delete resuldueno.data.configuracion;
+                usuariosParaCorreos.listaUsuarios.push( resuldueno.data );
+                _.forEach( resulMuestra.data.autorizados, function( idUsuarioAutorizado ) {
+                  Usuarios.obtener( idUsuarioAutorizado ).then( function( resulAutorizado ) {
+                    resulAutorizado.data.enviarcorreo = false;
+                    resulAutorizado.data.tipoUsuario = "autorizado";
+                    delete resulAutorizado.data.id;
+                    delete resulAutorizado.data.precios;
+                    delete resulAutorizado.data.telefonos;
+                    delete resulAutorizado.data.configuracion;
+                    usuariosParaCorreos.listaUsuarios.push( resulAutorizado.data );
+                  } );
+                } );
+                return {
+                  "muestra": resulMuestra.data,
+                  "expediente": resulExp.data,
+                  "usuariosParaCorreos": usuariosParaCorreos.listaUsuarios
+                };
+              } );
             } );
           } );
         }
@@ -123,8 +146,9 @@ function MuestrasMedicoCtrl( $root, $scope, muestras, dimensiones, elementoActua
       res.comentarioAdicional = ( typeof res.comentarioAdicional === "undefined" ) ?
       "" : res.comentarioAdicional;
 
-      if ( res.muestra.estado === "Completada" && !$scope.datos.cargando && $root.puedePasar( [
-        $root.permisos.laboratorio, $root.permisos.patologo, $root.permisos.medico ] ) ) {
+      if ( res.muestra.estado === "Completada" && !$scope.datos.cargando && $rootScope.puedePasar( [
+        $rootScope.permisos.laboratorio, $rootScope.permisos.patologo, $rootScope.permisos.medico
+      ] ) ) {
         $scope.datos.cargando = true;
         ExpedientesREST.guardar( res.expediente );
         console.dir( res.expediente );

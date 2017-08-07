@@ -76,4 +76,19 @@
       </div>
     </div>
   </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group"
+        ng-class="{'has-error': form.recordatorios.$invalid && form.recordatorios.$dirty, 'has-success': form.recordatorios.$valid}">
+        <label style="display: block;" class="control-label">Envío automático de correos</label>
+        <div cis-boolean
+        ng-if="editando"
+        cis-capturar-teclado="{{tecla}}" hacer="{{hacer}}"
+        ng-model="modelo.configuracion.envioAutomatico"></div>
+        <p class="form-control-static"
+        ng-if="!editando">{{modelo.configuracion.envioAutomatico && "Si" || "No"}}</p>
+      </div>
+    </div>
+  </div>
 </div>

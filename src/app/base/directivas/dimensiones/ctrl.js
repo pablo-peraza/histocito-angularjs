@@ -1,8 +1,8 @@
 "use strict";
 module.exports = cisDimensionesCtrl;
 
-cisDimensionesCtrl.$inject = [ "$scope" ];
-function cisDimensionesCtrl( $scope ) {
+cisDimensionesCtrl.$inject = [ "$scope", "$rootScope" ];
+function cisDimensionesCtrl( $scope, $rootScope ) {
   $scope.vacio = _.isEmpty;
   $scope.modelo = {};
 
@@ -53,9 +53,9 @@ function cisDimensionesCtrl( $scope ) {
 
   function filtrarDimenciones() {
     var dimensionesActivas = $scope.activas();
-    var activarFiltros = _.find( dimensionesActivas, function( o ) {
+    var activarFiltros = _.find( dimensionesActivas, function( o ) {
       if ( o.estado !== undefined ) {
-        return o.estado[0] === "diagnostico";
+        return o.estado[0] === "diagnostico";
       } else {
         return undefined;
       }
