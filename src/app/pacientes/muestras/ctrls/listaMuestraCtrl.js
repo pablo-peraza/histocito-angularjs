@@ -89,8 +89,9 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
     } //ultima
     var temp = confirm( texto );
     if ( !muestra.nuevo && muestra.estado === "Registrada" && $rootScope.puedePasar( [
-      $rootScope.permisos.laboratorio, $rootScope.permisos.digitador ] ) &&
-      !$scope.datos.cargando && temp ) {
+      $rootScope.permisos.laboratorio,
+      $rootScope.permisos.digitador
+    ] ) && !$scope.datos.cargando && temp ) {
       $scope.datos.cargando = true;
       Muestras.rest.eliminar( muestra.id ).then( ok, error )["finally"]( ultima );
     } //if

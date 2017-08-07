@@ -1,0 +1,19 @@
+<section>
+  <section>
+    <legend>Resultado</legend>
+    <div ta-bind ng-model="datos.muestra.diagnostico.resultado"></div>
+  </section>
+  <section ng-if="datos.muestra.diagnostico.observaciones">
+    <legend>Observaciones</legend>
+    <div ta-bind ng-model="datos.muestra.diagnostico.observaciones"></div>
+  </section>
+  <section ng-if="datos.muestra.diagnostico.diagnostico || (datos.muestra.diagnostico.imagenesDiagnostico && datos.muestra.diagnostico.imagenesDiagnostico.length > 0)" ng-class="{'hidden-print':(datos.ocultarImagenes && !datos.muestra.diagnostico.diagnostico)}">
+    <legend class="text-center lead">Diagnóstico</legend>
+    <div ta-bind ng-model="datos.muestra.diagnostico.diagnostico"></div>
+    <div ng-if="(datos.muestra.diagnostico.imagenesDiagnostico && datos.muestra.diagnostico.imagenesDiagnostico.length > 0)">
+      <button class="btn btn-info hidden-print"
+      ng-click="datos.ocultarImagenes = !datos.ocultarImagenes">{{datos.ocultarImagenes && "Incluir Imágenes" || "Ocultar Imágenes"}}</button>
+      <div cis-galeria isPrivado="datos.isPrivado" modelo="datos.muestra.diagnostico.imagenesDiagnostico" collapse="datos.ocultarImagenes"></div>
+    </div>
+  </section>
+</section>

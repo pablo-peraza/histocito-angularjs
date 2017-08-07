@@ -1,0 +1,138 @@
+<section>
+  <section ng-if="!datos.muestra.diagnostico.frotis.acelular  && !datos.muestra.diagnostico.frotis.materialMalPreservado.inadecuado && !datos.muestra.diagnostico.frotis.materialHemorragico.inadecuado">
+    <legend class="text-center lead">Interpretación Citológica</legend>
+    <p class="lead" ng-if="datos.muestra.diagnostico.lesiones.activado">
+      {{lesion(datos.muestra.diagnostico.lesiones.tipo)}}
+    </p>
+    <p class="lead" ng-if="!datos.muestra.diagnostico.lesiones.activado">
+    Negativo para lesión intraepitelial por malignidad
+    </p>
+  </section>
+  <div class="row">
+    <div class="col-xs-6">
+    <legend>Frotis</legend>
+      <p ng-if="!datos.muestra.diagnostico.frotis.acelular && !datos.muestra.diagnostico.frotis.hipocelular && !datos.muestra.diagnostico.frotis.materialMalPreservado.valor && !datos.muestra.diagnostico.frotis.materialHemorragico.valor && !datos.muestra.diagnostico.frotis.celulasEndocervicales && !datos.muestra.diagnostico.frotis.metaplasia">
+        La calidad de la muestra es satisfactoria.
+      </p>
+      <section ng-if="datos.muestra.diagnostico.frotis.acelular || datos.muestra.diagnostico.frotis.hipocelular || datos.muestra.diagnostico.frotis.materialMalPreservado.valor || datos.muestra.diagnostico.frotis.materialHemorragico.valor || datos.muestra.diagnostico.frotis.celulasEndocervicales || datos.muestra.diagnostico.frotis.metaplasia">
+        <div ng-if="datos.muestra.diagnostico.frotis.acelular"><strong>Acelular</strong></div>
+        <div ng-if="datos.muestra.diagnostico.frotis.hipocelular"><strong>Hipocelular</strong></div>
+        <div ng-if="datos.muestra.diagnostico.frotis.materialMalPreservado.valor">
+          <strong>
+          <span ng-if="datos.muestra.diagnostico.frotis.materialMalPreservado.limitado">Limitado por: </span>
+          <span ng-if="datos.muestra.diagnostico.frotis.materialMalPreservado.inadecuado">Inadecuado por: </span>
+          <span>Material mal preservado</span>
+          <span ng-if="datos.muestra.diagnostico.frotis.materialMalPreservado.enZonas"> en zonas</span>
+          </strong>
+        </div>
+        <div ng-if="datos.muestra.diagnostico.frotis.materialHemorragico.valor">
+          <strong>
+          <span ng-if="datos.muestra.diagnostico.frotis.materialHemorragico.limitado">Limitado por:  </span>
+          <span ng-if="datos.muestra.diagnostico.frotis.materialHemorragico.inadecuado">Inadecuado por: </span>
+          <span>Material Hemorrágico</span>
+          <span ng-if="datos.muestra.diagnostico.frotis.materialHemorragico.enZonas"> en zonas</span>
+          </strong>
+        </div>
+        <div ng-if="datos.muestra.diagnostico.frotis.celulasEndocervicales">
+          <strong>Células Endocervicales</strong>
+        </div>
+        <div ng-if="datos.muestra.diagnostico.frotis.metaplasia">
+          <strong>Células Metaplásicas</strong>
+        </div>
+      </section>
+    </div>
+    <div class="col-xs-6">
+      <section ng-if="datos.muestra.diagnostico.valorEstrogenico">
+        <legend>Valor Estrogénico</legend>
+        <p>{{datos.muestra.diagnostico.valorEstrogenico}}</p>
+      </section>
+    </div>
+  </div>
+  <section ng-if="datos.muestra.diagnostico.hallazgos.reaccionInflamatoria.activado || datos.muestra.diagnostico.hallazgos.histocitos.activado || datos.muestra.diagnostico.hallazgos.citolisis.activado || datos.muestra.diagnostico.hallazgos.floraBacteriana.activado || datos.muestra.diagnostico.hallazgos.tricomas || datos.muestra.diagnostico.hallazgos.fungiformesCandida || datos.muestra.diagnostico.hallazgos.cocobacilosVaginosis || datos.muestra.diagnostico.hallazgos.herpesSimplex || datos.muestra.diagnostico.hallazgos.actinomyces">
+    <legend>Otros Hallazgos</legend>
+    <div class="row">
+      <div class="col-xs-6">
+        <div ng-if="datos.muestra.diagnostico.hallazgos.reaccionInflamatoria.activado" class="row">
+          <div class="col-xs-6">Reacción Inflamatoria</div>
+          <div class="col-xs-6">
+            <rating ng-model="datos.muestra.diagnostico.hallazgos.reaccionInflamatoria.opcion" state-on="'fa-plus-square'" state-off="'fa-square-o'" readonly="true"></rating>
+          </div>
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.floraBacteriana.activado" class="row">
+          <div class="col-xs-6">Flora Bacteriana</div>
+          <div class="col-xs-6">
+            <div class="clearfix">
+              <rating ng-model="datos.muestra.diagnostico.hallazgos.floraBacteriana.valor" state-on="'fa-plus-square'" state-off="'fa-square-o'" readonly="true" class="pull-left"></rating>
+              <span class="pull-left"> - {{datos.muestra.diagnostico.hallazgos.floraBacteriana.opcion}}</span>
+            </div>
+          </div>
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.histocitos.activado" class="row">
+          <div class="col-xs-6">Histiocitos</div>
+          <div class="col-xs-6">
+            <rating ng-model="datos.muestra.diagnostico.hallazgos.histocitos.opcion" state-on="'fa-plus-square'" state-off="'fa-square-o'" readonly="true"></rating>
+          </div>
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.eritrocitos.activado" class="row">
+          <div class="col-xs-6">Eritrocitos</div>
+          <div class="col-xs-6">
+            <rating ng-model="datos.muestra.diagnostico.hallazgos.eritrocitos.opcion" state-on="'fa-plus-square'" state-off="'fa-square-o'" readonly="true"></rating>
+          </div>
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.citolisis.activado" class="row">
+          <div class="col-xs-6">Citólisis</div>
+          <div class="col-xs-6">
+            <rating ng-model="datos.muestra.diagnostico.hallazgos.citolisis.opcion" state-on="'fa-plus-square'" state-off="'fa-square-o'" readonly="true"></rating>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div ng-if="datos.muestra.diagnostico.hallazgos.tricomas">
+          <i class="fa fa-fw fa-check"></i> Sugestivo por Tricomonas
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.fungiformesCandida">
+          <i class="fa fa-fw fa-check"></i> Organismos fungiformes morfológicamente consistentes con Cándida SP
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.cocobacilosVaginosis">
+          <i class="fa fa-fw fa-check"></i> Predominio de cocobacilos consistentes con Vaginosis Bacteriana
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.herpesSimplex">
+          <i class="fa fa-fw fa-check"></i> Cambios celulares sugestivos de infección por Herpes Simplex
+        </div>
+        <div ng-if="datos.muestra.diagnostico.hallazgos.actinomyces">
+          <i class="fa fa-fw fa-check"></i> Bacterias de características morfológicas compatibles con ACTINOMYCES
+        </div>
+      </div>
+    </div>
+  </section>
+  <section ng-if="datos.muestra.diagnostico.recomendaciones.repetirEstudio || datos.muestra.diagnostico.recomendaciones.controlRutina || datos.muestra.diagnostico.recomendaciones.estudioColposcopico || datos.muestra.diagnostico.recomendaciones.tomarBiopsia || datos.muestra.diagnostico.recomendaciones.controlCitologico.activado || datos.muestra.diagnostico.recomendaciones.repetirDespuesTratamiento.activado || datos.muestra.diagnostico.recomendaciones.estudioMolecular.activado">
+    <legend>Recomendaciones</legend>
+    <ul class="lead">
+      <li ng-if="datos.muestra.diagnostico.recomendaciones.repetirEstudio">REPETIR ESTUDIO</li>
+      <li ng-if="datos.muestra.diagnostico.recomendaciones.controlRutina">CONTROL CITOLÓGICO SEGÚN RUTINA</li>
+      <li ng-if="datos.muestra.diagnostico.recomendaciones.estudioColposcopico">ESTUDIO COLPOSCÓPICO</li>
+      <li ng-if="datos.muestra.diagnostico.recomendaciones.tomarBiopsia">TOMAR BIOPSIA</li>
+      <li ng-if="datos.muestra.diagnostico.recomendaciones.controlCitologico.activado">
+        Control citológico en {{datos.muestra.diagnostico.recomendaciones.controlCitologico.opcion}}
+      </li>
+      <li ng-if="datos.muestra.diagnostico.recomendaciones.estudioMolecular.activado">
+        Realizar estudio de Patología Molecular: {{datos.muestra.diagnostico.recomendaciones.estudioMolecular.opcion}}
+      </li>
+      <li ng-if="datos.muestra.diagnostico.recomendaciones.repetirDespuesTratamiento.activado">
+        Para ser evaluado por su médico tratante
+      </li>
+    </ul>
+
+  </section>
+  <section ng-if="datos.muestra.diagnostico.comentarios">
+    <legend>Comentarios</legend>
+    <div ta-bind ng-model="datos.muestra.diagnostico.comentarios"></div>
+  </section>
+</section>
+<script type="text/ng-template" id="template/rating/rating.html">
+<div ng-mouseleave="reset()" ng-keydown="onKeydown($event)" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="{{range.length}}" aria-valuenow="{{value}}">
+  <i ng-repeat="r in range track by $index" ng-mouseenter="enter($index + 1)" ng-click="rate($index + 1)" class="fa fa-fw cursor-pointer" ng-class="$index < value && (r.stateOn || 'fa-star') || (r.stateOff || 'fa-star-o')">
+  <span class="sr-only">({{ $index < value ? '*' : ' ' }})</span>
+  </i>
+</div>
+</script>

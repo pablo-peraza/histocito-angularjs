@@ -71,8 +71,8 @@ FormMuestraCtrl.$inject = [
   "ExpedientesREST",
   "Usuarios"
 ];
-function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Muestras, Alertas,
-                         $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios ) {
+function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkeys, Muestras,
+  Alertas, $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios ) {
   var original;
   $scope.limpiarAutorizados = limpiarAutorizados;
   $scope.cambiarSecuencia = function( sec ) {
@@ -186,7 +186,8 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
   };
 
   $scope.editar = function( datos ) {
-    if ( $root.puedePasar( [ $root.permisos.laboratorio, $root.permisos.digitador ] ) ) {
+    if ( $rootScope.puedePasar( [ $rootScope.permisos.laboratorio, $rootScope.permisos.digitador
+    ] ) ) {
       original = angular.copy( datos );
       $scope.datos.muestra.editando = true;
       $scope.datos.muestra.consecutivoManual = $scope.datos.muestra.consecutivo.split( "-" )[1];
@@ -208,8 +209,10 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
       $scope.datos.cargando = false;
     } //ultima
     var temp = confirm( texto );
-    if ( !muestra.nuevo && muestra.estado === "Registrada" && $root.puedePasar( [
-      $root.permisos.laboratorio, $root.permisos.digitador ] ) && !$scope.datos.cargando && temp ) {
+    if ( !muestra.nuevo && muestra.estado === "Registrada" && $rootScope.puedePasar( [
+      $rootScope.permisos.laboratorio,
+      $rootScope.permisos.digitador
+    ] ) && !$scope.datos.cargando && temp ) {
       $scope.datos.cargando = true;
       Muestras.rest.eliminar( muestra.id ).then( ok, error )["finally"]( ultima );
     } //if
@@ -318,7 +321,8 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
                   estado: "Registrada",
                   imagenes: [],
                   correos:[],
-                  equipo: muestra.equipo
+                  equipo: muestra.equipo,
+                  template: muestra.template
                 },
                 procedimiento: procedimiento,
                 dueno: dueno,
@@ -335,7 +339,7 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
           }
           $scope.tabs[0].activo = true;
           Alertas.limpiar();
-          $scope.datos.muestra.fechaToma = $root.hoy.startOf( "day" );
+          $scope.datos.muestra.fechaToma = $rootScope.hoy.startOf( "day" );
           $scope.$broadcast( "show-errors-reset" );
           form.$setPristine();
         } );
@@ -593,15 +597,23 @@ function FormMuestraCtrl( $root, $scope, $window, $location, params, hotkeys, Mu
         if ( usuario.enviarcorreo ) {
           listaTemp.push( usuario.nombre + " " + usuario.apellidos + " <" + usuario.correo + ">" );
         }
+
+        res.comentarioAdicional = ( typeof res.comentarioAdicional === "undefined" ) ?
+        "" : res.comentarioAdicional;
       } );
 
-      alert( JSON.stringify( listaTemp ) );
+      if ( typeof res.correosAdicionales !== "undefined" ) {
+        if ( res.correosAdicionales.length !== 0 || ( res.correosAdicionales ).trim() ) {
+          var correos = res.correosAdicionales.split( /[ :;,-]+/ );
+          _.forEach( correos, function( correo ) {
+              listaTemp.push( " <" + correo + ">" );
+            } );
+        }
+      }
 
-      res.comentarioAdicional = ( typeof res.comentarioAdicional === "undefined" ) ?
-      "" : res.comentarioAdicional;
-
-      if ( res.muestra.estado === "Completada" && !$scope.datos.cargando && $root.puedePasar( [
-        $root.permisos.laboratorio, $root.permisos.patologo, $root.permisos.medico ] ) ) {
+      if ( res.muestra.estado === "Completada" && !$scope.datos.cargando && $rootScope.puedePasar( [
+        $rootScope.permisos.laboratorio, $rootScope.permisos.patologo, $rootScope.permisos.medico
+      ] ) ) {
         $scope.datos.cargando = true;
         ExpedientesREST.guardar( res.expediente );
         console.dir( res.expediente );

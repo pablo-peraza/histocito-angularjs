@@ -24,7 +24,7 @@ function rutas( $routeProvider ) {
   } );
 
   $routeProvider.when( "/inicio/pacientes/muestras/:muestra/diagnostico/reporte", {
-    templateUrl: "pacientes/diagnosticos/htmls/reportesUno.html",
+    templateUrl: "pacientes/diagnosticos/htmls/reporteUno.html",
     controller: "ReporteCtrl",
     titulo: "Reporte del Diagnóstico",
     permisos: [
@@ -42,7 +42,7 @@ function rutas( $routeProvider ) {
   } );
 
   $routeProvider.when( "/informe/:hash", {
-    templateUrl: "pacientes/diagnosticos/htmls/reportesUno.html",
+    templateUrl: "pacientes/diagnosticos/htmls/reporteUno.html",
     controller: "ReporteCtrl",
     titulo: "Diagnóstico de muestra",
     sinLogin: true,

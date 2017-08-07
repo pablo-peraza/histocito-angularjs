@@ -16,7 +16,7 @@
   <div class="encabezado">
     <div class="row">
       <div class="col-xs-3 img-responsive">
-        <img src="/public/imagenes/logo-completo-transparente-500px.png" style="max-height: 110px">
+        <img src="/recursos/imagenes/logo-completo-transparente-500px.png" style="max-height: 110px">
       </div>
       <div class="col-xs-6 text-center">
         <h3>Laboratorio Histocito S. A.</h3>
@@ -70,16 +70,16 @@
   </small>
   <div ng-switch="datos.tipo.categoria">
     <div ng-switch-when="Citología">
-      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/citologico.html'"></div>
+      <div ng-include="'pacientes/diagnosticos/htmls/citologico.html'"></div>
     </div>
     <div ng-switch-when="Citología no ginecológica">
-      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/noginecologica.html'"></div>
+      <div ng-include="'pacientes/diagnosticos/htmls/noginecologica.html'"></div>
     </div>
     <div ng-switch-when="Biopsia">
-      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/biopsia.html'"></div>
+      <div ng-include="'pacientes/diagnosticos/htmls/biopsia.html'"></div>
     </div>
     <div ng-switch-when="Patología molecular">
-      <div ng-include="'/htmls/partials/pacientes/diagnosticos/reportes/molecular.html'"></div>
+      <div ng-include="'pacientes/diagnosticos/htmls/molecular.html'"></div>
     </div>
   </div>
   <section ng-if="datos.patologo && datos.patologo.firma">
