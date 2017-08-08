@@ -2,6 +2,7 @@
 
 module.exports = futuros;
 
+futuros.$inject = [ "$q", "$timeout" ];
 function futuros( $q, $timeout ) {
   futuros.aFuturo = aFuturo;
   futuros.aRechazo = aRechazo;
