@@ -307,26 +307,6 @@
           <span ng-if="usuario.tipoUsuario == 'autorizado'">(Autorizado) </span>
           <{{ usuario.correo }}>
         </label>
-
-      <!--
-        <div ng-form="form" class="row">
-          <div class="form-group col-sm-5"
-          ng-class="{'has-success':form.dir.$valid && form.dir.$dirty,
-           'has-error':form.dir.$invalid && form.dir.$dirty}">
-            <label class="control-label">Otros correos a notificar:</label>
-            <input type="email" class="form-control" placeholder="correo@dominio.tip" name="dir"
-            ng-model="datos.correosAdicionales">
-          </div>
-        -->
-
-        <!--
-        <div class="form-group" ng-repeat="usuario in datos.usuariosParaCorreos">
-          <label for="" class="control-label">{{ usuario.nombre }} {{ usuario.apellidos }} <{{ usuario.correo }}></label>
-          <div cis-boolean ng-model="usuario.enviarcorreo" ng-change=""
-          focus="true"></div>
-          <br>
-        </div>
-        -->
       </div>
 
       <form role="form" ng-submit="onSubmit()" novalidate name="shareSelectionForm">
@@ -345,6 +325,6 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
-      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="datos.expediente.ficha.datosContacto.correos.length === 0 || shareSelectionForm.recipientEmail.$invalid ">Aceptar</button>
+      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="validarFormularioVacio(datos) || shareSelectionForm.recipientEmail.$invalid ">Aceptar</button>
     </div>
   </script>
