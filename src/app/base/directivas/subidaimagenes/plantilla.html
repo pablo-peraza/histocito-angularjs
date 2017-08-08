@@ -1,0 +1,101 @@
+<section class="margin-bottom subidaarchivos">
+  <div class="fx-fade-down" ng-if="vacio(archivos)">
+    <p class="text-center">
+    <small>Formatos soportados:</small>
+    <ul class="list-inline text-center">
+      <li><label class="label label-info">PNG</label></li>
+      <li><label class="label label-info">JPG</label></li>
+      <li><label class="label label-info">BMP</label></li>
+      <li><label class="label label-info">TIFF</label></li>
+    </ul>
+    </p>
+    <div class="btn btn-default btn-file center-block">
+      Adjuntar imágenes
+      <i class="fa fa-fw fa-upload"></i>
+      <input type="file" accept="image/*" ng-file-select="seleccionar($files)" multiple ng-if="!$scope.unico">
+      <input type="file" accept="image/*" ng-file-select="seleccionar($files)" ng-if="$scope.unico">
+    </div>
+  </div>
+  <div class="panel panel-default" ng-if="!vacio(archivos)">
+    <div class="panel-heading clear-fix">
+      <button type="button" class="btn btn-primary btn-sm"
+      ng-click="iniciarTodos(); $event.stopPropagation();"
+      ng-disabled="todosValidos()"
+      ><i class="fa fa-fw fa-play"></i>Iniciar Todos</button>
+      <div class="btn btn-default btn-file btn-sm" style="width:230px" ng-if="!unico">
+        <i class="fa fa-fw fa-upload"></i>
+        Adjuntar más imágenes
+        <input type="file" accept="image/*" ng-file-select="seleccionar($files)" multiple>
+      </div>
+      <button class="btn btn-danger btn-sm pull-right" ng-click="eliminar(archivos); $event.stopPropagation();"><i class="fa fa-fw fa-trash-o"></i>Eliminar Todo</button>
+    </div>
+    <div class="panel-body">
+      <div class="row margin-bottom">
+        <div class="col-md-6 fx-fade-down fx-speed-1000" ng-repeat="archivo in archivos" ng-if="!unico">
+          <section class="borde-colorgraph entrada">
+            <div class="row">
+              <div class="col-xs-4">
+                <img class="img-responsive img-rounded center-block" ng-src="{{archivo.url}}" style="max-height:100px;">
+                <span class="label label-info">{{archivo.archivo.type}}</span>&nbsp;<span class="label label-default">{{archivo.archivo.size | TamanoHumano}}</span>
+                <div class="progress progress-striped active" ng-if="archivo.progreso >= 0 || archivo.subido === 'no'">
+                  <div class="progress-bar"  role="progressbar" aria-valuenow="archivo.progreso" aria-valuemin="0" aria-valuemax="100" style="width: {{archivo.progreso}}%">
+                    <span class="sr-only">{{archivo.progreso}}%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-8">
+                <div ng-if="!archivo.subido">
+                  <div class="form-group">
+                    <input type="text" class="form-control input-sm" placeholder="Título"
+                    ng-model="archivo.titulo"
+                    ng-disabled="archivo.bloqueado">
+                  </div>
+                  <div class="form-group">
+                    <textarea cols="10" placeholder="Descripción" class="form-control input-sm"
+                    ng-model="archivo.descripcion"
+                    ng-disabled="archivo.bloqueado"></textarea>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-xs"
+                  ng-disabled="!archivo.valido() || archivo.bloqueado"
+                  ng-click="iniciar(archivo); $event.stopPropagation();"
+                  ><i class="fa fa-fw fa-play"></i>Iniciar</button>
+                  <button type="button" class="btn btn-danger btn-xs pull-right"
+                  ng-if="archivo.progreso === 0"
+                  ng-click="eliminar(archivo); $event.stopPropagation();"><i class="fa fa-fw fa-trash-o"></i>Eliminar</button>
+                </div>
+                <h5 ng-if="archivo.subido" class="fx-fade-down">Listo</h5>
+              </div>
+              </div><!--row-->
+            </section>
+          </div>
+          <div class="col-md-12 fx-fade-down fx-speed-1000" ng-repeat="archivo in archivos" ng-if="unico">
+          <section class="borde-colorgraph entrada">
+            <div class="row">
+              <div class="col-xs-8">
+                <img class="img-responsive img-rounded center-block" ng-src="{{archivo.url}}" style="max-height:100px;">
+                <span class="label label-info">{{archivo.archivo.type}}</span>&nbsp;<span class="label label-default">{{archivo.archivo.size | TamanoHumano}}</span>
+                <div class="progress progress-striped active" ng-if="archivo.progreso >= 0 || archivo.subido === 'no'">
+                  <div class="progress-bar"  role="progressbar" aria-valuenow="archivo.progreso" aria-valuemin="0" aria-valuemax="100" style="width: {{archivo.progreso}}%">
+                    <span class="sr-only">{{archivo.progreso}}%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div ng-if="!archivo.subido">
+                  <button type="button" class="btn btn-primary btn-xs"
+                  ng-disabled="!archivo.valido() || archivo.bloqueado"
+                  ng-click="iniciar(archivo); $event.stopPropagation();"
+                  ><i class="fa fa-fw fa-play"></i>Iniciar</button>
+                  <button type="button" class="btn btn-danger btn-xs pull-right"
+                  ng-if="archivo.progreso === 0"
+                  ng-click="eliminar(archivo); $event.stopPropagation();"><i class="fa fa-fw fa-trash-o"></i>Eliminar</button>
+                </div>
+                <h5 ng-if="archivo.subido" class="fx-fade-down">Listo</h5>
+              </div>
+              </div><!--row-->
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -9,7 +9,8 @@ var modulo = angular.module( "Proyecto.base", [
   require( "./directivas/telefonos" ),
   require( "./directivas/capturarteclado" ),
   require( "./directivas/scroll" ),
-  require( "./directivas/correos" )
+  require( "./directivas/correos" ),
+  require( "./directivas/subidaimagenes" )
 ] );
 
 //modulo.config( require( "./rutas" ) );
