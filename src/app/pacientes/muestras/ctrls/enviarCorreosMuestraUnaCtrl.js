@@ -10,8 +10,16 @@ function EnviarCorreosMuestrasUnaCtrl( $scope, $modalInstance, Muestras, muestra
   $scope.ok = function() {
     $modalInstance.close( $scope.datos );
   };
-
   $scope.cancel = function() {
     $modalInstance.dismiss( "cancel" );
+  };
+
+  $scope.validarFormularioVacio = function( datos ) {
+    var correosAdicionales = false;
+    if ( typeof datos.correosAdicionales === "undefined" || datos.correosAdicionales === "" ) {
+      correosAdicionales = true;
+    }
+    return correosAdicionales && !datos.expediente.ficha.datosContacto.enviarCorreo &&
+    _.all( datos.usuariosParaCorreos, {"enviarcorreo": false} );
   };
 } //EnviarCorreosMuestrasUnaCtrl
