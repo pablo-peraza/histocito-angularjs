@@ -210,7 +210,7 @@ function diagnosticoCitologiaCtrl( $scope, $modal, hotkeys, Tabs, Selecciones ) 
 
   function modalFrotis( modelo, titulo ) {
     $modal.open( {
-      templateUrl: "pacientes/diagnosticos/citologias/htmls/modalfrotis.html",
+      templateUrl: "pacientes/diagnosticos/directivas/citologias/htmls/modalfrotis.html",
       controller: "modalFrotisCtrl",
       backdrop: "static",
       size: "lg",
