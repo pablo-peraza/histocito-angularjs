@@ -119,6 +119,8 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
                 } );
                 return {
                   "muestra": resulMuestra.data,
+                  "correosAdicionales": "",
+                  "comentarioAdicional": "",
                   "expediente": resulExp.data,
                   "usuariosParaCorreos": usuariosParaCorreos.listaUsuarios
                 };
@@ -143,26 +145,15 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
         function ultima() {
           $scope.datos.cargando = false;
         }
-        var listaTemp = [];
-        _.forEach( res.usuariosParaCorreos, function( usuario ) {
-          if ( usuario.enviarcorreo ) {
-            listaTemp.push( usuario.nombre + " " + usuario.apellidos + " <" +
-             usuario.correo + ">" );
-          }
-
-          res.comentarioAdicional = ( typeof res.comentarioAdicional === "undefined" ) ?
-          "" : res.comentarioAdicional;
+        var listaTemp = _.filter( res.usuariosParaCorreos, {"enviarcorreo": true} )
+        .map( function( usuario ) {
+          return usuario.nombre + " " +
+          usuario.apellidos + " <" + usuario.correo + ">";
         } );
-
-        if ( typeof res.correosAdicionales !== "undefined" ) {
-          if ( res.correosAdicionales.length !== 0 || ( res.correosAdicionales ).trim() ) {
-            var correos = res.correosAdicionales.split( /[ :;,-]+/ );
-            _.forEach( correos, function( correo ) {
-                listaTemp.push( " <" + correo + ">" );
-              } );
-          }
+        if ( res.correosAdicionales && ( res.correosAdicionales ).trim().length ) {
+          var correos = res.correosAdicionales.split( /[ :;,-]+/ );
+          listaTemp = listaTemp.concat( correos );
         }
-
         if ( res.muestra.estado === "Completada" && !$scope.datos.cargando &&
         $rootScope.puedePasar( [
           $rootScope.permisos.laboratorio, $rootScope.permisos.patologo, $rootScope.permisos.medico
