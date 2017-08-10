@@ -31,6 +31,7 @@ var modulo = angular.module( "Proyecto", [
   "textAngular",
   "cfp.hotkeys",
   "Backend",
+  "angularFileUpload",
   require( "./base" ),
   require( "./principal" ),
   require( "./login" ),

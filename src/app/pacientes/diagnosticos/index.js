@@ -12,4 +12,7 @@ modulo.config( require( "./rutas.js" ) );
 modulo.controller( "DiagnosticoCtrl", require( "./ctrls/diagnosticoCtrl.js" ) );
 modulo.controller( "ReporteCtrl", require( "./ctrls/reporteCtrl.js" ) );
 
+modulo.directive( "cisSelectorObservaciones",
+require( "./directivas/selectorObservaciones.js" ) );
+
 module.exports = modulo.name;
