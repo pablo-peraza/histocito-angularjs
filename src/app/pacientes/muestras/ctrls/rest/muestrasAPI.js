@@ -26,10 +26,11 @@ function MuestrasREST( $http, Dimensionador, urlApi ) {
     return $http.put( urlApi + "/api/muestra/" + id + "/diagnosticar", diagnostico );
   };
 
-  funciones.enviarCorreo = function( id, comentario, listaUsuarios ) {
+  funciones.enviarCorreo = function( id, comentario, listaUsuarios, enviarCorreoAPaciente ) {
     return $http.post( urlApi + "/api/muestra/" + id + "/enviarCorreo", {
       comentario: comentario,
-      listaUsuarios: listaUsuarios
+      listaUsuarios: listaUsuarios,
+      enviarAPaciente: enviarCorreoAPaciente
     } );
   };
 

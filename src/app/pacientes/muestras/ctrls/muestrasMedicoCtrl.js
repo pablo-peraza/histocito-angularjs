@@ -96,7 +96,8 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
         muestras: function() {
           var usuariosParaCorreos = {listaUsuarios: []};
           return Muestras.rest.obtener( muestra.id ).then( function( resulMuestra ) {
-            return ExpedientesREST.obtener( resulMuestra.data.idExpediente ).then( function( resulExp ) {
+            return ExpedientesREST.obtener( resulMuestra.data.idExpediente ).then(
+              function( resulExp ) {
               return Usuarios.obtener( resulMuestra.data.idUsuario ).then( function( resuldueno ) {
                 resuldueno.data.enviarcorreo = false;
                 resuldueno.data.tipoUsuario = "dueno";
@@ -118,6 +119,8 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
                 } );
                 return {
                   "muestra": resulMuestra.data,
+                  "correosAdicionales": "",
+                  "comentarioAdicional": "",
                   "expediente": resulExp.data,
                   "usuariosParaCorreos": usuariosParaCorreos.listaUsuarios
                 };
@@ -131,30 +134,36 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
 
   $scope.enviarCorreoConComentario = function( muestra ) {
     modalEnvioCorreos( muestra ).result.then( function( res ) {
-      function ok( resp ) {
-        Alertas.agregar( resp.status );
-        muestra.enviada = true;
-      } //ok
-      function error( resp ) {
-        console.error( resp );
-        Alertas.agregar( resp.status );
-      } //error
-      function ultima() {
-        $scope.datos.cargando = false;
-      }
-
-      res.comentarioAdicional = ( typeof res.comentarioAdicional === "undefined" ) ?
-      "" : res.comentarioAdicional;
-
-      if ( res.muestra.estado === "Completada" && !$scope.datos.cargando && $rootScope.puedePasar( [
-        $rootScope.permisos.laboratorio, $rootScope.permisos.patologo, $rootScope.permisos.medico
-      ] ) ) {
-        $scope.datos.cargando = true;
-        ExpedientesREST.guardar( res.expediente );
-        console.dir( res.expediente );
-        Muestras.rest.enviarCorreo( res.muestra.id, res.comentarioAdicional )
-        .then( ok, error ).finally( ultima );
-      }
-    } );
+        function ok( resp ) {
+          Alertas.agregar( resp.status );
+          muestra.enviada = true;
+        } //ok
+        function error( resp ) {
+          console.error( resp );
+          Alertas.agregar( resp.status );
+        } //error
+        function ultima() {
+          $scope.datos.cargando = false;
+        }
+        var listaTemp = _.filter( res.usuariosParaCorreos, {"enviarcorreo": true} )
+        .map( function( usuario ) {
+          return usuario.nombre + " " +
+          usuario.apellidos + " <" + usuario.correo + ">";
+        } );
+        if ( res.correosAdicionales && ( res.correosAdicionales ).trim().length ) {
+          var correos = res.correosAdicionales.split( /[ :;,-]+/ );
+          listaTemp = listaTemp.concat( correos );
+        }
+        if ( res.muestra.estado === "Completada" && !$scope.datos.cargando &&
+        $rootScope.puedePasar( [
+          $rootScope.permisos.laboratorio, $rootScope.permisos.patologo, $rootScope.permisos.medico
+        ] ) ) {
+          $scope.datos.cargando = true;
+          ExpedientesREST.guardar( res.expediente );
+          Muestras.rest.enviarCorreo( res.muestra.id, res.comentarioAdicional, listaTemp,
+          res.expediente.ficha.datosContacto.enviarCorreo )
+          .then( ok, error ).finally( ultima );
+        }
+      } );
   };
 } //ctrl

@@ -616,8 +616,8 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       ] ) ) {
         $scope.datos.cargando = true;
         ExpedientesREST.guardar( res.expediente );
-        console.dir( res.expediente );
-        Muestras.rest.enviarCorreo( res.muestra.id, res.comentarioAdicional, listaTemp )
+        Muestras.rest.enviarCorreo( res.muestra.id, res.comentarioAdicional, listaTemp,
+        res.expediente.ficha.datosContacto.enviarCorreo )
         .then( ok, error ).finally( ultima );
       }
     } );
