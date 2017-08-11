@@ -86,7 +86,7 @@ function rutas( $routeProvider ) {
   $routeProvider.when( "/inicio/medico/pacientes", {
     titulo: "Mis Expedientes",
     templateUrl: plantilla( "expedientes" ),
-    controller: "ListaExpedientesCtrl",
+    controller: "ListaExpedienteCtrl",
     permisos: [ permisos.valores.medico ],
     resolve: {
       expedientes: [ "Expedientes", "Alertas", misExpedientes( 0, 50 ) ],
