@@ -136,7 +136,6 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
     modalEnvioCorreos( muestra ).result.then( function( res ) {
         function ok( resp ) {
           Alertas.agregar( resp.status );
-          muestra.enviada = true;
         } //ok
         function error( resp ) {
           console.error( resp );
@@ -144,6 +143,9 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
         } //error
         function ultima() {
           $scope.datos.cargando = false;
+          if ( res.expediente.ficha.datosContacto.enviarCorreo ) {
+            muestra.enviada = true;
+          }//ultima
         }
         var listaTemp = _.filter( res.usuariosParaCorreos, {"enviarcorreo": true} )
         .map( function( usuario ) {
