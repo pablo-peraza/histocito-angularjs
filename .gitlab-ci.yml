@@ -16,12 +16,12 @@ deploy_master:
   script:
     - npm install
     - bower install
-    - NODE_ENV=production gulp dist --backend http://pruebas.ciriscr.com:17001 --node http://pruebas.ciriscr.com:3001
+    - NODE_ENV=production gulp dist --backend http://app.histocito.net:17001 --node http://app.histocito.net:3001
     - rsync -rlDv --delete dist /software/histocito/frontend
   environment:
     name: master
-    url: http://pruebas.ciriscr.com:3000
+    url: http://app.histocito.net
   only:
   - master
   tags:
-  - pruebas
+  - angular
