@@ -25,3 +25,18 @@ deploy_master:
   - master
   tags:
   - angular
+
+deploy_desarrollo:
+  stage: deploy
+  script:
+    - npm install
+    - bower install
+    - NODE_ENV=production gulp dist --backend http://pruebas.ciriscr.com:17001 --node http://pruebas.ciriscr.com:3001
+    - rsync -rlDv --delete dist /software/histocito/frontend
+  environment:
+    name: desarrollo
+    url: http://pruebas.ciriscr.com:3000
+  only:
+  - desarrollo
+  tags:
+  - pruebas
