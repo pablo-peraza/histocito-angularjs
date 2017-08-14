@@ -520,6 +520,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
     $scope.datos.cargando = true;
     Muestras.guardarPaciente( expediente ).then( ok, error ).finally( function() {
       $scope.datos.cargando = false;
+      $scope.datos.edicionMedica = false;
     } );
   } //guardadoMedico
 
