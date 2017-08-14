@@ -147,11 +147,15 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
             muestra.enviada = true;
           }//ultima
         }
-        var listaTemp = _.filter( res.usuariosParaCorreos, {"enviarcorreo": true} )
-        .map( function( usuario ) {
-          return usuario.nombre + " " +
-          usuario.apellidos + " <" + usuario.correo + ">";
-        } );
+        var listaTemp = _.chain( res.usuariosParaCorreos )
+          .filter( function( usuario ) {
+            return usuario.enviarcorreo === true;
+          } )
+          .map( function( usuario ) {
+            return usuario.nombre + " " +
+            usuario.apellidos + " <" + usuario.correo + ">";
+          } )
+          .value();
         if ( res.correosAdicionales && ( res.correosAdicionales ).trim().length ) {
           var correos = res.correosAdicionales.split( /[ :;,-]+/ );
           listaTemp = listaTemp.concat( correos );
