@@ -97,35 +97,37 @@ function MuestrasMedicoCtrl( $rootScope, $scope, muestras, dimensiones, elemento
           var usuariosParaCorreos = {listaUsuarios: []};
           return Muestras.rest.obtener( muestra.id ).then( function( resulMuestra ) {
             return ExpedientesREST.obtener( resulMuestra.data.idExpediente ).then(
-              function( resulExp ) {
-              return Usuarios.obtener( resulMuestra.data.idUsuario ).then( function( resuldueno ) {
-                resuldueno.data.enviarcorreo = false;
-                resuldueno.data.tipoUsuario = "dueno";
-                delete resuldueno.data.id;
-                delete resuldueno.data.precios;
-                delete resuldueno.data.telefonos;
-                delete resuldueno.data.configuracion;
-                usuariosParaCorreos.listaUsuarios.push( resuldueno.data );
-                _.forEach( resulMuestra.data.autorizados, function( idUsuarioAutorizado ) {
-                  Usuarios.obtener( idUsuarioAutorizado ).then( function( resulAutorizado ) {
-                    resulAutorizado.data.enviarcorreo = false;
-                    resulAutorizado.data.tipoUsuario = "autorizado";
-                    delete resulAutorizado.data.id;
-                    delete resulAutorizado.data.precios;
-                    delete resulAutorizado.data.telefonos;
-                    delete resulAutorizado.data.configuracion;
-                    usuariosParaCorreos.listaUsuarios.push( resulAutorizado.data );
+              function( resultExp ) {
+                resultExp.data.ficha.datosContacto.enviarCorreo = false;
+                return Usuarios.obtener( resulMuestra.data.idUsuario )
+                .then( function( resuldueno ) {
+                  resuldueno.data.enviarcorreo = false;
+                  resuldueno.data.tipoUsuario = "dueno";
+                  delete resuldueno.data.id;
+                  delete resuldueno.data.precios;
+                  delete resuldueno.data.telefonos;
+                  delete resuldueno.data.configuracion;
+                  usuariosParaCorreos.listaUsuarios.push( resuldueno.data );
+                  _.forEach( resulMuestra.data.autorizados, function( idUsuarioAutorizado ) {
+                    Usuarios.obtener( idUsuarioAutorizado ).then( function( resulAutorizado ) {
+                      resulAutorizado.data.enviarcorreo = false;
+                      resulAutorizado.data.tipoUsuario = "autorizado";
+                      delete resulAutorizado.data.id;
+                      delete resulAutorizado.data.precios;
+                      delete resulAutorizado.data.telefonos;
+                      delete resulAutorizado.data.configuracion;
+                      usuariosParaCorreos.listaUsuarios.push( resulAutorizado.data );
+                    } );
                   } );
+                  return {
+                    "muestra": resulMuestra.data,
+                    "correosAdicionales": "",
+                    "comentarioAdicional": "",
+                    "expediente": resultExp.data,
+                    "usuariosParaCorreos": usuariosParaCorreos.listaUsuarios
+                  };
                 } );
-                return {
-                  "muestra": resulMuestra.data,
-                  "correosAdicionales": "",
-                  "comentarioAdicional": "",
-                  "expediente": resulExp.data,
-                  "usuariosParaCorreos": usuariosParaCorreos.listaUsuarios
-                };
               } );
-            } );
           } );
         }
       }

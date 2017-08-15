@@ -547,7 +547,8 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
           var usuariosParaCorreos = {listaUsuarios: []};
           return Muestras.rest.obtener( muestra.id ).then( function( resulMuestra ) {
             return ExpedientesREST.obtener( resulMuestra.data.idExpediente )
-            .then( function( resulExp ) {
+            .then( function( resultExp ) {
+              resultExp.data.ficha.datosContacto.enviarCorreo = false;
               return Usuarios.obtener( resulMuestra.data.idUsuario ).then( function( resuldueno ) {
                 resuldueno.data.enviarcorreo = false;
                 resuldueno.data.tipoUsuario = "dueno";
@@ -569,7 +570,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
                 } );
                 return {
                   "muestra": resulMuestra.data,
-                  "expediente": resulExp.data,
+                  "expediente": resultExp.data,
                   "usuariosParaCorreos": usuariosParaCorreos.listaUsuarios
                 };
               } );
