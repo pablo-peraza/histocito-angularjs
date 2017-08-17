@@ -30,9 +30,9 @@ function componer( url, archivo, unico ) {
   return obj;
 } //function
 
-function datosForm( imagen, titulo, descripcion ) {
+function datosForm( imagen, titulo, descripcion, urlApi ) {
   return {
-    url: "/api/imagenes/",
+    url: urlApi + "/api/imagenes/",
     method: "PUT",
     headers: {
       "Content-Type": "multipart/form-data; boundary=----Ciris5330963b44ae2234e6cb7105"
@@ -51,8 +51,8 @@ function quitar( archivos, url ) {
   } );
 } //function
 
-SubidaImagenesCtrl.$inject = [ "$scope", "$timeout", "$upload", "Alertas" ];
-function SubidaImagenesCtrl( $scope, $timeout, $upload, Alertas ) {
+SubidaImagenesCtrl.$inject = [ "$scope", "$timeout", "$upload", "Alertas", "urlApi" ];
+function SubidaImagenesCtrl( $scope, $timeout, $upload, Alertas, urlApi ) {
   $scope.archivos = [];
   $scope.vacio = _.isEmpty;
   if ( ( _.isEmpty( $scope.modelo ) || _.isUndefined( $scope.modelo ) ) && !$scope.unico ) {
@@ -91,7 +91,7 @@ function SubidaImagenesCtrl( $scope, $timeout, $upload, Alertas ) {
 
   $scope.iniciar = function( archivo ) {
     archivo.bloqueado = true;
-    var form = datosForm( archivo.archivo, archivo.titulo, archivo.descripcion );
+    var form = datosForm( archivo.archivo, archivo.titulo, archivo.descripcion, urlApi );
     $upload.upload( form ).then( function( data ) {
       if ( $scope.unico ) {
         $scope.modelo = data.data;
