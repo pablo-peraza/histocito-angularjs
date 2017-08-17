@@ -57,7 +57,10 @@
     "watchify": "^2.2.1",
     "yargs": "^3.26.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "gulp-compile-handlebars": "^0.6.1",
+    "readline-sync": "^1.4.7"
+  },
   "scripts": {
     "lint": "lessc --lint src/less/main.less"
   }

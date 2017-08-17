@@ -18,19 +18,21 @@ gulp.task( "build:js", require( "./browserify" ).desarrollo );
 gulp.task( "build:bower", require( "./bower" ).desarrollo );
 gulp.task( "build:html", require( "./plantillas" ).desarrollo );
 gulp.task( "build:less", require( "./less" ).desarrollo );
-gulp.task( "build", [ "build:js", "build:bower", "build:html",
- "build:less", "recursos", "backend" ], function( cb ) {
-   return cb();
- } );
+gulp.task( "build",
+[ "build:js", "build:bower", "build:html", "build:less", "recursos", "backend", "html-inicial" ],
+function( cb ) {
+  return cb();
+} );
 
 gulp.task( "dist:js", require( "./browserify" ).produccion );
 gulp.task( "dist:bower", require( "./bower" ).produccion );
 gulp.task( "dist:html", require( "./plantillas" ).produccion );
 gulp.task( "dist:less", require( "./less" ).produccion );
-gulp.task( "dist", [ "dist:js", "dist:bower", "dist:html",
- "dist:less", "recursos", "backend" ], function( cb ) {
-   return cb();
- } );
+gulp.task( "dist", [ "dist:js", "dist:bower", "dist:html", "dist:less", "recursos", "backend",
+"html-inicial" ],
+function( cb ) {
+  return cb();
+} );
 
 gulp.task( "watch:js", require( "./browserify" ).watch );
 gulp.task( "watch", [ "watch:js" ], require( "./watch" ) );
@@ -40,6 +42,9 @@ gulp.task( "serve:dist", [ "clean", "dist" ], require( "./servidor" ) );
 
 gulp.task( "serve", require( "./servidor" ) );
 gulp.task( "default", [ "serve:dev" ] );
+
+gulp.task( "html-inicial", require( "./html-inicial.js" ) );
+gulp.task( "bump", require( "./githooks.js" ) );
 
 function clean( callback ) {
   rimraf.sync( "./dist" );
