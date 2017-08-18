@@ -37,15 +37,25 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
       }
     } );
 
+  $scope.resetFiltro = function( muestras ) {
+    $scope.seleccion = false;
+    $scope.datos.muestras.lista = _.map( muestras, function( muestra ) {
+      muestra.seleccionada = false;
+      return muestra;
+    } );
+  };
+
   $scope.seleccionadas = function( muestras ) {
     return _.filter( muestras, function( muestra ) {
       return muestra.seleccionada;
     } );
   };
 
-  $scope.seleccionarTodas = function( bool, muestras ) {
+  $scope.seleccionarTodas = function( bool, muestras, filtro ) {
     return _.map( muestras, function( muestra ) {
-      muestra.seleccionada = bool;
+      if ( muestra.diagnosticada === ( filtro === "true" ) ) {
+        muestra.seleccionada = bool;
+      }
       return muestra;
     } );
   };

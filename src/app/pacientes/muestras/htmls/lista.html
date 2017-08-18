@@ -63,7 +63,7 @@
         <div class="" ng-if="activado">
 
           <h5>Filtro de diagnóstico:</h5>
-          <select class="form-control" ng-model="datos.filtroDiagnostico">
+          <select class="form-control" ng-model="datos.filtroDiagnostico" ng-change="resetFiltro(datos.muestras.lista)">
             <option value="" >------ Sin filtro ------</option>
             <option value="false" >En Diagnostico</option>
             <option value="true">Diagnosticadas</option>
@@ -75,7 +75,7 @@
             <thead>
               <tr>
                 <th>
-                  <input type="checkbox" ng-model="seleccion" ng-change="datos.muestras.lista = seleccionarTodas(seleccion, datos.muestras.lista)">
+                  <input type="checkbox" ng-model="seleccion" ng-change="datos.muestras.lista = seleccionarTodas(seleccion, datos.muestras.lista, datos.filtroDiagnostico)">
                 </th>
                 <th>Consecutivo</th>
                 <th>Procedimiento</th>
