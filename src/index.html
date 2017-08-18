@@ -48,9 +48,9 @@
   </section>
   <script type="text/ng-template" id="platillaUsuario.html">
     <a>
-      <span>{{match.model.nombre}} {{match.model.apellidos}}</span>
-      <small class="text-info"> {{match.model.cedula}} </small>
-      <strong> - {{match.model.correo}}</strong>
+      <span ng-bind="match.model.nombre + ' ' + match.model.apellidos"></span>
+      <small class="text-info" ng-bind="match.model.cedula"></small>
+      <strong ng-bind="' - ' + match.model.correo"></strong>
     </a>
   </script>
   <script type="text/ng-template" id="template/modal/window.html">
