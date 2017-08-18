@@ -22,7 +22,7 @@ module.exports = {
     ]
   },
   recursos: {
-    principal: [ "src/index.html", "src/recursos", "src/recursos/*", "src/recursos/**/*" ]
+    principal: [ "!src/index.html", "src/recursos", "src/recursos/*", "src/recursos/**/*" ]
   },
   config: {
     principal: "./recursos/config.js"

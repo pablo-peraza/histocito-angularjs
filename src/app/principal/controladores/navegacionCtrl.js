@@ -15,6 +15,7 @@ function navegacionCtrl( $scope, $location, $route, $timeout, Credenciales, Navb
   function buscar( texto ) {
     $location.search( "busqueda", texto ).path( "/inicio/pacientes/expedientes" );
   }
+  $scope.version = require( "../../../../package.json" ).version;
   $scope.buscar = buscar;
   $scope.colapsado = function() {
     return Navbar.colapsado;
