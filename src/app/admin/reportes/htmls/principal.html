@@ -7,9 +7,16 @@
 <section class="container-fluid">
   <ul class="list-inline text-center hidden-xs hidden-xs hidden-sm">
     <li>
-      <a download="download.xls" href="#" ng-click="exportarExcel(this);">Export to Excel</a>
+      <a download="download.xls" href="#" ng-click="exportarExcel(this);">Exportar a Excel</a>
     </li>
   </ul>
+  <div class="row">
+    <div class="col-md-3">
+      <label>
+        <input type="checkbox" ng-model="datos.noNumericos"/>
+      </label>&nbsp;<span tooltip="Obtiene muestras cuyo consecutivo no es numérico">No numéricos</span>
+    </div>
+  </div>
   <div class="row">
     <div class="col-sm-10 col-md-12">
       <form ng-submit="buscar(searchForm)" name="searchForm">

@@ -78,7 +78,7 @@ function Muestras( MuestrasREST, MuestrasTabs, MuestrasEstados, Expedientes, Usu
     } else {
       copia.equipo = {};
     }
-    copia.numero = parseInt( copia.consecutivoManual );
+    copia.numero = parsearConsecutivo( copia.consecutivoManual );
     return MuestrasREST.guardar( copia );
   };
   funciones.guardarPaciente = function( paciente ) {
@@ -94,4 +94,9 @@ function Muestras( MuestrasREST, MuestrasTabs, MuestrasEstados, Expedientes, Usu
     return Usuarios.guardar( medico );
   };
   return funciones;
+
+  function parsearConsecutivo( consecutivo ) {
+    var parseado = Number( consecutivo );
+    return _.isNaN( parseado ) ? 0 : parseado;
+  }
 }
