@@ -79,6 +79,9 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
     if ( sec === undefined ) {
       sec = "";
     }
+    if ( _.isNaN( Number( sec ) ) ) {
+      return;
+    }
     var str = "" + sec;
     var pad = "00000";
     var ans = pad.substring( 0, pad.length - str.length ) + str;
@@ -190,7 +193,12 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
     ] ) ) {
       original = angular.copy( datos );
       $scope.datos.muestra.editando = true;
-      $scope.datos.muestra.consecutivoManual = $scope.datos.muestra.consecutivo.split( "-" )[1];
+      var mitad = $scope.datos.muestra.consecutivo.substr( 5 );
+      if ( _.isNaN( Number( mitad ) ) ) {
+        $scope.datos.muestra.consecutivoManual = mitad;
+      } else {
+        $scope.datos.muestra.consecutivoManual = $scope.datos.muestra.consecutivo.split( "-" )[1];
+      }
     }
   };
 

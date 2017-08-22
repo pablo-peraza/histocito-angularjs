@@ -51,7 +51,10 @@ function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, ur
   $scope.buscar = function( searchForm ) {
     if ( !searchForm.$invalid ) {
       $http.post( node + "/api/reportes",
-      {"desde": $scope.datos.desde, "hasta": $scope.datos.hasta, "categoria": $scope.categoria} )
+      {
+        "desde": $scope.datos.desde, "hasta": $scope.datos.hasta, "categoria": $scope.categoria,
+        "noNumericos": $scope.datos.noNumericos
+      } )
       .then( ok, error );
     }
   };
