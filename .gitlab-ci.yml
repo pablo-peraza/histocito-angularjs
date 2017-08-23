@@ -16,7 +16,7 @@ deploy_master:
   script:
     - npm install
     - bower install
-    - NODE_ENV=production gulp dist --backend https://backend.histocito.net --node https://backend.histocito.net:3001
+    - NODE_ENV=production gulp dist --backend http://backend.histocito.net --node http://backend.histocito.net:3001
     - rsync -rlDv --delete dist /software/histocito/frontend
   environment:
     name: master
