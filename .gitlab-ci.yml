@@ -24,7 +24,7 @@ deploy_master:
   only:
   - master
   tags:
-  - angular
+  - histocito-frontend
 
 deploy_desarrollo:
   stage: deploy
