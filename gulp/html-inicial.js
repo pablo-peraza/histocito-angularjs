@@ -6,7 +6,7 @@ var notify = require( "gulp-notify" );
 module.exports = htmlInicial;
 
 function htmlInicial() {
-  return gulp.src( [ "src/index.html", "src/index-original.html" ], {
+  return gulp.src( [ "src/index.html", "src/index-mantenimiento.html" ], {
       base: "./src"
     } )
     .pipe( handlebars( {version: require( "../package.json" ).version} ) )

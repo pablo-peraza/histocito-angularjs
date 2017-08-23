@@ -33,33 +33,10 @@
   <script type="text/javascript" src="plantillas.js?version={{version}}"></script>
 </head>
 
-<body>
-  <header class="hidden-print">
-    <div ng-include="'principal/htmls/navegacion.html'"></div>
-  </header>
-  <section class="paddingInterno">
-    <div ng-include="'principal/htmls/alerta.html'" class="hidden-print"></div>
-    <div ng-if="false">
-      <h4 class="text-center" style="margin-top:15%;">
-        <i class="fa fa-fw fa-circle-o-notch faa-spin animated"></i> Cargando Aplicación
-      </h4>
-    </div>
-    <div data-ng-view></div>
-  </section>
-  <script type="text/ng-template" id="platillaUsuario.html">
-    <a>
-      <span ng-bind="match.model.nombre + ' ' + match.model.apellidos"></span>
-      <small class="text-info" ng-bind="match.model.cedula"></small>
-      <strong ng-bind="' - ' + match.model.correo"></strong>
-    </a>
-  </script>
-  <script type="text/ng-template" id="template/modal/window.html">
-  <div tabindex="-1" role="dialog" class="modal fade" ng-class="{in: animate}" ng-style="{'z-index': 1050 + index*10, display: 'block'}">
-    <div class="modal-dialog" ng-class="{'modal-sm': size == 'sm', 'modal-lg': size == 'lg'}">
-      <div class="modal-content" ng-transclude></div>
-    </div>
-  </div>
-  </script>
+<body class="text-center">
+  <h1>Estamos en mantenimiento</h1>
+  <h3>Por favor, espere</h3>
+  <div><i class="fa fa-wrench fa-5x"></i></div>
 </body>
 
 </html>
