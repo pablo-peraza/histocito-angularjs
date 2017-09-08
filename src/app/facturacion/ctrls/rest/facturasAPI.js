@@ -51,7 +51,7 @@ function FacturasREST( $http, Dimensionador, urlApi ) {
   };
 
   funciones.eliminarPago = function( idFactura, pago ) {
-    return $http["delete"]( "/api/facturas/" + idFactura + "/pagos/" + pago.id );
+    return $http["delete"]( urlApi + "/api/facturas/" + idFactura + "/pagos/" + pago.id );
   };
 
   funciones.preciosMedicos = function( ids ) {
