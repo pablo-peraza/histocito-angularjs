@@ -33,6 +33,7 @@ deploy_desarrollo:
     - bower install
     - NODE_ENV=production gulp dist --backend http://pruebas.ciriscr.com:17001 --node http://pruebas.ciriscr.com:3001
     - rsync -rlDv --delete dist /software/histocito/frontend
+    - rsync -rlDv -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete dist/ sistemas@45.79.212.97:/software/histocito/frontend/dist
   environment:
     name: desarrollo
     url: http://pruebas.ciriscr.com:3000
