@@ -1,0 +1,12 @@
+<div>
+  <div class="btn-file cursor-pointer">
+    <i class="fa fa-fw fa-paperclip"></i>
+    <span class="text-primary">Adjuntar archivos</span>
+    <input type="file" ng-file-select="seleccionar($files)" multiple>
+  </div>
+  <ul>
+    <li ng-repeat="file in files">
+      <span ng-bind="file.name"></span>
+    </li>
+  </ul>
+</div>

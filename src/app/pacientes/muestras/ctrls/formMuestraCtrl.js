@@ -547,7 +547,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
   function modalEnvioCorreosMuestrasUna( muestra ) {
     return $modal.open( {
       templateUrl: "mensajeCortoCorreoMuestrasUna.html",
-      controller: "EnviarCorreosMuestrasUnaCtrl",
+      controller: "EnviarCorreosCtrl",
       size:"lg",
       backdrop: "static",
       resolve: {
