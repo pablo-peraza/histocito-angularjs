@@ -16,16 +16,28 @@ function cisArchivoAdjunto( urlApi, $upload, Imagenes ) {
   function link( $scope ) {
     $scope.seleccionar = seleccionar;
     $scope.subir = subir;
+    $scope.quitar = quitar;
+    $scope.files = [];
 
     function seleccionar( $files ) {
-      $scope.files = $files;
-      var promesas = _.map( $files, subir );
-      $scope.procesando = true;
-      Promise.all( promesas ).then( function( result ) {
-        _.forEach( result, function( res ) {
-          $scope.modelo.push( res );
+      var nuevos = filtrarNuevos( $scope.modelo, $files );
+      if ( nuevos.length ) {
+        var promesas = _.map( nuevos, subir );
+        $scope.procesando = true;
+        Promise.all( promesas ).then( function( result ) {
+          _.forEach( result, function( res ) {
+            $scope.modelo.push( res );
+          } );
+          $scope.procesando = false;
         } );
-        $scope.procesando = false;
+      }
+    }
+
+    function filtrarNuevos( existentes, agregados ) {
+      return _.filter( agregados, function( file ) {
+        return !_.find( existentes, function( f ) {
+          return f.titulo === file.name;
+        } );
       } );
     }
 
@@ -38,6 +50,12 @@ function cisArchivoAdjunto( urlApi, $upload, Imagenes ) {
             url: resp.data.url
           };
         } );
+      } );
+    }
+
+    function quitar( url ) {
+      $scope.modelo = _.reject( $scope.modelo, function( file ) {
+        return file.url === url;
       } );
     }
 
