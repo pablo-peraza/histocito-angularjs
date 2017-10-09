@@ -42,7 +42,7 @@ function MuestrasREST( $http, Dimensionador, urlApi ) {
       }
     };
     if ( texto ) {
-      if ( /^\d{4}-\d+$/.test( texto ) ) {
+      if ( /^\d{4}-\d+-?(\w|\d)*$/.test( texto ) ) {
         params.params.muestra = texto;
       } else {
         params.params.texto = texto;

@@ -80,6 +80,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       sec = "";
     }
     if ( _.isNaN( Number( sec ) ) ) {
+      $scope.datos.muestra.consecutivo = $scope.datos.fecha + sec;
       return;
     }
     var str = "" + sec;
