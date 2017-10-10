@@ -1,0 +1,13 @@
+<div>
+  <div class="btn-file cursor-pointer">
+    <i class="fa fa-fw fa-paperclip"></i>
+    <span class="text-primary">Adjuntar archivos</span>
+    <input type="file" ng-file-select="seleccionar($files)" multiple>
+  </div>
+  <ul>
+    <li ng-repeat="file in modelo">
+      <span ng-bind="file.titulo"></span>
+      <i class="fa fa-fw fa-times text-danger cursor-pointer" ng-click="quitar(file.url)"></i>
+    </li>
+  </ul>
+</div>

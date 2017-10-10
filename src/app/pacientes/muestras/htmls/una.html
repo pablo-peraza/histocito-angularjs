@@ -287,7 +287,6 @@
         <div cis-correos modelo="datos.expediente.ficha.datosContacto.correos"
           editando="true"></div>
       </div>
-      <br>
 
       <div>
         <h6><b>Marque los contactos a quien desee enviar este correo:</h6>
@@ -321,10 +320,12 @@
 
       <br>
       <h6 for="" class="control-label" style="clear: both;">Digite el comentario</h6>
-        <div text-angular ng-model="datos.comentarioAdicional"></div>
+      <div text-angular ng-model="datos.comentarioAdicional"></div>
+      <cis-archivo-adjunto ng-model="adjuntos" procesando="procesando"></cis-archivo-adjunto>
     </div>
     <div class="modal-footer">
+
       <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
-      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="validarFormularioVacio(datos) || shareSelectionForm.recipientEmail.$invalid ">Aceptar</button>
+      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="validarFormularioVacio(datos) || shareSelectionForm.recipientEmail.$invalid || procesando">Aceptar</button>
     </div>
   </script>

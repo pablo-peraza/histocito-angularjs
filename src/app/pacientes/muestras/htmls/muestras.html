@@ -131,9 +131,10 @@
       <br>
       <h6 for="" class="control-label" style="clear: both;">Digite el comentario</h6>
         <div text-angular ng-model="datos.comentarioAdicional"></div>
+        <cis-archivo-adjunto ng-model="adjuntos" procesando="procesando"></cis-archivo-adjunto>
     </div>
     <div class="modal-footer">
       <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
-      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="validarFormularioVacio(datos) || shareSelectionForm.recipientEmail.$invalid ">Aceptar</button>
+      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="validarFormularioVacio(datos) || shareSelectionForm.recipientEmail.$invalid || procesando">Aceptar</button>
     </div>
   </script>
