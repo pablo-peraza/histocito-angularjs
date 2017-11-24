@@ -35,7 +35,9 @@ function DiagnosticoCtrl( $rootScope, $scope, params, hotkeys, Muestras, Alertas
         description: "Guardar el diagnóstico",
         allowIn: [ "input", "select", "textarea" ],
         callback: function() {
-          $scope.guardar( $scope.datos.muestra.id, $scope.datos.muestra.diagnostico );
+          if ( $scope.datos.muestra.diagnostico.editando ) {
+            $scope.guardar( $scope.datos.muestra.id, $scope.datos.muestra.diagnostico );
+          }
         }
       } )
       .add( {
