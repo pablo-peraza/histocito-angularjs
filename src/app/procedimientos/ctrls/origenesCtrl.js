@@ -30,7 +30,9 @@ function OrigenesCtrl( $rootScope, $scope, origenes, elementoActual, Alertas, ho
         description: "Guardar",
         allowIn: [ "input", "select", "textarea" ],
         callback: function() {
-          $scope.guardar( $scope.datos.temp );
+          if ( !_.isUndefined( $scope.datos.temp ) ) {
+            $scope.guardar( $scope.datos.temp );
+          }
         }
       } )
       .add( {

@@ -24,7 +24,9 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
         description: "Salvar el usuario",
         allowIn: [ "input", "select", "textarea" ],
         callback: function() {
-          $scope.guardar( $scope.datos.usuario );
+          if ( $scope.datos.usuario.editando ) {
+            $scope.guardar( $scope.datos.usuario );
+          }
         }
       } )
       .add( {
