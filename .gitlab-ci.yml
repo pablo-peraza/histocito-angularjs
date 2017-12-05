@@ -17,17 +17,17 @@ deploy_master:
     - npm install
     - bower install
     - NODE_ENV=production gulp dist --backend https://backend.histocito.net --node https://backend.histocito.net:3001
-    - rsync -rlDv --delete dist /software/histocito/frontend
-    - rsync -rlDv -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete dist/ sistemas@45.79.212.97:/software/histocito/frontend/dist
+    - rsync -rlDv --delete dist /software/histocito-frontend
+    - rsync -rlDv -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --delete dist/ sistemas@backend2:/software/histocito-frontend/dist
   environment:
-    name: master
+    name: produccion
     url: https://app.histocito.net
   only:
-  - master
+  - produccion
   tags:
   - histocito-frontend
 
-deploy_desarrollo:
+deploy_pruebas:
   stage: deploy
   script:
     - npm install
@@ -35,9 +35,9 @@ deploy_desarrollo:
     - NODE_ENV=production gulp dist --backend http://pruebas.ciriscr.com:17001 --node http://pruebas.ciriscr.com:3001
     - rsync -rlDv --delete dist /software/histocito/frontend
   environment:
-    name: desarrollo
+    name: pruebas
     url: http://pruebas.ciriscr.com:3000
   only:
-  - desarrollo
+  - pruebas
   tags:
   - pruebas
