@@ -15,6 +15,14 @@ exports.haceCuanto = haceCuanto;
 exports.mayusculas = mayusculas;
 exports.edad = edad;
 exports.tamanoHumano = tamanoHumano;
+exports.mes = mes;
+
+function mes() {
+  return function( num ) {
+    var m = moment().month( Number( num ) ).format( "MMMM" );
+    return m[0].toUpperCase() + m.substring( 1 );
+  };
+}
 
 function duracion() {
   return function( segundos ) {

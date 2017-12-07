@@ -1,0 +1,81 @@
+<nav class="menu-contextual">
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-flask fa-fw"></i> Diagnósticos de Citologías</h1>
+</section>
+<section class="container-fluid">
+  <div>
+    <form ng-submit="vm.buscar(vm.rango)" name="form">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="control-label">Desde</label>
+            <input
+            class="form-control"
+            ng-model="vm.rango.desde"
+            datepicker-popup="MM/yyyy"
+            is-open="dateDesde"
+            ng-focus="dateDesde = true"
+            ng-click="dateDesde = true"
+            datepicker-options="vm.calConfig"
+            show-button-bar="false"
+            name="desde"
+            ng-required="true"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="control-label">Hasta</label>
+            <input
+            class="form-control"
+            ng-model="vm.rango.hasta"
+            datepicker-popup="MM/yyyy"
+            is-open="dateHasta"
+            ng-focus="dateHasta = true"
+            ng-click="dateHasta = true"
+            datepicker-options="vm.calConfig"
+            show-button-bar="false"
+            name="hasta"
+            ng-required="true"
+            />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <br>
+          <button class="btn">
+            <span class="input-group-addon">
+              <i class="fa fa-fw fa-search"></i>
+              Buscar
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+  <div class="table-cascade" ng-if="vm.resultados">
+    <table class="table table-condensed table-hover">
+      <thead class="table-head">
+        <tr>
+          <th></th>
+          <th>ASC-US</th>
+          <th>Displasias leves</th>
+          <th>Total de citologías</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(key, val) in vm.resultados track by $index">
+          <td><strong ng-bind="key | mes"></strong></td>
+          <td ng-bind="val['ASC-US']"></td>
+          <td ng-bind="val['Displasia leve']"></td>
+          <td ng-bind="val['Total citologías']"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center" ng-show="!vm.resultados">
+    <strong>No hay resultados</strong>
+  </div>
+</section>
