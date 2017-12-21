@@ -9,7 +9,7 @@ function cisDatosExpedienteCtrl( $scope, $root, Selecciones, Fechas ) {
   };
 
   $scope.minimo = moment()
-    .subtract( 2, "y" );
+    .subtract( 100, "y" );
   $scope.hoy = moment()
     .endOf( "day" );
   $scope.eliminarAGO = function( sexo ) {

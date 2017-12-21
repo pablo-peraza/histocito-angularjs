@@ -51,21 +51,26 @@
             cis-fecha-inexacta
             name="fechaNacimiento"
             max="{{hoy}}"
+            min="{{minimo}}"
             ng-model="modelo.ficha.fechaNacimiento"
             ng-disabled="cargando">
           </div>
           <span class="help-block" ng-if="form.fechaNacimiento.$error.fechaInvalida">Fecha Inválida</span>
           <span class="help-block" ng-if="form.fechaNacimiento.$error.fechaMaxima">La fecha no puede ser superior a {{hoy | Fecha:"LL"}}</span>
+          <span class="help-block" ng-if="form.fechaNacimiento.$error.fechaMinima">La fecha no puede ser inferior a 100 años</span>
         </div>
         <aside ng-if="!temp.edad && editando">
           <div class="form-group">
+            {{form.edad.$invalid}}
             <div class="input-group">
-              <input type="number" class="form-control" min="0" max="100" name="campo"
+              <input type="number" class="form-control" name="fechaNacimiento" ng-pattern="/^0*(?:[1-9][0-9]?|100)$/"
               ng-change="calcularEdad(modelo.ficha.edad)"
+              ng-required="true"
               ng-model="modelo.ficha.edad">
               <span class="input-group-addon">Años</span>
             </div>
           </div>
+          <span class="help-block" ng-if="form.fechaNacimiento.$error.pattern">La edad permitida es de 0 a 100 años</span>
         </aside>
       </div>
     </div>
