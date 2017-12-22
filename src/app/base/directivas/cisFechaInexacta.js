@@ -67,10 +67,6 @@ function link( scope, elem, atr, ngModelCtrl ) {
       ngModelCtrl.$setValidity( "fechaMaxima", !moment( ngModelCtrl.$modelValue )
       .isAfter( scope.max ) );
     }
-    if ( scope.anoMin ) {
-      ngModelCtrl.$setValidity( "fechaMinima", moment( ngModelCtrl.$modelValue )
-      .isBefore( scope.min ) );
-    }
   }
   scope.$on( "show-errors-check-validity", function( e ) {
     validar();

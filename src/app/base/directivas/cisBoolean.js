@@ -32,7 +32,7 @@ function cisBoolean( $timeout ) {
       } );
 
       ngModelCtrl.$render = function() {
-        scope.modelo = ngModelCtrl.$viewValue;
+        scope.modelo = ngModelCtrl.$viewValue || false;
       };
 
       function hacer( bool ) {
