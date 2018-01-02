@@ -59,7 +59,7 @@ function cisBoolean( $timeout ) {
         if ( _.isUndefined( ngModelCtrl.$viewValue ) ) {
           hacer( false );
         }
-      }, 100 );
+      }, 150 );
 
       elem.find( "button" ).on( "keydown keypress", function( event ) {
         if ( !scope.inhabilitar ) {
