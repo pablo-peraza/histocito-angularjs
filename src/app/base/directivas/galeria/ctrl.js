@@ -64,6 +64,13 @@ function cisGaleriaCtrl( $scope, $modal, Imagenes, Alertas ) {
       } //resolve
     } );
   }; //abrir
+
+  $scope.eliminar = function( idImg ) {
+    $scope.imagenes.lista = _.reject( $scope.imagenes.lista, {id: idImg} );
+    $scope.modelo = _.reject( $scope.modelo, function( img ) {
+      return img === idImg;
+    } );
+  };
 }
 
 function esPrivado( privado ) {
