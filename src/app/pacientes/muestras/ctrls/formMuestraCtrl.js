@@ -69,10 +69,12 @@ FormMuestraCtrl.$inject = [
   "$timeout",
   "Credenciales",
   "ExpedientesREST",
-  "Usuarios"
+  "Usuarios",
+  "Procedimientos"
 ];
 function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkeys, Muestras,
-  Alertas, $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios ) {
+  Alertas, $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios, Procedimientos )
+  {
   var original;
   $scope.limpiarAutorizados = limpiarAutorizados;
   $scope.cambiarSecuencia = function( sec ) {
@@ -365,22 +367,49 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       .then( ok, error );
     }
 
+    function validarCambioProcedimientos() {
+      return new Promise( function( resolve, reject ) {
+        if ( ( muestra.estado === "Registrada" || muestra.estado === "En análisis" ||
+        muestra.estado === "En diagnostico" ) && !muestra.diagnostico ) {
+          return resolve( true );
+        }
+        var promesas = [
+          Procedimientos.tipos.obtener( original.procedimiento.tipo ),
+          Procedimientos.tipos.obtener( procedimiento.tipo )
+        ];
+        Promise.all( promesas ).then( function( respuestas ) {
+          if ( respuestas[0].data.categoria === respuestas[1].data.categoria ) {
+            return resolve( true );
+          }
+          return reject( false );
+        } );
+      } );
+    }
+
     if ( muestra.editando ) {
       $scope.$broadcast( "show-errors-check-validity" );
       if ( !$scope.datos.cargando && form.$valid ) {
         $scope.datos.cargando = true;
-        Muestras.guardarPaciente( paciente ).then( function( resp ) {
-          paciente.id = resp.data;
-          if ( dueno && !dueno.id ) {
-            Muestras.guardarMedico( angular.copy( dueno ) ).then( function( resp ) {
-              dueno.id = resp.data;
+
+        validarCambioProcedimientos().then( function() {
+          Muestras.guardarPaciente( paciente ).then( function( resp ) {
+            paciente.id = resp.data;
+            if ( dueno && !dueno.id ) {
+              Muestras.guardarMedico( angular.copy( dueno ) ).then( function( resp ) {
+                dueno.id = resp.data;
+                realizarGuardado();
+              }, error );
+            } else {
               realizarGuardado();
-            }, error );
-          } else {
-            realizarGuardado();
-          }
-        }, error )["finally"]( function() {
+            }
+          }, error )["finally"]( function() {
+            $scope.datos.cargando = false;
+          } );
+        }, function() {
           $scope.datos.cargando = false;
+          Alertas.agregar( 500,
+            "Imposible cambiar el procedimiento a una muestra con diagnóstico o ya completada. " +
+            "Por favor contacte al administrador." );
         } );
       }
     }

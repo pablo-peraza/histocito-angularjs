@@ -88,7 +88,7 @@
 <div>
   <h5>Procedimiento</h5>
   <div class="form-group" show-errors
-  ng-if="datos.muestra.editando && (datos.muestra.estado === 'Registrada' || datos.muestra.estado === 'En análisis' || datos.muestra.estado === 'En diagnostico') && !datos.muestra.diagnostico" ng-controller="BuscarProcedimiento">
+  ng-if="datos.muestra.editando" ng-controller="BuscarProcedimiento">
     <label for="" class="control-label">Digite y busque un procedimiento</label>
     <input type="text" name="proc" placeholder="Seleccione un Procedimiento" class="form-control"
     ng-model="datos.procedimiento"
@@ -99,7 +99,8 @@
     typeahead-editable="false"
     typeahead-wait-ms="300"
     typeahead-focus-first="false"
-    typeahead-template-url="platillaProc.html">
+    typeahead-template-url="platillaProc.html"
+    autocomplete="off">
     <div cis-cargando modelo="buscando"></div>
     <span class="help-block" ng-if="form.proc.$error.required">Requerido</span>
   </div>
