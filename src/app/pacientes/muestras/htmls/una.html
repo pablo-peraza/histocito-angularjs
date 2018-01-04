@@ -186,7 +186,7 @@
   <script type="text/ng-template" id="imagenes.html">
     <h5>Imágenes</h5>
     <div cis-subida-imagenes modelo="datos.muestra.imagenes" ng-if="datos.muestra.editando"></div>
-    <div cis-galeria modelo="datos.muestra.imagenes"></div>
+    <div cis-galeria modelo="datos.muestra.imagenes" deshabilitado="!datos.muestra.editando"></div>
   </script>
   <script type="text/ng-template" id="observaciones.html">
     <h5>Observaciones</h5>

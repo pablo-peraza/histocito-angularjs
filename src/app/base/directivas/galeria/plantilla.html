@@ -3,6 +3,7 @@
     <p class="text-muted hidden-print" ng-if="!unico">Mostrando: {{imagenes.lista.length}} de {{imagenes.cantidad}}</p>
     <div class="row">
       <div class="galeria fx-fade-down fx-speed-1000 col-md-2 col-sm-3 col-xs-4" ng-if="!unico" ng-repeat="imagen in imagenes.lista">
+        <i ng-hide="deshabilitado" class="fa fa-fw fa-trash text-danger img-deleter" ng-click="eliminar(imagen.id)"></i>
         <img src="{{imagen.url}}" class="img-responsive img-rounded"  ng-click="abrir(imagen)"/>
         <div class="texto text-center" ng-click="abrir(imagen)">
           <p>
@@ -17,6 +18,7 @@
         </div>
       </div>
       <div class="galeria fx-fade-down fx-speed-1000 col-md-6 col-md-offset-3" ng-if="unico" ng-repeat="imagen in imagenes.lista">
+        <i class="fa fa-fw fa-trash text-danger img-deleter" ng-click="eliminar(imagen.id)"></i>
         <img src="{{imagen.url}}" class="img-responsive img-rounded"  />
       </div>
     </div>
