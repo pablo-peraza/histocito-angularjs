@@ -55,11 +55,11 @@ function cisBoolean( $timeout ) {
         } );
       } //function
 
-      $timeout( function() {
-        if ( _.isUndefined( ngModelCtrl.$viewValue ) ) {
-          hacer( false );
-        }
-      }, 150 );
+      scope.$watch( function() {
+        return ngModelCtrl.$viewValue;
+      }, function( val ) {
+        hacer( val ? val : false );
+      } );
 
       elem.find( "button" ).on( "keydown keypress", function( event ) {
         if ( !scope.inhabilitar ) {
