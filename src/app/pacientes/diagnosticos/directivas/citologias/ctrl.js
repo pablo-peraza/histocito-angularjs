@@ -70,6 +70,13 @@ function cargarSelecciones( $scope, Selecciones, mayorCincoCinco ) {
       $scope.floras = resp.lista;
       if ( sinHallazgos ) {
         $scope.modelo.hallazgos = {
+          histocitos: {activado: false},
+          eritrocitos: {activado: false},
+          tricomas: false,
+          fungiformesCandida: false,
+          cocobacilosVaginosis: false,
+          herpesSimplex: false,
+          actinomyces: false,
           reaccionInflamatoria: {
             activado: true,
             opcion: 2
