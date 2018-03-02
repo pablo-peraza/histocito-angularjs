@@ -45,6 +45,7 @@ function encontrarSeleccion( selecciones, aencontrar ) {
 } //encontrarSeleccion
 
 function cargarSelecciones( $scope, Selecciones, mayorCincoCinco ) {
+  var sinHallazgos = _.isUndefined( $scope.modelo.hallazgos );
   Selecciones.lesiones()
     .then( function( resp ) {
       $scope.lesiones = resp.lista;
@@ -67,8 +68,15 @@ function cargarSelecciones( $scope, Selecciones, mayorCincoCinco ) {
   Selecciones.flora()
     .then( function( resp ) {
       $scope.floras = resp.lista;
-      if ( _.isUndefined( $scope.modelo.hallazgos ) ) {
+      if ( sinHallazgos ) {
         $scope.modelo.hallazgos = {
+          histocitos: {activado: false},
+          eritrocitos: {activado: false},
+          tricomas: false,
+          fungiformesCandida: false,
+          cocobacilosVaginosis: false,
+          herpesSimplex: false,
+          actinomyces: false,
           reaccionInflamatoria: {
             activado: true,
             opcion: 2

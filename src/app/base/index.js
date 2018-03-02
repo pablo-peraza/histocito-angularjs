@@ -69,5 +69,6 @@ modulo.filter( "HaceCuanto", filtros.haceCuanto );
 modulo.filter( "Mayusculas", filtros.mayusculas );
 modulo.filter( "Edad", filtros.edad );
 modulo.filter( "TamanoHumano", filtros.tamanoHumano );
+modulo.filter( "mes", filtros.mes );
 
 module.exports = modulo.name;

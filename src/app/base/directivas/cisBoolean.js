@@ -32,7 +32,7 @@ function cisBoolean( $timeout ) {
       } );
 
       ngModelCtrl.$render = function() {
-        scope.modelo = ngModelCtrl.$viewValue;
+        scope.modelo = ngModelCtrl.$viewValue || false;
       };
 
       function hacer( bool ) {
@@ -59,7 +59,7 @@ function cisBoolean( $timeout ) {
         if ( _.isUndefined( ngModelCtrl.$viewValue ) ) {
           hacer( false );
         }
-      }, 100 );
+      }, 500 );
 
       elem.find( "button" ).on( "keydown keypress", function( event ) {
         if ( !scope.inhabilitar ) {

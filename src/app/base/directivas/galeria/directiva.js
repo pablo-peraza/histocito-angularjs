@@ -10,7 +10,8 @@ function cisGaleria() {
     scope: {
       modelo: "=",
       unico: "=?",
-      privado: "=?"
+      privado: "=?",
+      deshabilitado: "=?"
     },
     controller: "cisGaleriaCtrl"
   };
