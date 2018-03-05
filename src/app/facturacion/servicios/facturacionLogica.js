@@ -71,6 +71,9 @@ function FacturacionLogica() {
           if ( agrupacion === "usuario" ) {
             return _.isArray( muestras ) ? muestras[0].dueno.nombre : muestras.dueno.nombre;
           }
+          if ( agrupacion === "paciente" ) {
+            return _.isArray( muestras ) ? muestras[0].paciente.nombre : muestras.paciente.nombre;
+          }
         }
         return undefined;
       };
@@ -108,6 +111,8 @@ function FacturacionLogica() {
   funciones.agruparPorClinica = agruparPor( "clinica" );
 
   funciones.agruparPorDueno = agruparPor( "dueno" );
+
+  funciones.agruparPorPaciente = agruparPor( "paciente" );
 
   function agruparPor( atributo ) {
     return function( muestras ) {

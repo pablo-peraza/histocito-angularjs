@@ -2,8 +2,8 @@
 
 module.exports = FacturasREST;
 
-FacturasREST.$inject = [ "$http", "Dimensionador", "urlApi" ];
-function FacturasREST( $http, Dimensionador, urlApi ) {
+FacturasREST.$inject = [ "$http", "Dimensionador", "urlApi", "node" ];
+function FacturasREST( $http, Dimensionador, urlApi, node ) {
   var funciones = {};
   funciones.guardar = function( factura ) {
     var copy = angular.copy( factura );
@@ -11,13 +11,42 @@ function FacturasREST( $http, Dimensionador, urlApi ) {
     return $http.put( urlApi + "/api/facturas/", copy );
   };
 
+  funciones.guardarfacturaZoho = function( factura ) {
+    var copy = angular.copy( factura );
+    copy.detalle = _.map( copy.detalle, enriquecerDetalle );
+
+    var facturaZoho = cambiarModeloAFacturaZoho( factura );
+    return $http.post( node + "/api/facturas/zoho/guardar/factura", facturaZoho );
+
+    //return $http.put( urlApi + "/api/facturas/", copy );
+  };
+
   funciones.guardarTodas = function( facturas ) {
     var copiaFacturas = _.map( angular.copy( facturas ), function( factura ) {
       factura.detalle = _.map( factura.detalle, enriquecerDetalle );
       return factura;
     } );
-
     return $http.put( urlApi + "/api/facturas/masa", {
+      facturas: copiaFacturas
+    } );
+  };
+
+  funciones.guardarTodasZoho = function( facturas ) {
+    var copiaFacturas = _.map( angular.copy( facturas ), function( factura ) {
+      factura.detalle = _.map( factura.detalle, enriquecerDetalle );
+      return factura;
+    } );
+
+    var facturasZoho = _.map( copiaFacturas,  cambiarModeloAFacturaZoho );
+    return $http.post( node + "/api/facturas/zoho/guardar/factura", facturasZoho );
+  };
+
+  funciones.facturarZoho = function( facturas ) {
+    var copiaFacturas = _.map( angular.copy( facturas ), function( factura ) {
+      factura.detalle = _.map( factura.detalle, enriquecerDetalle );
+      return factura;
+    } );
+    return $http.get( node + "/api/facturas/zoho", {
       facturas: copiaFacturas
     } );
   };
@@ -27,6 +56,38 @@ function FacturasREST( $http, Dimensionador, urlApi ) {
     detalle.idProcedimiento = detalle.procedimiento.id;
     detalle.procedimiento = detalle.procedimiento.nombre;
     return detalle;
+  }
+
+  function cambiarModeloAFacturaZoho( factura ) {
+    function crearLineasFactura( lineas ) {
+      return _.map( lineas, function( linea ) {
+        return {
+          "name": linea.numero,
+          "description": linea.procedimiento.nombre + " - " + linea.paciente.nombre,
+          "rate": linea.precioFinal.centavos / 100,
+          "quantity": 1,
+          "unit": "",
+          "discount_amount": 0,
+          "discount": 0,
+          "tax_id": "",
+          "tax_name": "",
+          "tax_type": "tax",
+          "tax_percentage": 0,
+          "documents": []
+        };
+      } );
+    }
+    var facturaZoho = {
+      "status": "draft",
+      "customer_id": "",
+      "line_items": crearLineasFactura( factura.detalle ),
+      "payment_reminder_enabled": true,
+      "price_precision": 2,
+      "is_emailed": false,
+      "notes": "",
+      "can_send_in_mail": false
+    };
+    return facturaZoho;
   }
 
   funciones.editarConsecutivo = function( id, consecutivo ) {

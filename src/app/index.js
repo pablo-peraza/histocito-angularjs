@@ -39,7 +39,8 @@ var modulo = angular.module( "Proyecto", [
   require( "./facturacion" ),
   require( "./procedimientos" ),
   require( "./perfil" ),
-  require( "./pacientes" )
+  require( "./pacientes" ),
+  require( "./zohoAPI" )
 ] );
 
 modulo.run( run );
