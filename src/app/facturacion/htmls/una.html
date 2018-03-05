@@ -5,11 +5,13 @@
       <i class="fa fa-fw fa-pencil"></i><span class="hidden-sm hidden-xs"> Editar Número</span>
       </button>
     </li>
+<!--
     <li ng-if="!datos.mostrarForm && totalPagos(datos.factura.pagos) < total(datos.factura.detalle) && puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">
       <button class="btn btn-info" ng-click="datos.mostrarForm=!datos.mostrarForm; tabs[1].activo=true;">
       <i class="fa fa-fw fa-money"></i><span class="hidden-sm hidden-xs"> Nuevo Pago</span>
       </button>
     </li>
+-->
     <li ng-if="datos.mostrarForm && puedePasar([permisos.laboratorio, permisos.digitador, permisos.facturacion])">
       <div class="btn-group">
         <button class="btn btn-success"

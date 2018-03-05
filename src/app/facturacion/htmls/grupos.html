@@ -13,6 +13,12 @@
             <input type="radio" ng-change="agrupar(datos.muestrasSeleccionadas, datos.agrupacion)" ng-model="datos.agrupacion" value="medico"> Médico
           </label>
         </div>
+
+        <div class="radio-inline">
+          <label>
+            <input type="radio" ng-change="agrupar(datos.muestrasSeleccionadas, datos.agrupacion)" ng-model="datos.agrupacion" value="paciente">Paciente
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -27,6 +33,7 @@
             <h5 ng-if="datos.agrupacion === 'medico'">{{grupo[0].medico.nombre && grupo[0].medico.nombre || "Sin Médico"}}</h5>
             <h5 ng-if="datos.agrupacion === 'clinica'">{{grupo[0].clinica.nombre && grupo[0].clinica.nombre || "Sin Clínica"}}</h5>
             <h5 ng-if="datos.agrupacion === 'usuario'">{{grupo[0].dueno.nombre && grupo[0].dueno.nombre || "Sin Usuario"}}</h5>
+            <h5 ng-if="datos.agrupacion === 'paciente'">{{grupo[0].paciente.nombre && grupo[0].dueno.nombre || "Sin Usuario"}}</h5>
             <div class="table-responsive">
               <table class="table table-condensed">
                 <thead>
