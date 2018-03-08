@@ -18,7 +18,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
   var dimensiones = [ {
     cobrada: [ "No" ]
   }, {
-    estado: [ "completada", "registrada", "diagnostico", "analisis", "espera" ]
+    estado: [ "completada", "registrada", "diagnostico", "analisis" ]
   } ];
 
   $scope.datos = {
