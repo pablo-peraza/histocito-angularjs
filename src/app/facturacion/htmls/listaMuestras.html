@@ -1,79 +1,93 @@
 <div class="container-fluid">
   <h5>Seleccione las muestras que desea facturar</h5>
-  <form novalidate ng-submit="buscar()">
-    <div class="form-group">
-      <div class="input-group">
-        <input type="search" class="form-control"
-               placeholder="Buscar por paciente, consecutivo o médico"
-               ng-model="datos.filtro"
-               ng-required="true">
-        <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+  <div class="col-sm-3 col-md-2 dimensiones">
+    <div cis-dimensiones="{{datos.dimensiones}}" eliminar="{{dimensionesEliminadas()}}" actuales="datos.muestras.dimensiones"
+    on-change="aplicarDimension(dimensiones)" cargando="datos.cargando"></div>
+  </div>
+  <div class="col-sm-9 col-md-10">
+    <form novalidate ng-submit="buscar()">
+      <div class="form-group">
+        <div class="input-group">
+          <input type="search" class="form-control" placeholder="Buscar por paciente, consecutivo o médico"
+          ng-model="datos.filtro"
+          ng-required="true">
+          <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+        </div>
       </div>
-    </div>
-  </form>
-  <section>
-    <p class="text-muted">Mostrando: {{datos.muestras.lista.length}} de
-      {{datos.muestras.cantidad}}</p>
-    <div class="table-responsive">
-      <table class="table table-condensed table-hover">
-        <thead>
-        <tr>
-          <th>
-            <input type="checkbox" ng-model="datos.seleccionadas" ng-change="marcarTodas(datos.seleccionadas)">
-          </th>
-          <th>Consecutivo</th>
-          <th>Categoría</th>
-          <th>Procedimiento</th>
-          <th>Paciente</th>
-          <th>Médico</th>
-          <th>Clínica</th>
-          <th>Estado</th>
-          <th>Fecha Toma</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="cursor-pointer" bindonce
-            ng-repeat="muestra in datos.muestras.lista">
-          <td><input type="checkbox" ng-model="muestra.seleccionada"></td>
-          <td data-title="Consecutivo"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
-              bo-text="muestra.numero"></td>
-          <td data-title="Categoría"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
-              bo-text="muestra.categoria"></td>
-          <td data-title="Prodecimiento"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
-              bo-text="muestra.procedimiento.nombre"></td>
-          <td data-title="Paciente"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
-              bo-text="muestra.paciente.nombre"></td>
-          <td data-title="Médico"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
-              bo-text="muestra.medico.nombre"></td>
-          <td data-title="Médico"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
-              bo-text="muestra.clinica.nombre"></td>
-          <td data-title="Estado"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"><span ng-class="{
+    </form>
+    <section>
+      <p class="text-muted">Mostrando: {{datos.muestras.lista.length}} de {{datos.muestras.cantidad}}</p>
+      <div class="" ng-if="activado">
+
+        <h5>Filtro de diagnóstico:</h5>
+        <select class="form-control" ng-model="datos.filtroDiagnostico" ng-change="resetFiltro(datos.muestras.lista)">
+          <option value="" >------ Sin filtro ------</option>
+          <option value="false" >En diagnóstico</option>
+          <option value="true">Diagnosticadas</option>
+        </select>
+        <br>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" ng-model="seleccion" ng-change="datos.muestras.lista = seleccionarTodas(seleccion, datos.muestras.lista, datos.filtroDiagnostico)">
+              </th>
+              <th>Consecutivo</th>
+              <th>Procedimiento</th>
+              <th>Paciente</th>
+              <th>Médico</th>
+              <th>Clínica</th>
+              <th>Estado</th>
+              <th>Fecha Toma</th>
+              <th ng-if="puedePasar([permisos.laboratorio, permisos.digitador, permisos.medico, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo])">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cursor-pointer"
+              bindonce ng-repeat="muestra in datos.muestras.lista | filter: {'diagnosticada': datos.filtroDiagnostico} track by muestra.id">
+              <td><input type="checkbox" ng-model="muestra.seleccionada"></td>
+              <td data-title="Consecutivo" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.numero"></td>
+              <td data-title="Procedimiento" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.procedimiento.nombre"></td>
+              <td data-title="Paciente" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.paciente.nombre"></td>
+              <td data-title="Médico" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.medico.nombre"></td>
+              <td data-title="Clínica" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.clinica.nombre"></td>
+              <td data-title="Estado" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"><span bo-class="{
                 'En espera':'text-danger',
                 'Registrada':'text-info',
                 'En análisis':'text-warning',
                 'Completada':'text-success',
-                'En diagnostico':'text-primary'}[muestra.estado]" bo-text="muestra.estado"></span>
-          </td>
-          <td data-title="Fecha Toma"
-              ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)"
-              bo-text="muestra.fechaToma | Fecha:'LL'"></span></td>
-        </tr>
-        <tr ng-if="vacio(datos.muestras.lista)" class="text-center">
-          <td colspan="8"><strong>No hay resultados</strong></td>
-        </tr>
-        </tbody>
-      </table>
-      <div cis-cargando modelo="datos.cargando" class="text-center">
-        <div cis-scroll cargador="cargarMas" umbral="50"
-             debe-cargar="(datos.muestras.lista.length < datos.muestras.cantidad) && !datos.cargando"></div>
+              'En diagnostico':'text-primary'}[muestra.estado]" bo-text="(muestra.estado === 'En diagnostico' && muestra.diagnosticada) && 'Diagnosticada' || muestra.estado"></span></td>
+              <td data-title="Fecha Toma" ng-click="location.path('/inicio/pacientes/muestras/' + muestra.id)" ng-bind="muestra.fechaToma | Fecha:'L'"></td>
+              <td data-title="Acciones" bo-if="puedePasar([permisos.laboratorio, permisos.digitador, permisos.medico, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo])">
+                <ul class="list-inline text-center">
+                <li bo-if="puedePasar([permisos.patologo, permisos.laboratorio]) && muestra.estado === 'En diagnostico' && muestra.diagnosticada"
+                  ><small>
+                  <span class="fa-stack" ng-click="completar(muestra)">
+  <i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"></i>
+  <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+  </span>
+                  </small></li>
+                  <li bo-if="muestra.estado === 'Completada'"
+                  ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"
+                  ng-click=""></i></a></small></li>
+                  <li bo-if="puedePasar([permisos.laboratorio, permisos.digitador]) && muestra.estado === 'Registrada'"
+                  ><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer"
+                  ng-click="eliminar(muestra)"></i></small></li>
+                </ul>
+              </td>
+            </tr>
+            <tr ng-if="vacio(datos.muestras.lista)" class="text-center">
+              <td colspan="8"><strong>No hay resultados</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <div cis-cargando modelo="datos.cargando" class="text-center">
+          <div cis-scroll cargador="cargarMas" umbral="50"
+          debe-cargar="(datos.muestras.lista.length < datos.muestras.cantidad) && !datos.cargando"></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
