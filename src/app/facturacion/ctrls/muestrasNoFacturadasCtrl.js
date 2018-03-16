@@ -18,7 +18,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
   var dimensiones = [ {
     cobrada: [ "No" ]
   }, {
-    estado: [ "completada", "registrada", "diagnostico", "analisis" ]
+    estado: [ "completada" ]
   } ];
 
   $scope.datos = {
@@ -206,7 +206,8 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     function finalmente() {
       $scope.datos.cargando = false;
     }
-    Muestras.rest.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro, dimensiones )
+    Muestras.rest.buscar( $scope.datos.elementoActual, 50,
+      $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
   };
 
@@ -223,4 +224,10 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
       return res;
     } );
   };
+  $scope.aplicarDimension = function( activas ) {
+    activas[0].cobrada =  [ "No" ];
+    $scope.filtros = activas;
+    $scope.buscar();
+  };
+
 } //ctrl

@@ -5,7 +5,7 @@ module.exports = rutas;
 var dimensiones = [ {
   cobrada: [ "No" ]
 }, {
-  estado: [ "completada" ]
+  estado: [ "completada", "registrada", "diagnostico", "analisis" ]
 } ];
 
 var permisos = require( "../principal/modelos/permisos.js" );
