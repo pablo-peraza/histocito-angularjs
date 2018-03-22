@@ -31,9 +31,9 @@
             <thead>
               <tr>
                 <th>Cliente</th>
-                <th>Fecha Facturación</th>
+                <!--  <th>Fecha Facturación</th> -->
                 <th>No. Factura</th>
-                <th>Monto Total</th>
+                <!--  <th>Monto Total</th> -->
                 <th>&nbsp;</th>
               </tr>
             </thead>
@@ -41,10 +41,10 @@
               <tr class="cursor-pointer" bindonce
                 ng-repeat="factura in datos.facturas.lista">
                 <td data-title="Cliente" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="factura.cliente"></td>
-                <td data-title="Fecha Facturación" ng-click="location.path('/inicio/facturacion/facturas/' +
-                factura.id)" bo-text="factura.fechaFacturacion | Fecha: 'L'"></td>
+                <!--  <td data-title="Fecha Facturación" ng-click="location.path('/inicio/facturacion/facturas/' +
+                factura.id)" bo-text="factura.fechaFacturacion | Fecha: 'L'"></td> -->
                 <td data-title="No. Factura" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="factura.consecutivo"></td>
-                <td data-title="Monto Total" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="(factura.monto.centavos / 100) | Colones"></td>
+                <!--  <td data-title="Monto Total" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="(factura.monto.centavos / 100) | Colones"></td> -->
                 <td data-title="Acciones"></td>
               </tr>
               <tr ng-if="vacio(datos.facturas.lista)" class="text-center">
