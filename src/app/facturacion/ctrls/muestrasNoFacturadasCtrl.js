@@ -49,6 +49,12 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
   $scope.seleccionadas = function( muestras ) {
     return Facturas.logica.seleccionadas( muestras, true );
   };
+  $scope.seleccionarTodas = function( bool, muestras ) {
+    return _.map( muestras, function( muestra ) {
+      muestra.seleccionada = bool;
+      return muestra;
+    } );
+  };
   $scope.noProcesadas = Facturas.logica.noProcesadas;
 
   $scope.seleccionar = function( muestras ) {
