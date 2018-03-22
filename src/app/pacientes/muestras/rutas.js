@@ -120,6 +120,7 @@ function rutas( $routeProvider ) {
       muestra: {
         nuevo: true,
         editando: true,
+        cobrada:false,
         estado: "Registrada",
         enviada: false,
         imagenes: [],
