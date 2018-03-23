@@ -212,6 +212,9 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     function finalmente() {
       $scope.datos.cargando = false;
     }
+    if ( _.isUndefined( $scope.filtros ) ) {
+      $scope.filtros = [ { "cobrada": [ "No" ] } ];
+    }
     Muestras.rest.buscar( $scope.datos.elementoActual, 50,
       $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
