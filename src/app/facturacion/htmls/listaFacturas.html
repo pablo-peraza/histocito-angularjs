@@ -39,7 +39,7 @@
             </thead>
             <tbody>
               <tr class="cursor-pointer" bindonce
-                ng-repeat="factura in datos.facturas.lista">
+                ng-repeat="factura in datos.facturas.lista | orderBy:'-consecutivo'" >
                 <td data-title="Cliente" ng-click="location.path('/inicio/facturacion/facturas/' + factura.id)" bo-text="factura.cliente"></td>
                 <!--  <td data-title="Fecha Facturación" ng-click="location.path('/inicio/facturacion/facturas/' +
                 factura.id)" bo-text="factura.fechaFacturacion | Fecha: 'L'"></td> -->
