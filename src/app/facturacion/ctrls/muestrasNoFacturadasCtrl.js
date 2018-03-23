@@ -117,7 +117,21 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
           factura.cargando = false;
         } );
       }
-      Facturas.rest.guardarTodas( facturas ).then( ok, error ).finally( finalmente );
+
+      var facturasNumeradas  = _.map( facturas, function( factura ) {
+        var numeroMuestra = _.pluck( factura.detalle, "numero" )[0];
+        var facturaSoho = _.find( resp.data.invoices, function( fs ) {
+          var existeLinea = _.find( fs.line_items, function( ls ) {
+            return ls.name === numeroMuestra;
+          } );
+          return existeLinea !== undefined;
+        } );
+        if ( !_.isUndefined( facturaSoho ) ) {
+          factura.consecutivo = facturaSoho.invoice_number;
+        }
+        return factura;
+      } );
+      Facturas.rest.guardarTodas( facturasNumeradas ).then( ok, error ).finally( finalmente );
     }
     if ( confirm( "¿Está seguro que desea aceptar todas las facturas?" ) ) {
       facturas = _.map( facturas, function( factura ) {
