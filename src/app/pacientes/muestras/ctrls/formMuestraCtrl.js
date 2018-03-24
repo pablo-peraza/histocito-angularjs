@@ -283,6 +283,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
                   nuevo: true,
                   editando: true,
                   enviada:false,
+                  cobrada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[]
@@ -297,6 +298,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
                   nuevo: true,
                   editando: true,
                   enviada:false,
+                  cobrada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[],
@@ -312,6 +314,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
                   nuevo: true,
                   editando: true,
                   enviada:false,
+                  cobrada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[]
@@ -329,6 +332,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
                   nuevo: true,
                   editando: true,
                   enviada:false,
+                  cobrada:false,
                   estado: "Registrada",
                   imagenes: [],
                   correos:[],

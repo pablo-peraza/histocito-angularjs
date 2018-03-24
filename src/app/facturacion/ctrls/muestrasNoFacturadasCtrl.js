@@ -49,6 +49,12 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
   $scope.seleccionadas = function( muestras ) {
     return Facturas.logica.seleccionadas( muestras, true );
   };
+  $scope.seleccionarTodas = function( bool, muestras ) {
+    return _.map( muestras, function( muestra ) {
+      muestra.seleccionada = bool;
+      return muestra;
+    } );
+  };
   $scope.noProcesadas = Facturas.logica.noProcesadas;
 
   $scope.seleccionar = function( muestras ) {
@@ -62,7 +68,8 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     var funciones = {
       medico: Facturas.logica.agruparPorMedico,
       clinica: Facturas.logica.agruparPorClinica,
-      usuario: Facturas.logica.agruparPorDueno
+      usuario: Facturas.logica.agruparPorDueno,
+      paciente: Facturas.logica.agruparPorPaciente
     };
     $scope.datos.agrupadas = funciones[agruparPor]( muestras );
   };
@@ -100,6 +107,44 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
   $scope.aceptarTodas = function( facturas ) {
     function ok( resp ) {
+      function ok( resp ) {
+        Alertas.agregar( resp.status );
+        $scope.datos.facturasGeneradas = Facturas.logica
+        .actualizarEnMasa( facturas, resp.data.facturas );
+      }
+      function finalmente() {
+        _.forEach( facturas, function( factura ) {
+          factura.cargando = false;
+        } );
+      }
+
+      var facturasNumeradas  = _.map( facturas, function( factura ) {
+        var numeroMuestra = _.pluck( factura.detalle, "numero" )[0];
+        var facturaSoho = _.find( resp.data.invoices, function( fs ) {
+          var existeLinea = _.find( fs.line_items, function( ls ) {
+            return ls.name === numeroMuestra;
+          } );
+          return existeLinea !== undefined;
+        } );
+        if ( !_.isUndefined( facturaSoho ) ) {
+          factura.consecutivo = facturaSoho.invoice_number;
+        }
+        return factura;
+      } );
+      Facturas.rest.guardarTodas( facturasNumeradas ).then( ok, error ).finally( finalmente );
+    }
+    if ( confirm( "¿Está seguro que desea aceptar todas las facturas?" ) ) {
+      facturas = _.map( facturas, function( factura ) {
+        factura.cargando = true;
+        factura.pagos = [];
+        return factura;
+      } );
+      Facturas.rest.guardarTodasZoho( facturas ).then( ok, error );
+    }
+  };
+
+  $scope.facturarZoho = function( facturas ) {
+    function ok( resp ) {
       Alertas.agregar( resp.status );
       $scope.datos.facturasGeneradas = Facturas.logica
       .actualizarEnMasa( facturas, resp.data.facturas );
@@ -110,28 +155,54 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
         factura.cargando = false;
       } );
     }
-    if ( confirm( "¿Está seguro que desea aceptar todas las facturas?" ) ) {
+    if ( confirm( "¿Está seguro que desea enviar las facturas a zoho?" ) ) {
       facturas = _.map( facturas, function( factura ) {
         factura.cargando = true;
         factura.pagos = [];
         return factura;
       } );
-      Facturas.rest.guardarTodas( facturas ).then( ok, error ).finally( finalmente );
+      Facturas.rest.facturarZoho( facturas ).then( ok, error ).finally( finalmente );
     }
   };
+  $scope.authtokenApi = function(  ) {
+    function ok( resp ) {
+      Alertas.agregar( resp.status );
+      alert( JSON.stringify( resp ) );
+    }
+
+    function finalmente( resp ) {
+      alert( "Listo" );
+    }
+    if ( confirm( "¿Está seguro que desea probar el obtener token del API?" ) ) {
+
+      Facturas.rest.authtokenApi( ).then( ok, error ).finally( finalmente );
+    }
+  };
+
   $scope.aceptar = function( factura ) {
     factura.cargando = true;
     factura.pagos = [];
 
     function ok( resp ) {
-      factura.id = resp.data;
+      function ok( resp ) {
+        factura.id = resp.data;
+        Alertas.agregar( resp.status );
+      }
+      function error( resp ) {
+        console.error( error );
+        Alertas.agregar( resp.status );
+      }
+      function finalmente() {
+        factura.cargando = false;
+      }
+      factura.consecutivo = resp.data.invoice.invoice_number;
+      Facturas.rest.guardar( factura ).then( ok, error ).finally( finalmente );
+    }
+    function error( resp ) {
+      console.error( error );
       Alertas.agregar( resp.status );
     }
-
-    function finalmente() {
-      factura.cargando = false;
-    }
-    Facturas.rest.guardar( factura ).then( ok, error ).finally( finalmente );
+    Facturas.rest.guardarfacturaZoho( factura ).then( ok, error );
   };
   $scope.rechazar = function( factura ) {
     $scope.datos.facturasGeneradas = Facturas.logica
@@ -155,7 +226,11 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     function finalmente() {
       $scope.datos.cargando = false;
     }
-    Muestras.rest.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro, dimensiones )
+    if ( _.isUndefined( $scope.filtros ) ) {
+      $scope.filtros = [ { "cobrada": [ "No" ] } ];
+    }
+    Muestras.rest.buscar( $scope.datos.elementoActual, 50,
+      $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
   };
 
@@ -172,4 +247,10 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
       return res;
     } );
   };
+  $scope.aplicarDimension = function( activas ) {
+    activas[0].cobrada =  [ "No" ];
+    $scope.filtros = activas;
+    $scope.buscar();
+  };
+
 } //ctrl
