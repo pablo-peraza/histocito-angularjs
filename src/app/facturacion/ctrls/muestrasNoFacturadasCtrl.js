@@ -181,6 +181,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
   $scope.aceptar = function( factura ) {
     factura.cargando = true;
+    factura.pagos = [];
 
     return Facturas.rest.guardar( factura )
     .then(function primerThen(resp) {
