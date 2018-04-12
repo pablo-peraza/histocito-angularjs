@@ -181,29 +181,29 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
   $scope.aceptar = function( factura ) {
     factura.cargando = true;
-    factura.pagos = [];
 
-    function ok( resp ) {
-      function ok( resp ) {
-        factura.id = resp.data;
-        Alertas.agregar( resp.status );
-      }
-      function error( resp ) {
-        console.error( error );
-        Alertas.agregar( resp.status );
-      }
-      function finalmente() {
-        factura.cargando = false;
-      }
-      factura.consecutivo = resp.data.invoice.invoice_number;
-      Facturas.rest.guardar( factura ).then( ok, error ).finally( finalmente );
-    }
-    function error( resp ) {
+    return Facturas.rest.guardar( factura )
+    .then(function primerThen(resp) {
+      return Facturas.rest.guardarfacturaZoho(factura)
+      .then(function thenZoho(respZoho) {
+        factura.consecutivo = respZoho.data.invoice.invoice_number;
+        factura.id = resp.data
+        return Facturas.rest.guardar( factura )
+        .then(function (respFinal) {
+          Alertas.agregar(respFinal.status);
+          return true;
+        })
+      })
+    })
+    .catch(function catch(error) {
       console.error( error );
-      Alertas.agregar( resp.status );
-    }
-    Facturas.rest.guardarfacturaZoho( factura ).then( ok, error );
+      Alertas.agregar( resp.status, "Ocurrió un error al guardar la factura: " + error );
+    })
+    .finally(function () {
+      factura.cargando = false;
+    });
   };
+
   $scope.rechazar = function( factura ) {
     $scope.datos.facturasGeneradas = Facturas.logica
     .quitar( factura, $scope.datos.facturasGeneradas );
