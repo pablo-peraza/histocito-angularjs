@@ -181,6 +181,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
   $scope.aceptar = function( factura ) {
     factura.cargando = true;
+    factura.pagos = [];
 
     return Facturas.rest.guardar( factura )
     .then(function primerThen(resp) {
@@ -197,7 +198,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     })
     .catch(function(error) {
       console.error( error );
-      Alertas.agregar( resp.status, "Ocurrió un error al guardar la factura: " + error );
+      Alertas.agregar( error.status, "Ocurrió un error al guardar la factura: " + JSON.stringify(error.data) );
     })
     .finally(function () {
       factura.cargando = false;
