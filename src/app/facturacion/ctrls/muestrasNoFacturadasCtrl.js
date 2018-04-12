@@ -197,7 +197,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     })
     .catch(function(error) {
       console.error( error );
-      Alertas.agregar( resp.status, "Ocurrió un error al guardar la factura: " + error );
+      Alertas.agregar( error.status, "Ocurrió un error al guardar la factura: " + JSON.stringify(error) );
     })
     .finally(function () {
       factura.cargando = false;
