@@ -10,6 +10,16 @@ function MuestrasREST( $http, Dimensionador, urlApi ) {
     return $http.put( urlApi + "/api/muestra/", muestra );
   };
 
+  funciones.aCobrada = function( muestras ) {
+    var url = urlApi + "/api/muestra/";
+    var params = {
+      params: {
+        id: muestras
+      }
+    };
+    return $http.post( url + "aCobrada", {}, params );
+  };
+
   funciones.obtener = function( id ) {
     return $http.get( urlApi + "/api/muestra/" + id );
   };
