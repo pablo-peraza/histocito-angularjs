@@ -5,6 +5,11 @@
         <i class="fa fa-fw fa-sitemap"></i> <span class="hidden-xs hidden-sm">Agrupar</span>
       </button>
     </li>
+    <li ng-if="tabs[0].activo">
+      <button class="btn btn-info" ng-disabled="vacio(seleccionadas(datos.muestras.lista))" ng-click="marcarCobrada(seleccionadas(datos.muestras.lista))">
+        <i class="fa fa-fw fa-check-square"></i> <span class="hidden-xs hidden-sm">Marcar cobrada</span>
+      </button>
+    </li>
     <li ng-if="tabs[1].activo">
       <button class="btn btn-success" ng-disabled="!datos.agrupacion" ng-click="facturar(datos.agrupadas)" cis-cargando modelo="datos.cargando">
         <i class="fa fa-fw fa-money"></i> <span class="hidden-xs hidden-sm">Facturar</span>
