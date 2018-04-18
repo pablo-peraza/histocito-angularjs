@@ -142,7 +142,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
 
   function deLista( resp ) {
     Alertas.agregar( resp.status );
-    delete $scope.datos.muestra.estadoAnterior;
+    delete $scope.datos.muestra.datosEspera;
     $scope.datos.muestra.estado = resp.data.lista[0].estado;
   }
 

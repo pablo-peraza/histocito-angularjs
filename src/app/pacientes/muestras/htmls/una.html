@@ -53,7 +53,7 @@
           </button>
         </div>
     </li>
-    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo, permisos.digitador]) && datos.muestra.estadoAnterior === 'Registrada'">
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo, permisos.digitador]) && (datos.muestra.datosEspera && datos.muestra.datosEspera.estadoAnterior === 'Registrada')">
       <button class="btn btn-success" ng-click="aRegistrada(datos.muestra)"
       ng-disabled="datos.cargando">
       <div cis-cargando modelo="datos.cargando">
@@ -61,7 +61,7 @@
       </div>
       </button>
     </li>
-    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo]) && (datos.muestra.estado === 'Registrada' || datos.muestra.estadoAnterior === 'En análisis')">
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo]) && (datos.muestra.estado === 'Registrada' || (datos.muestra.datosEspera && datos.muestra.datosEspera.estadoAnterior === 'En análisis'))">
       <button class="btn btn-success" ng-click="analizar(datos.muestra)"
       ng-disabled="datos.cargando">
       <div cis-cargando modelo="datos.cargando">
@@ -69,7 +69,7 @@
       </div>
       </button>
     </li>
-    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo]) && (datos.muestra.estado === 'En análisis' || datos.muestra.estadoAnterior === 'En diagnostico')">
+    <li ng-if="!datos.muestra.editando && puedePasar([permisos.laboratorio, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo]) && (datos.muestra.estado === 'En análisis' || (datos.muestra.datosEspera && datos.muestra.datosEspera.estadoAnterior === 'En diagnostico'))">
       <button class="btn btn-success" ng-click="adiagnostico(datos.muestra)"
       ng-disabled="datos.cargando">
       <div cis-cargando modelo="datos.cargando">
