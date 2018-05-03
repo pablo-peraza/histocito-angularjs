@@ -13,8 +13,8 @@ function completarExpediente( expediente ) {
   return temp;
 }
 
-ExpedientesREST.$inject = [ "$http", "Dimensionador", "urlApi" ];
-function ExpedientesREST( $http, Dimensionador, urlApi ) {
+ExpedientesREST.$inject = [ "$http", "Dimensionador", "urlApi", "node" ];
+function ExpedientesREST( $http, Dimensionador, urlApi, node ) {
   var funciones = {};
 
   funciones.guardar = function( expediente ) {
@@ -48,6 +48,27 @@ function ExpedientesREST( $http, Dimensionador, urlApi ) {
     }
     return $http.get( urlApi + "/api/expedientes/buscar",
       Dimensionador.hacer( params, dimensiones ) );
+  };
+
+  funciones.buscarNuevo = function( pagina, cantidad, texto, dimensiones ) {
+    var params = {
+      params: {
+        pagina: pagina,
+        cantidad: cantidad
+      }
+    };
+    if ( texto ) {
+      params.params.texto = texto;
+    }
+    return $http.get( urlApi + "/api/expedientes/buscar",
+      Dimensionador.hacer( params, dimensiones ) );
+  };
+
+  funciones.buscarWebService = function( texto ) {
+    return $http.get( node + "/api/pacientes", {
+      params: {
+        texto: texto
+      } } );
   };
 
   funciones.muestras = function( id, pagina, cantidad ) {

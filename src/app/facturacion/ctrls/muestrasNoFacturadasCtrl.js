@@ -10,10 +10,11 @@ MuestasNoFacturadasCtrl.$inject = [
   "$location",
   "Muestras",
   "Alertas",
-  "Facturas"
+  "Facturas",
+  "$route"
 ];
 function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $location, Muestras,
-  Alertas, Facturas ) {
+  Alertas, Facturas, $route ) {
 
   var dimensiones = [ {
     cobrada: [ "No" ]
@@ -62,6 +63,24 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     delete $scope.datos.agrupacion;
     $scope.datos.cargando = false;
     $scope.tabs[1].activo = true;
+  };
+
+  $scope.marcarCobrada = function( muestras ) {
+    if ( confirm( "¿Está seguro que desea marcar como cobradas las muestras seleccionadas?" ) ) {
+      function ok( resp ) {
+        alert( resp.status + "Las facturas fueron marcadas como cobradas.\n " +
+      " La página será actualizada para reflejar los cambios realizados." );
+
+        $route.reload();
+      } //ok
+      function error( resp ) {
+        console.error( error );
+      }
+      $scope.datos.muestrasSeleccionadas = muestras;
+
+      Muestras.rest.aCobrada( _.pluck( $scope.datos.muestrasSeleccionadas, "id" ) )
+      .then( ok, error );
+    }
   };
 
   $scope.agrupar = function( muestras, agruparPor ) {
@@ -183,27 +202,28 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     factura.cargando = true;
     factura.pagos = [];
 
-    function ok( resp ) {
-      function ok( resp ) {
+    return Facturas.rest.guardar( factura )
+    .then( function primerThen( resp ) {
+      return Facturas.rest.guardarfacturaZoho( factura )
+      .then( function thenZoho( respZoho ) {
+        factura.consecutivo = respZoho.data.invoice.invoice_number;
         factura.id = resp.data;
-        Alertas.agregar( resp.status );
-      }
-      function error( resp ) {
-        console.error( error );
-        Alertas.agregar( resp.status );
-      }
-      function finalmente() {
-        factura.cargando = false;
-      }
-      factura.consecutivo = resp.data.invoice.invoice_number;
-      Facturas.rest.guardar( factura ).then( ok, error ).finally( finalmente );
-    }
-    function error( resp ) {
+        return Facturas.rest.guardar( factura )
+        .then( function( respFinal ) {
+          Alertas.agregar( respFinal.status );
+          return true;
+        } );
+      } );
+    } )
+    .catch( function( error ) {
       console.error( error );
-      Alertas.agregar( resp.status );
-    }
-    Facturas.rest.guardarfacturaZoho( factura ).then( ok, error );
+      Alertas.agregar( error.status, "Ocurrió un error al guardar la factura: " + JSON.stringify( error.data ) );
+    } )
+    .finally( function() {
+      factura.cargando = false;
+    } );
   };
+
   $scope.rechazar = function( factura ) {
     $scope.datos.facturasGeneradas = Facturas.logica
     .quitar( factura, $scope.datos.facturasGeneradas );
@@ -227,7 +247,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
       $scope.datos.cargando = false;
     }
     if ( _.isUndefined( $scope.filtros ) ) {
-      $scope.filtros = [ { "cobrada": [ "No" ] } ];
+      $scope.filtros = [ { "cobrada": [ "No" ] }, { "estado": [ "completada", "registrada", "diagnostico", "analisis" ] } ];
     }
     Muestras.rest.buscar( $scope.datos.elementoActual, 50,
       $scope.datos.filtro, $scope.filtros )
