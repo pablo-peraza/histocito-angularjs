@@ -18,7 +18,21 @@ function cisBuscadorExpedientes( ExpedientesREST, Alertas ) {
 function link( ExpedientesREST, Alertas ) {
   return function( $scope, elem, atr, ngModelCtrl ) {
     function ok( resp ) {
-      return resp.data.lista;
+      function ok( resp ) {
+        return resp.data.lista;
+      }
+      if ( resp.data.cantidad == 0 ) {
+        var texto = resp.config.params.texto;
+        var regex = /\d{9}/g;
+        if ( regex.test( texto ) ) {
+          return ExpedientesREST.buscarWebService( texto ).then( ok, error );
+        } else {
+          Alertas.agregar( "La expresión no corresponde a un número de cédula para " +
+          "buscar en los registros del Servicio Web." );
+        }
+      } else {
+        return resp.data.lista;
+      }
     }
 
     function error( resp ) {
@@ -53,10 +67,17 @@ function link( ExpedientesREST, Alertas ) {
       function ultimo() {
         $scope.cargando = false;
       }
-      ExpedientesREST.obtener( item.id ).then( ok, error ).finally( ultimo );
+      if ( !_.isEmpty( item.id ) ) {
+        ExpedientesREST.obtener( item.id ).then( ok, error ).finally( ultimo );
+      } else {
+        ok( { "data": {
+          "ficha": item
+        } } );
+        ultimo();
+      }
     };
     $scope.buscar = function( texto ) {
-      return ExpedientesREST.buscar( 0, 20, texto ).then( ok, error ).finally( ultima );
+      return ExpedientesREST.buscarNuevo( 0, 20, texto ).then( ok, error ).finally( ultima );
     };
   };
 } //link
