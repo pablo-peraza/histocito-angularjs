@@ -160,19 +160,10 @@ function FacturacionLogica() {
 
   funciones.actualizarEnMasa = function( viejas, nuevas ) {
     return _.map( viejas, function( vieja ) {
-      var nueva = _.find( nuevas, function( facturaNueva ) {
-        return sonFacturasIguales( vieja, facturaNueva );
-      } );
-      return nueva ? nueva : vieja;
+      vieja.id = Math.random().toString(36).substr(2, 9);
+      return vieja;
     } );
   };
-  function sonFacturasIguales( vieja, nueva ) {
-    return _.isEqual( vieja.agrupacion, nueva.agrupacion ) &&
-      _.isEqual( vieja.cliente, nueva.cliente ) &&
-      _.isEqual( vieja.consecutivo, nueva.consecutivo ) &&
-      _.isEqual( vieja.idAgrupado, nueva.idAgrupado ) &&
-      sonDetallesIguales( vieja.detalle, nueva.detalle );
-  }
   function sonDetallesIguales( detallesViejo, detallesNuevo ) {
     return validarArreglos( _.map( detallesViejo, "idMuestra" ),
     _.map( detallesNuevo, "idMuestra" ) ) && validarArreglos( _.map( detallesViejo, "numero" ),
