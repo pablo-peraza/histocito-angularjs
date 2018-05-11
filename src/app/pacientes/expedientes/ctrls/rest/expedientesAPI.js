@@ -4,6 +4,9 @@ module.exports = ExpedientesREST;
 
 function completarExpediente( expediente ) {
   var temp = angular.copy( expediente );
+  if (  expediente.ficha.sexo === "Masculino" ) {
+    delete temp.fichaMedica.ago;
+  }
   if ( !expediente.ficha.datosContacto ) {
     temp.ficha.datosContacto = {
       telefonos: [],
