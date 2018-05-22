@@ -1,0 +1,127 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+    <li ng-if="!vm.mostrarForm">
+      <button class="btn btn-primary" ng-click="vm.mostrarForm = true">
+        <i class="fa fa-fw fa-file"></i> <span class="hidden-xs">Nuevo</span>
+      </button>
+    </li>
+    <li ng-if="vm.mostrarForm">
+      <div class="btn-group">
+        <button class="btn btn-success" ng-click="vm.guardar(vm.nuevo)">
+          <i class="fa fa-fw fa-download"></i><span class="xs-hidden"> Guardar</span>
+        </button>
+        <button class="btn btn-default cancelar" ng-click="vm.cancelar()">
+          <span class="fa-stack fa-fw">
+            <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+            <i class="fa fa-ban fa-stack-2x text-danger"></i>
+          </span>
+        </button>
+      </div>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-link fa-fw"></i> Gestión de relaciones</h1>
+</section>
+<section class="container-fluid">
+  <div class="form-nuevo form-nuevo-success" ng-if="vm.mostrarForm">
+    <h5>Digite los datos solicitados</h5>
+    <form name="form" novalidate>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label class="control-label">Médico</label>
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.medico"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 typeahead="medico as medico.nombre for medico in vm.buscarMedicos($viewValue)">
+        </div>
+        <div class="form-group col-md-4">
+          <label class="control-label">Dueño</label>
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.dueno"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 typeahead-on-select="vm.setCorreoUsuario($item)"
+                 typeahead="dueno as dueno.nombre + ' ' + dueno.apellidos for dueno in vm.buscarDuenos($viewValue)">
+        </div>
+        <div class="form-group col-md-4">
+          <label class="control-label">Clínica</label>
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.clinica"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 typeahead="clinica as clinica.nombre for clinica in vm.buscarClinicas($viewValue)">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label class="control-label">Autorizados</label>
+          <input type="text" class="form-control" name="nombre" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.autorizado"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 typeahead-on-select="vm.agregarAutorizado(vm.autorizado)"
+                 typeahead="dueno as dueno.nombre + ' ' + dueno.apellidos for dueno in vm.buscarDuenos($viewValue)">
+          <div class="well">
+            <p class="text-muted" ng-if="!vm.nuevo.autorizados.length">No hay usuarios autorizados</p>
+            <ul class="list-unstyled" ng-if="vm.nuevo.autorizados.length">
+              <li ng-repeat="usuario in vm.nuevo.autorizados">
+                <span class="cursor-pointer text-danger" ng-click="vm.borrarAutorizado(usuario)">
+                  <i class="fa fa-fw fa-times"></i>
+                </span>
+                {{usuario.nombre}} {{usuario.apellidos}} ({{usuario.correo}})
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+
+        </div>
+        <div class="form-group col-md-4">
+          <label class="control-label">Correo de usuario</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Médico</th>
+          <th>Dueño @</th>
+          <th>Clínica</th>
+          <th>Autorizados</th>
+          <th><img src="recursos/imagenes/zoho-logo.png" height="25"></th>
+          <th>Correo de usuario</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="fx-fade-down" ng-repeat="rel in vm.relaciones">
+          <td ng-bind="rel.medico.nombre"></td>
+          <td ng-bind="rel.dueno.correo"></td>
+          <td ng-bind="rel.clinica.nombre"></td>
+          <td>
+            <span ng-show="!rel.autorizados.length">N/A</span>
+            <ul style="padding-left:15px">
+              <li ng-repeat="aut in rel.autorizados">{{aut.correo}}</li>
+            </ul>
+          </td>
+          <td></td>
+          <td ng-bind="rel.correoUsuario"></td>
+          <td>
+            <ul class="list-inline text-center">
+              <li><small><i class="fa fa-fw fa-edit fa-2x text-info cursor-pointer" ng-click="vm.editar(rel)"></i></small></li>
+              <li><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer" ng-click="vm.eliminar(rel)"></i></small></li>
+            </ul>
+          </td>
+        </tr>
+        <tr ng-if="!vm.relaciones.length">
+          <td colspan="6" class="text-center"><strong>No hay resultados</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
