@@ -50,7 +50,7 @@
     <a>
       <span ng-bind="match.model.nombre + ' ' + match.model.apellidos"></span>
       <small class="text-info" ng-bind="match.model.cedula"></small>
-      <strong ng-bind="' - ' + match.model.correo"></strong>
+      <strong ng-show="match.model.correo" ng-bind="' - ' + match.model.correo"></strong>
     </a>
   </script>
   <script type="text/ng-template" id="template/modal/window.html">

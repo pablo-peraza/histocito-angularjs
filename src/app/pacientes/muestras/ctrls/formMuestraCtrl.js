@@ -572,6 +572,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
   } //canceladoMedico
 
   function limpiarAutorizados() {
+    delete $scope.datos.dueno;
     delete $scope.datos.clinica;
     delete $scope.datos.medico;
     $scope.datos.autorizados = [];
@@ -666,4 +667,13 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       }
     } );
   };
+
+  $scope.$watch( "datos.relacion", function( val ) {
+    if ( val ) {
+      $scope.datos.dueno = val.dueno;
+      $scope.datos.medico = val.medico;
+      $scope.datos.autorizados = val.autorizados;
+      $scope.datos.clinica = val.clinica;
+    }
+  } );
 } //function

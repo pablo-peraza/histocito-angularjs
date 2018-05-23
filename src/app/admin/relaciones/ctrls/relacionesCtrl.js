@@ -81,7 +81,7 @@ function RelacionesCtrl( $scope, relaciones, Muestras, Usuarios, RelacionesAPI )
     var dim = [ {
       tipoUsuario: [ "médico" ]
     } ];
-    return Usuarios.buscar( 0, 20, texto, dim ).then( ok, error );
+    return Usuarios.buscar( 0, 10, texto, dim ).then( ok, error );
   };
 
   function buscarClinicas( valor ) {

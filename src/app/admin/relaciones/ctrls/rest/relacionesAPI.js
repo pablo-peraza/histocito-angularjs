@@ -7,6 +7,7 @@ function RelacionesAPI( $http, node ) {
   RelacionesAPI.listar = listar;
   RelacionesAPI.guardar = guardar;
   RelacionesAPI.eliminar = eliminar;
+  RelacionesAPI.obtener = obtener;
   return RelacionesAPI;
 
   function listar() {
@@ -46,5 +47,9 @@ function RelacionesAPI( $http, node ) {
 
   function eliminar(id) {
     return $http.delete( node + "/api/relaciones/" + id ).then( ok, error );
+  }
+
+  function obtener(id) {
+    return $http.get( node + "/api/relaciones/medico/" + id ).then( ok, error );
   }
 }
