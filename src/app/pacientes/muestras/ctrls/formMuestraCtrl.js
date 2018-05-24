@@ -674,6 +674,12 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       $scope.datos.medico = val.medico;
       $scope.datos.autorizados = val.autorizados;
       $scope.datos.clinica = val.clinica;
+      if ( !$scope.datos.muestra.equipo ) {
+        $scope.datos.muestra.equipo = {};
+      }
+      $scope.datos.muestra.equipo.patologo = val.patologo;
+      $scope.datos.muestra.equipo.histotecnologo = val.histotecnologo;
+      $scope.datos.muestra.equipo.citotecnologo = val.citotecnologo;
     }
   } );
 } //function

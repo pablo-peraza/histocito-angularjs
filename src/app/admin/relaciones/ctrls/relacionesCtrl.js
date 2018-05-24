@@ -4,8 +4,8 @@ module.exports = RelacionesCtrl;
 
 var _ = require( "lodash" );
 
-RelacionesCtrl.$inject = [ "$scope", "relaciones", "Muestras", "Usuarios", "RelacionesAPI" ];
-function RelacionesCtrl( $scope, relaciones, Muestras, Usuarios, RelacionesAPI ) {
+RelacionesCtrl.$inject = [ "relaciones", "Muestras", "Usuarios", "RelacionesAPI", "Alertas" ];
+function RelacionesCtrl( relaciones, Muestras, Usuarios, RelacionesAPI, Alertas ) {
   var vm = this;
   vm.mostrarForm = false;
   vm.relaciones = relaciones;
@@ -18,15 +18,32 @@ function RelacionesCtrl( $scope, relaciones, Muestras, Usuarios, RelacionesAPI )
   vm.agregarAutorizado =  agregarAutorizado;
   vm.borrarAutorizado = borrarAutorizado;
   vm.buscarMedicos = buscarMedicos;
-  vm.buscarDuenos = buscarDuenos;
-  vm.buscarClinicas = buscarClinicas;
   vm.buscarUsuarios = buscarUsuarios;
+  vm.buscarClinicas = buscarClinicas;
 
-  function guardar( rel ) {
-    return RelacionesAPI.guardar( rel ).then(function( resp ) {
-      vm.relaciones.push( resp );
-      vm.cancelar();
-    } );
+  function guardar( rel, form ) {
+    form.$submitted = true;
+    if ( form.$invalid ) {
+      return null;
+    }
+    return RelacionesAPI.guardar( rel )
+      .then(function( resp ) {
+        if ( !rel._id ) {
+          vm.relaciones.push( resp );
+        } else {
+          var i = _.findIndex( vm.relaciones, function( el ) {
+            return el._id === rel._id;
+          } );
+          vm.relaciones[i] = rel;
+        }
+        Alertas.agregar( 200 );
+      } )
+      .catch( function() {
+        Alertas.agregar( 500 );
+      } )
+      .finally( function() {
+        vm.cancelar();
+      } );
   }
 
   function cancelar() {
@@ -35,7 +52,7 @@ function RelacionesCtrl( $scope, relaciones, Muestras, Usuarios, RelacionesAPI )
   }
 
   function editar( item ) {
-    vm.nuevo = item;
+    vm.nuevo = _.cloneDeep( item );
     vm.mostrarForm = true;
   }
 
@@ -77,9 +94,9 @@ function RelacionesCtrl( $scope, relaciones, Muestras, Usuarios, RelacionesAPI )
     return Muestras.buscarMedicos( 0, 10, valor ).then( ok, error );
   }
 
-  function buscarDuenos( texto ) {
+  function buscarUsuarios( texto, tipo ) {
     var dim = [ {
-      tipoUsuario: [ "médico" ]
+      tipoUsuario: [ tipo ]
     } ];
     return Usuarios.buscar( 0, 10, texto, dim ).then( ok, error );
   };
@@ -87,8 +104,4 @@ function RelacionesCtrl( $scope, relaciones, Muestras, Usuarios, RelacionesAPI )
   function buscarClinicas( valor ) {
     return Muestras.buscarClinicas( 0, 10, valor ).then( ok, error );
   }
-
-  function buscarUsuarios( valor ) {
-    return Muestras.buscarUsuarios( 0, 10, valor ).then( ok, error );
-  };
 } //controller

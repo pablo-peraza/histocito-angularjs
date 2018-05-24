@@ -34,6 +34,10 @@ function cisBuscadorRelacion( Muestras, Alertas, RelacionesAPI ) {
     function parsearRelacion( rel ) {
       rel.dueno.id = rel.dueno._id;
       rel.medico.id = rel.medico._id;
+      rel.clinica.id = rel.clinica._id;
+      rel.patologo.id = rel.patologo._id;
+      rel.histotecnologo.id = rel.histotecnologo._id;
+      rel.citotecnologo.id = rel.citotecnologo._id;
       rel.medico.nombreCompleto = rel.medico.titulo + " " + rel.medico.nombre;
       rel.autorizados = _.map( rel.autorizados, function( aut ) {
         aut.id = aut._id;
