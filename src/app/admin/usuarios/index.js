@@ -12,6 +12,7 @@ modulo.controller( "AdminUsuariosCtrl", require( "./ctrls/adminUsuarioCtrl.js" )
 modulo.controller( "BuscadorUsuarios", require( "./ctrls/buscadorUsuariosCtrl.js" ) );
 
 modulo.directive( "cisBuscadorMedicos", require( "./ctrls/directivas/cisBuscadorMedicos.js" ) );
+modulo.directive( "cisBuscadorRelacion", require( "./ctrls/directivas/cisBuscadorRelacion.js" ) );
 modulo.directive( "cisPrecios", require( "./ctrls/directivas/cisPrecios.js" ) );
 
 modulo.factory( "Usuarios", require( "./ctrls/rest/usuariosAPI.js" ) );
