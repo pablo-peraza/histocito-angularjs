@@ -1,15 +1,22 @@
 <section>
-  <h5>Datos del usuario dueño</h5>
   <p ng-if="!datos.muestra.editando && !datos.dueno">
     Esta muestra no tiene un usuario dueño
   </p>
   <div class="row fx-fade-down" ng-if="datos.muestra.editando">
-    <div class="col-sm-8 col-sm-offset-2 form-group">
-      <label for="" class="control-label">Búsqueda de usuario dueño</label>
-      <div cis-buscador-medicos ng-model="datos.dueno"
+    <div class="col-sm-12 form-group">
+      <label for="" class="control-label">Búsqueda de médico</label>
+      <div cis-buscador-relacion ng-model="datos.relacion"
         cis-autofocus
         exec="limpiarAutorizados"
         cargando="datos.cargando"></div>
+      <br>
+    </div>
+  </div>
+  <h5 class="inline-block">Datos del usuario dueño</h5>&nbsp;
+  <div class="row fx-fade-down" ng-if="datos.muestra.editando">
+    <div class="col-sm-8 col-sm-offset-2 form-group">
+      <label for="" class="control-label">Búsqueda de usuario dueño</label>
+      <div cis-buscador-medicos ng-model="datos.dueno" cargando="datos.cargando"></div>
       <br>
     </div>
   </div>
