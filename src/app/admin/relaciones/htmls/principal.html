@@ -1,0 +1,156 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+    <li ng-if="!vm.mostrarForm">
+      <button class="btn btn-primary" ng-click="vm.mostrarForm = true">
+        <i class="fa fa-fw fa-file"></i> <span class="hidden-xs">Nuevo</span>
+      </button>
+    </li>
+    <li ng-if="vm.mostrarForm">
+      <div class="btn-group">
+        <button class="btn btn-success" ng-click="vm.guardar(vm.nuevo, vm.form)">
+          <i class="fa fa-fw fa-download"></i><span class="xs-hidden"> Guardar</span>
+        </button>
+        <button class="btn btn-default cancelar" ng-click="vm.cancelar()">
+          <span class="fa-stack fa-fw">
+            <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+            <i class="fa fa-ban fa-stack-2x text-danger"></i>
+          </span>
+        </button>
+      </div>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-link fa-fw"></i> Gestión de relaciones</h1>
+</section>
+<section class="container-fluid">
+  <div class="form-nuevo form-nuevo-success" ng-if="vm.mostrarForm">
+    <h5>Digite los datos solicitados</h5>
+    <div ng-form="vm.form" novalidate>
+      <div class="row">
+        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.medico.$invalid && (vm.form.medico.$dirty || vm.form.$submitted), 'has-success' : vm.form.medico.$valid && vm.form.medico.$dirty}">
+          <label class="control-label">Médico</label>
+          <input type="text" class="form-control" name="medico" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.medico"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 ng-required="true"
+                 typeahead="medico as medico.nombre for medico in vm.buscarMedicos($viewValue)">
+        </div>
+        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.dueno.$invalid && (vm.form.dueno.$dirty || vm.form.$submitted), 'has-success' : vm.form.dueno.$valid && vm.form.dueno.$dirty}">
+          <label class="control-label">Dueño</label>
+          <input type="text" class="form-control" name="dueno" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.dueno"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 ng-required="true"
+                 typeahead="dueno as (dueno.nombre + ' ' + dueno.apellidos) for dueno in vm.buscarUsuarios($viewValue, 'médico')"
+                 typeahead-template-url="platillaUsuario.html">
+        </div>
+        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.clinica.$invalid && (vm.form.clinica.$dirty || vm.form.$submitted), 'has-success' : vm.form.clinica.$valid && vm.form.clinica.$dirty}">
+          <label class="control-label">Clínica</label>
+          <input type="text" class="form-control" name="clinica" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.clinica"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 ng-required="true"
+                 typeahead="clinica as clinica.nombre for clinica in vm.buscarClinicas($viewValue)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Autorizados</label>
+        <input type="text" class="form-control" name="autorizados" placeholder="Nombre, correo o cédula"
+               ng-model="vm.autorizado"
+               typeahead-wait-ms="200"
+               autocomplete="off"
+               typeahead-on-select="vm.agregarAutorizado(vm.autorizado)"
+               typeahead="dueno as (dueno.nombre + ' ' + dueno.apellidos + ' (' + dueno.correo + ')') for dueno in vm.buscarUsuarios($viewValue, 'médico')">
+        <div class="well">
+          <p class="text-muted" ng-if="!vm.nuevo.autorizados.length">No hay usuarios autorizados</p>
+          <ul class="list-unstyled" ng-if="vm.nuevo.autorizados.length">
+            <li ng-repeat="usuario in vm.nuevo.autorizados">
+              <span class="cursor-pointer text-danger" ng-click="vm.borrarAutorizado(usuario)">
+                <i class="fa fa-fw fa-times"></i>
+              </span>
+              {{usuario.nombre}} {{usuario.apellidos}} ({{usuario.correo}})
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.patologo.$invalid && (vm.form.patologo.$dirty || vm.form.$submitted), 'has-success' : vm.form.patologo.$valid && vm.form.patologo.$dirty}">
+          <label class="control-label">Patólogo</label>
+          <input type="text" class="form-control" name="patologo" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.patologo"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 ng-required="true"
+                 typeahead="pato as (pato.nombre + ' ' + pato.apellidos) for pato in vm.buscarUsuarios($viewValue, 'patólogo')"
+                 typeahead-template-url="platillaUsuario.html">
+        </div>
+        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.histotecnologo.$invalid && (vm.form.histotecnologo.$dirty || vm.form.$submitted), 'has-success' : vm.form.histotecnologo.$valid && vm.form.histotecnologo.$dirty}">
+          <label class="control-label">Histotecnólogo</label>
+          <input type="text" class="form-control" name="histotecnologo" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.histotecnologo"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 ng-required="true"
+                 typeahead="histo as (histo.nombre + ' ' + histo.apellidos) for histo in vm.buscarUsuarios($viewValue, 'histotecnologo')"
+                 typeahead-template-url="platillaUsuario.html">
+        </div>
+        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.citotecnologo.$invalid && (vm.form.citotecnologo.$dirty || vm.form.$submitted), 'has-success' : vm.form.citotecnologo.$valid && vm.form.citotecnologo.$dirty}">
+          <label class="control-label">Citotecnólogo</label>
+          <input type="text" class="form-control" name="citotecnologo" placeholder="Nombre, correo o cédula"
+                 ng-model="vm.nuevo.citotecnologo"
+                 typeahead-wait-ms="200"
+                 autocomplete="off"
+                 ng-required="true"
+                 typeahead="cito as (cito.nombre + ' ' + cito.apellidos) for cito in vm.buscarUsuarios($viewValue, 'citotecnologo')"
+                 typeahead-template-url="platillaUsuario.html">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Médico</th>
+          <th>Dueño @</th>
+          <th>Clínica</th>
+          <th>Autorizados</th>
+          <th>Patólogo</th>
+          <th>Histotecnólogo</th>
+          <th>Citotecnólogo</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="fx-fade-down" ng-repeat="rel in vm.relaciones">
+          <td ng-bind="rel.medico.nombre"></td>
+          <td ng-bind="rel.dueno.correo"></td>
+          <td ng-bind="rel.clinica.nombre"></td>
+          <td>
+            <span ng-show="!rel.autorizados.length">N/A</span>
+            <ul style="padding-left:15px">
+              <li ng-repeat="aut in rel.autorizados">{{aut.correo}}</li>
+            </ul>
+          </td>
+          <td ng-bind="rel.patologo.nombre + ' ' + rel.patologo.apellidos"></td>
+          <td ng-bind="rel.histotecnologo.nombre + ' ' + rel.histotecnologo.apellidos"></td>
+          <td ng-bind="rel.citotecnologo.nombre + ' ' + rel.citotecnologo.apellidos"></td>
+          <td>
+            <ul class="list-inline text-center">
+              <li><small><i class="fa fa-fw fa-edit fa-2x text-info cursor-pointer" ng-click="vm.editar(rel)"></i></small></li>
+              <li><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer" ng-click="vm.eliminar(rel)"></i></small></li>
+            </ul>
+          </td>
+        </tr>
+        <tr ng-if="!vm.relaciones.length">
+          <td colspan="8" class="text-center"><strong>No hay resultados</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

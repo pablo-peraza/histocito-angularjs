@@ -5,7 +5,8 @@ var modulo = angular.module( "Proyecto.admin", [
   require( "./medicos" ),
   require( "./observaciones" ),
   require( "./reportes" ),
-  require( "./usuarios" )
+  require( "./usuarios" ),
+  require( "./relaciones" )
 ] );
 
 module.exports = modulo.name;
