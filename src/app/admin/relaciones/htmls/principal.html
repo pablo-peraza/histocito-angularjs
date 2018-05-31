@@ -48,13 +48,12 @@
                  typeahead="dueno as (dueno.nombre + ' ' + dueno.apellidos) for dueno in vm.buscarUsuarios($viewValue, 'médico')"
                  typeahead-template-url="platillaUsuario.html">
         </div>
-        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.clinica.$invalid && (vm.form.clinica.$dirty || vm.form.$submitted), 'has-success' : vm.form.clinica.$valid && vm.form.clinica.$dirty}">
+        <div class="form-group col-md-4">
           <label class="control-label">Clínica</label>
           <input type="text" class="form-control" name="clinica" placeholder="Nombre, correo o cédula"
                  ng-model="vm.nuevo.clinica"
                  typeahead-wait-ms="200"
                  autocomplete="off"
-                 ng-required="true"
                  typeahead="clinica as clinica.nombre for clinica in vm.buscarClinicas($viewValue)">
         </div>
       </div>
@@ -79,33 +78,30 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.patologo.$invalid && (vm.form.patologo.$dirty || vm.form.$submitted), 'has-success' : vm.form.patologo.$valid && vm.form.patologo.$dirty}">
+        <div class="form-group col-md-4">
           <label class="control-label">Patólogo</label>
           <input type="text" class="form-control" name="patologo" placeholder="Nombre, correo o cédula"
                  ng-model="vm.nuevo.patologo"
                  typeahead-wait-ms="200"
                  autocomplete="off"
-                 ng-required="true"
                  typeahead="pato as (pato.nombre + ' ' + pato.apellidos) for pato in vm.buscarUsuarios($viewValue, 'patólogo')"
                  typeahead-template-url="platillaUsuario.html">
         </div>
-        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.histotecnologo.$invalid && (vm.form.histotecnologo.$dirty || vm.form.$submitted), 'has-success' : vm.form.histotecnologo.$valid && vm.form.histotecnologo.$dirty}">
+        <div class="form-group col-md-4">
           <label class="control-label">Histotecnólogo</label>
           <input type="text" class="form-control" name="histotecnologo" placeholder="Nombre, correo o cédula"
                  ng-model="vm.nuevo.histotecnologo"
                  typeahead-wait-ms="200"
                  autocomplete="off"
-                 ng-required="true"
                  typeahead="histo as (histo.nombre + ' ' + histo.apellidos) for histo in vm.buscarUsuarios($viewValue, 'histotecnologo')"
                  typeahead-template-url="platillaUsuario.html">
         </div>
-        <div class="form-group col-md-4" ng-class="{'has-error': vm.form.citotecnologo.$invalid && (vm.form.citotecnologo.$dirty || vm.form.$submitted), 'has-success' : vm.form.citotecnologo.$valid && vm.form.citotecnologo.$dirty}">
+        <div class="form-group col-md-4">
           <label class="control-label">Citotecnólogo</label>
           <input type="text" class="form-control" name="citotecnologo" placeholder="Nombre, correo o cédula"
                  ng-model="vm.nuevo.citotecnologo"
                  typeahead-wait-ms="200"
                  autocomplete="off"
-                 ng-required="true"
                  typeahead="cito as (cito.nombre + ' ' + cito.apellidos) for cito in vm.buscarUsuarios($viewValue, 'citotecnologo')"
                  typeahead-template-url="platillaUsuario.html">
         </div>
@@ -127,7 +123,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="fx-fade-down" ng-repeat="rel in vm.relaciones">
+        <tr class="fx-fade-down" ng-repeat="rel in vm.relaciones | orderBy: 'medico.nombre' track by rel._id">
           <td ng-bind="rel.medico.nombre"></td>
           <td ng-bind="rel.dueno.correo"></td>
           <td ng-bind="rel.clinica.nombre"></td>

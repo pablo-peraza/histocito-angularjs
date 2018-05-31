@@ -80,6 +80,9 @@ function RelacionesCtrl( relaciones, Muestras, Usuarios, RelacionesAPI, Alertas 
 
   function agregarAutorizado(item) {
     item._id = item.id;
+    if (!vm.nuevo.autorizados) {
+      vm.nuevo.autorizados = [];
+    }
     vm.nuevo.autorizados.push(item);
     vm.autorizado = null;
   }
