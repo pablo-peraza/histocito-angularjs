@@ -1,0 +1,11 @@
+<div class="input-group">
+  <input type="text" class="form-control" placeholder="Buscar por nombre"
+  typeahead="articulo as articulo.name for articulo in buscar($viewValue)"
+  ng-model="articulo"
+  typeahead-min-length="3"
+  typeahead-editable="false"
+  typeahead-on-select="enSeleccion($item)"
+  typeahead-wait-ms="300"
+  typeahead-focus-first="false"/>
+</div>
+<div cis-cargando modelo="buscando"></div>

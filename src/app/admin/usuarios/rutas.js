@@ -3,6 +3,8 @@
 module.exports = rutas;
 
 var permisos = require( "../../principal/modelos/permisos.js" );
+var map = require( "lodash/collection/map" );
+var compact = require( "lodash/array/compact" );
 
 rutas.$inject = [ "$routeProvider" ];
 function rutas( $routeProvider ) {
@@ -60,13 +62,17 @@ function rutas( $routeProvider ) {
     titulo: "Usuario - ",
     permisos: [ permisos.valores.laboratorio, permisos.valores.digitador ],
     resolve: {
-      usuario: [ "$route", "Usuarios", "Alertas",
-        function( $route, Usuarios, Alertas ) {
+      usuario: [ "$route", "Usuarios", "Alertas", "ZohoAPI",
+        function( $route, Usuarios, Alertas, ZohoAPI ) {
           var id = $route.current.params.id;
           return Usuarios.obtener( id ).then( function( resp ) {
-            resp.data.nuevo = false;
-            resp.data.editando = false;
-            return resp.data;
+            var idsArticulos = map( resp.data.precios, "idArticulo" );
+            return ZohoAPI.obtenerArticulos( compact( idsArticulos ) ).then( function( articulos ) {
+              resp.data.editando = false;
+              resp.data.nuevo = false;
+              resp.data.articulos = articulos;
+              return resp.data;
+            } );
           }, function( resp ) {
             if ( resp.status !== 404 ) {
               Alertas.agregar( resp.status );
