@@ -45,5 +45,13 @@ function zohoAPI( $http, node ) {
     return $http.get( node + "/api/facturas/zoho/articulos", {params: ids} ).then( ok, error );
   };
 
+  funciones.preciosArticulos = function( param ) {
+    function ok( resp ) {
+      return resp;
+    }
+    return $http.get( node + "/api/facturas/zoho/articulos/precios", {params: param.data.lista} )
+      .then( ok, error );
+  };
+
   return funciones;
 }

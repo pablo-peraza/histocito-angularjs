@@ -25,7 +25,17 @@ function FacturacionLogica() {
         return proc.idProcedimiento === idProcedimiento;
       } //encontrar
       var chain = _.chain( precios );
-      return chain.filter( encontrar ).pluck( "monto" ).pluck( "centavos" ).first().value();
+      var encontrado = chain.filter( encontrar ).first().value();
+      if (encontrado.idArticulo) {
+        return {
+          centavos: encontrado.idArticulo.rate * 100,
+          articulo: encontrado.idArticulo
+        };
+      }
+      return {
+        centavos: encontrado.monto.centavos
+      };
+      // return chain.filter( encontrar ).pluck( "monto" ).pluck( "centavos" ).first().value();
     } //function
 
     this.precioDueno = function( idProcedimiento, idDueno ) {
@@ -46,14 +56,16 @@ function FacturacionLogica() {
     }; //precioDueno
 
     this.detalleIndividual = function( buscarPrecio, muestra ) {
+      var precio = buscarPrecio( muestra.procedimiento.id, muestra.dueno.id );
       return {
         idMuestra: muestra.id,
         numero: muestra.numero,
         procedimiento: muestra.procedimiento,
         paciente: muestra.paciente,
         precioUsuario: {
-          centavos: buscarPrecio( muestra.procedimiento.id, muestra.dueno.id )
-        }
+          centavos: precio.centavos
+        },
+        articulo: precio.articulo
       };
     }; //detalleIndividual
 

@@ -8,6 +8,7 @@
         <th>Precio Sugerido</th>
         <th style="width: 20%;">Precio para el usuario</th>
         <th>Artículo de Zoho</th>
+        <th>Precio de artículo</th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +33,9 @@
         <td>
           <div ng-if="editando" cis-buscador-articulos ng-model="proc.articulo"></div>
           <span ng-if="!editando" ng-bind="proc.articulo.name"></span>
+        </td>
+        <td>
+          <span ng-if="proc.articulo">{{proc.articulo.rate | Colones}}</span>
         </td>
       </tr>
     </tbody>
