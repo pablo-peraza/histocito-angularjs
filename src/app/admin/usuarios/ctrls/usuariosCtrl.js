@@ -77,10 +77,10 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
       var temp = posibles( proc.id );
       if ( temp ) {
         proc.precioUsuario = temp.monto.centavos;
+        proc.articulo = _.find( usuario.articulos, {"item_id": temp.idArticulo} );
       } else {
         proc.precioUsuario = proc.precio.centavos;
       }
-      proc.articulo = _.find( usuario.articulos, {"item_id": temp.idArticulo} );
       return proc;
     } );
   } //function

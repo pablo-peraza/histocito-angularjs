@@ -61,10 +61,17 @@ function FacturasREST( $http, Dimensionador, urlApi, node ) {
   function cambiarModeloAFacturaZoho( factura ) {
     function crearLineasFactura( lineas ) {
       return _.map( lineas, function( linea ) {
-        return {
+        var lineItem = linea.articulo ? { // articulo zoho
+          "item_id": linea.articulo.item_id,
+          "name": linea.articulo.name,
+          "description": linea.articulo.description,
+          "rate": linea.articulo.rate,
+        } : { // articulo default
           "name": linea.numero,
           "description": linea.procedimiento.nombre + " - " + linea.paciente.nombre,
           "rate": linea.precioFinal.centavos / 100,
+        };
+        _.assign(lineItem, {
           "quantity": 1,
           "unit": "",
           "discount_amount": 0,
@@ -74,7 +81,8 @@ function FacturasREST( $http, Dimensionador, urlApi, node ) {
           "tax_type": "tax",
           "tax_percentage": 0,
           "documents": []
-        };
+        } );
+        return lineItem;
       } );
     }
     var facturaZoho = {

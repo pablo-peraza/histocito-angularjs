@@ -2,7 +2,7 @@
 
 module.exports = cisBuscadorArticulos;
 
-cisBuscadorArticulos.$inject = ["ZohoAPI"]
+cisBuscadorArticulos.$inject = ["ZohoAPI"];
 function cisBuscadorArticulos(ZohoAPI) {
   return {
     restrict: "A",
