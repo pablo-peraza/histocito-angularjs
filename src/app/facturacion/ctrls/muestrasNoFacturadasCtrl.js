@@ -11,10 +11,11 @@ MuestasNoFacturadasCtrl.$inject = [
   "Muestras",
   "Alertas",
   "Facturas",
-  "$route"
+  "$route",
+  "ZohoAPI"
 ];
 function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $location, Muestras,
-  Alertas, Facturas, $route ) {
+  Alertas, Facturas, $route, ZohoAPI ) {
 
   var dimensiones = [ {
     cobrada: [ "No" ]
@@ -119,7 +120,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
       // elimina los valores nulos: false, null, 0, "", undefined y NaN
       var ids = _.compact( llaves );
-      Facturas.rest.preciosMedicos( ids ).then( ok, error );
+      Facturas.rest.preciosMedicos( ids ).then( ZohoAPI.preciosArticulos ).then( ok, error );
     }
   };
   $scope.total = Facturas.logica.total;

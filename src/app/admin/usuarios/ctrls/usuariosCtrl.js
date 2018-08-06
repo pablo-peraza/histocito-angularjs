@@ -77,6 +77,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
       var temp = posibles( proc.id );
       if ( temp ) {
         proc.precioUsuario = temp.monto.centavos;
+        proc.articulo = _.find( usuario.articulos, {"item_id": temp.idArticulo} );
       } else {
         proc.precioUsuario = proc.precio.centavos;
       }
@@ -88,6 +89,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
     return _.map( procedimientos, function( proc ) {
       return {
         idProcedimiento: proc.id,
+        idArticulo: proc.articulo ? proc.articulo.item_id : null,
         monto: {
           centavos: proc.precioUsuario
         }
