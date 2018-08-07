@@ -110,7 +110,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
     function ok( resp ) {
       $scope.datos.muestras.cantidad = resp.data.cantidad;
       $scope.datos.muestras.lista = $scope.datos.muestras.lista.concat( resp.data.lista );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -123,7 +123,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
       $scope.datos.cargando = false;
     }
     Usuarios.muestras( $scope.datos.usuario.id,
-      $scope.datos.elementoActual, 50 ).then( ok, error ).finally( finalmente );
+      $scope.datos.elementoActual, 100 ).then( ok, error ).finally( finalmente );
   };
 
   if ( $scope.datos.usuario !== 404 ) {

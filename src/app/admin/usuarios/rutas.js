@@ -16,7 +16,7 @@ function rutas( $routeProvider ) {
     resolve: {
       usuarios: [ "Usuarios", "Alertas",
         function( Usuarios, Alertas ) {
-          return busqueda( Usuarios, Alertas, 50 );
+          return busqueda( Usuarios, Alertas, 100 );
         }
       ],
       dimensiones: [ "Usuarios", "Alertas",
@@ -28,7 +28,7 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     }
   } );
