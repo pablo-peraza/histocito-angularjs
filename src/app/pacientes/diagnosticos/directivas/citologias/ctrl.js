@@ -109,9 +109,9 @@ function diagnosticoCitologiaCtrl( $scope, $modal, hotkeys, Tabs, Selecciones ) 
     return false;
   };
 
-  function esCupula() {
+  $scope.esCupula = function() {
     return /c[úu]pula/i.test( $scope.origen.nombre );
-  }
+  };
   if ( $scope.modelo.nuevo ) {
     $scope.modelo.recomendaciones = {
       controlRutina: true,
@@ -129,8 +129,8 @@ function diagnosticoCitologiaCtrl( $scope, $modal, hotkeys, Tabs, Selecciones ) 
       }
     };
     $scope.modelo.frotis = {
-      celulasEndocervicales: !( esCupula() || $scope.esMayordeCinquentayCinco() ),
-      metaplasia: !( esCupula() || $scope.esMayordeCinquentayCinco() )
+      celulasEndocervicales: !( $scope.esCupula() || $scope.esMayordeCinquentayCinco() ),
+      metaplasia: !( $scope.esCupula() || $scope.esMayordeCinquentayCinco() )
     };
   } //if
   cargarSelecciones( $scope, Selecciones, $scope.esMayordeCinquentayCinco() );

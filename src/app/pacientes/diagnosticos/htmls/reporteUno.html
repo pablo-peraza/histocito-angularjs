@@ -31,7 +31,7 @@
   </div>
   <header class="text-center">
     <h3 style="margin-top: 6px;">Diagnóstico de la Muestra #{{datos.muestra.consecutivo}}</h3>
-    <h4>{{datos.procedimiento.alias}}</h4>
+    <h4 ng-if="datos.tipo.categoria !== 'Biopsia'">{{datos.procedimiento.alias}}</h4>
     <small>{{datos.muestra.fechaToma | Fecha:"LL"}}</small>
   </header>
   <small>
