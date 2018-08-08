@@ -236,7 +236,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
     function ok( resp ) {
       $scope.datos.muestras = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -250,7 +250,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     if ( _.isUndefined( $scope.filtros ) ) {
       $scope.filtros = [ { "cobrada": [ "No" ] }, { "estado": [ "completada", "registrada", "diagnostico", "analisis" ] } ];
     }
-    Muestras.rest.buscar( $scope.datos.elementoActual, 50,
+    Muestras.rest.buscar( $scope.datos.elementoActual, 100,
       $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
   };
