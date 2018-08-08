@@ -269,4 +269,14 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
     }
     return watchers;
   }
+
+  $scope.getColorReporte = function( muestra ) {
+    if ( muestra.tieneLesion ) {
+      return "text-danger";
+    }
+    if ( muestra.patronesMicrobianos ) {
+      return "text-warning";
+    }
+    return "text-success";
+  };
 } //ctrl
