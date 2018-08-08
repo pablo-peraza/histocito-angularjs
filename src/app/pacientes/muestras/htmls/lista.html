@@ -108,12 +108,12 @@
                   <li bo-if="puedePasar([permisos.patologo, permisos.laboratorio]) && muestra.estado === 'En diagnostico' && muestra.diagnosticada"
                     ><small>
                     <span class="fa-stack" ng-click="completar(muestra)">
-  <i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"></i>
+  <i class="fa fa-fw fa-file fa-2x cursor-pointer" ng-class="getColorReporte(muestra)"></i>
   <i class="fa fa-check fa-stack-1x fa-inverse"></i>
 </span>
                     </small></li>
                     <li bo-if="muestra.estado === 'Completada'"
-                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"
+                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i class="fa fa-fw fa-file fa-2x cursor-pointer" ng-class="getColorReporte(muestra)"
                     ng-click=""></i></a></small></li>
                     <li bo-if="puedePasar([permisos.laboratorio, permisos.digitador]) && muestra.estado === 'Registrada'"
                     ><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer"
