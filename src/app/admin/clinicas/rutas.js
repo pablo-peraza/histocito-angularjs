@@ -14,11 +14,11 @@ function rutas( $routeProvider ) {
     resolve: {
       clinicas: [ "Clinicas", "Alertas",
         function( Clinicas, Alertas ) {
-          return clinicas( Clinicas, Alertas, 50 );
+          return clinicas( Clinicas, Alertas, 100 );
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     }
   } );

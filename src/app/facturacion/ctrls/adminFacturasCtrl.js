@@ -24,7 +24,7 @@ function AdminFacturasCtrl( $scope, Facturas, facturas, dimensiones, elementoAct
 
     function ok( resp ) {
       $scope.datos.facturas = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -35,7 +35,7 @@ function AdminFacturasCtrl( $scope, Facturas, facturas, dimensiones, elementoAct
     function finalmente() {
       $scope.datos.cargando = false;
     }
-    Facturas.rest.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro, $scope.filtros )
+    Facturas.rest.buscar( $scope.datos.elementoActual, 100, $scope.datos.filtro, $scope.filtros )
       .then( ok, error )
       .finally( finalmente );
   };

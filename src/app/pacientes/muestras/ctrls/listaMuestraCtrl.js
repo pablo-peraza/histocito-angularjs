@@ -116,7 +116,7 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
 
     function ok( resp ) {
       $scope.datos.muestras = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -145,7 +145,7 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
         estado: [ "diagnostico" ]
       } );
     }
-    Muestras.rest.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro, $scope.filtros )
+    Muestras.rest.buscar( $scope.datos.elementoActual, 100, $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
   };
 
@@ -269,4 +269,14 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
     }
     return watchers;
   }
+
+  $scope.getColorReporte = function( muestra ) {
+    if ( muestra.tieneLesion ) {
+      return "text-danger";
+    }
+    if ( muestra.patronesMicrobianos ) {
+      return "text-warning";
+    }
+    return "text-success";
+  };
 } //ctrl

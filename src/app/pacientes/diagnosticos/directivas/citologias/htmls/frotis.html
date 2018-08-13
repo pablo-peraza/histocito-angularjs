@@ -33,12 +33,12 @@
       <div class="form-group">
         <label for="" class="control-label">Células endocervicales</label>
         <div cis-boolean ng-model="modelo.frotis.celulasEndocervicales"
-        focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        focus="true" inhabilitar="esCupula() || !editando || bloqueoTotal"></div>
       </div>
       <div class="form-group">
         <label for="" class="control-label">Células Metaplásicas</label>
         <div cis-boolean ng-model="modelo.frotis.metaplasia"
-        focus="true" inhabilitar="!editando || bloqueoTotal"></div>
+        focus="true" inhabilitar="esCupula() || !editando || bloqueoTotal"></div>
       </div>
     </div>
   </div>

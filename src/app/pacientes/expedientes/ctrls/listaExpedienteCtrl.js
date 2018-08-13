@@ -37,7 +37,7 @@ function ListaExpedientesCtrl( $rootScope, $scope, expedientes, dimensiones, ele
 
     function ok( resp ) {
       $scope.datos.expedientes = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -48,7 +48,7 @@ function ListaExpedientesCtrl( $rootScope, $scope, expedientes, dimensiones, ele
     function finalmente() {
       $scope.datos.cargando = false;
     }
-    Expedientes.rest.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro, $scope.filtros )
+    Expedientes.rest.buscar( $scope.datos.elementoActual, 100, $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
   };
 
