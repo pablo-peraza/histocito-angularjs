@@ -126,16 +126,3 @@
     </div>
   </div>
 </section>
-<script type="text/ng-template" id="motivo.html">
-<div class="modal-header">
-  <h5 class="modal-title">Motivo del cambio al estado 'En Espera'</h5>
-</div>
-<div class="modal-body">
-  <label for="" class="cotrol-label">Digite el motivo por el cual la muestra está ahora En Espera</label>
-  <textarea class="form-control" ng-model="datos.motivo" cis-autofocus="true"></textarea>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
-  <button class="btn btn-success" ng-click="ok(datos.motivo)" ng-disabled="!datos.motivo">Aceptar</button>
-</div>
-</script>
