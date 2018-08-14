@@ -42,7 +42,7 @@
       </section>
     </div>
     <div class="col-xs-6">
-      <section ng-if="datos.muestra.diagnostico.valorEstrogenico">
+      <section ng-if="datos.muestra.diagnostico.valorEstrogenico !== 'N/A'">
         <legend>Valor Estrogénico</legend>
         <p>{{datos.muestra.diagnostico.valorEstrogenico}}</p>
       </section>
