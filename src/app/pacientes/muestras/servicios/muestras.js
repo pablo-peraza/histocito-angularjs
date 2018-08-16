@@ -35,6 +35,8 @@ function Muestras( MuestrasREST, MuestrasTabs, MuestrasEstados, Expedientes, Usu
   funciones.buscarUsuariosBulk = Usuarios.obtenerBulk;
   funciones.informePrivado = MuestrasREST.informePrivado;
   funciones.informePublico = MuestrasREST.informePublico;
+  funciones.obtenerSecuencia = MuestrasREST.obtenerSecuencia;
+  funciones.guardarSecuencia = MuestrasREST.guardarSecuencia;
 
   funciones.actualizarEnMasa = function( viejas, nuevas ) {
     return _.map( viejas, function( vieja ) {
