@@ -7,7 +7,7 @@
           <strong ng-if="!datos.muestra.editando || datos.muestra.estado === 'Completada'">
             {{datos.muestra.consecutivo}}
           </strong>
-          <strong ng-if="datos.muestra.nuevo" tooltip='Los consecutivos son asignados al guardar la muestra'>Por asignar</strong>
+          <strong ng-if="datos.muestra.nuevo" tooltip="Los consecutivos son asignados al guardar la muestra">Por asignar</strong>
         </p>
       </div>
       <div class="col-sm-4 form-group" ng-if="datos.muestra.editando">
@@ -27,14 +27,19 @@
               <label for="" class="control-label">
                 Secuencia
               </label>
-              <div class="input-group input-group-lg">
+              <div class="input-group input-group-lg" ng-if="!modoSecuencia.libre">
                  <span class="input-group-addon" style="background-color: #eee;">
                    {{datos.fecha}}
                  </span>
-                 <input type="text" name="secuencia" class="form-control" ng-model="datos.muestra.consecutivoManual" ng-blur="cambiarSecuencia(datos.muestra.consecutivoManual)"/>
+                 <input type="text" name="secuencia" class="form-control" ng-model="datos.muestra.consecutivoManual" ng-disabled="true"/>
 
-               </div>
+              </div>
+              <input ng-if="modoSecuencia.libre" class="form-control" ng-model="datos.muestra.consecutivo">
             </div>
+          </div>
+          <div class="col-xs-6">
+            <br>
+            <button class="btn btn-success" type="button" ng-click="selectModoSecuencia()">Modo</button>
           </div>
         </div>
       </div>

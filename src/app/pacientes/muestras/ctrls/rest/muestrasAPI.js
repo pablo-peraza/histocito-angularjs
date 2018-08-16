@@ -2,9 +2,20 @@
 
 module.exports = MuestrasREST;
 
-MuestrasREST.$inject = [ "$http", "Dimensionador", "urlApi" ];
-function MuestrasREST( $http, Dimensionador, urlApi ) {
+MuestrasREST.$inject = [ "$http", "Dimensionador", "urlApi", "node" ];
+function MuestrasREST( $http, Dimensionador, urlApi, node ) {
   var funciones = {};
+
+  funciones.obtenerSecuencia = function() {
+    return $http.get( node + "/api/secuencia", {params: {ignoreLoadingBar: true}} );
+  };
+
+  funciones.guardarSecuencia = function( secuencia ) {
+    if ( secuencia._id ) {
+      return $http.put( node + "/api/secuencia/" + secuencia._id, secuencia );
+    }
+    return $http.post( node + "/api/secuencia", secuencia );
+  };
 
   funciones.guardar = function( muestra ) {
     return $http.put( urlApi + "/api/muestra/", muestra );
