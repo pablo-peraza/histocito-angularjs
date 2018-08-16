@@ -279,4 +279,8 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
     }
     return "text-success";
   };
+
+  $scope.imprimir = function( muestras ) {
+    Muestras.imprimir( muestras );
+  };
 } //ctrl

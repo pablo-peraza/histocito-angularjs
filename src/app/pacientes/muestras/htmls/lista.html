@@ -24,10 +24,17 @@
       </div>
       </button>
     </li>
-    <li ng-if="listasParaAceptar(seleccionadas(datos.muestras.lista))  && puedePasar([permisos.laboratorio, permisos.patologo])">
+    <li ng-if="listasParaAceptar(seleccionadas(datos.muestras.lista)) && puedePasar([permisos.laboratorio, permisos.patologo])">
       <button class="btn btn-success" ng-click="completarVarias(seleccionadas(datos.muestras.lista))">
       <div cis-cargando modelo="datos.cargando">
         <i class="fa fa-fw fa-stethoscope"></i><span class="hidden-xs hidden-sm">Aceptar Diagnósticos</span>
+      </div>
+      </button>
+    </li>
+    <li ng-if="sonDeEstado(seleccionadas(datos.muestras.lista), 'estado', 'Completada') && puedePasar([permisos.laboratorio, permisos.digitador, permisos.medico, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo])">
+      <button class="btn btn-success" type="button" ng-click="imprimir()">
+      <div cis-cargando modelo="datos.cargando">
+        <i class="fa fa-fw fa-print"></i> <span class="hidden-xs hidden-sm">Imprimir</span>
       </div>
       </button>
     </li>
