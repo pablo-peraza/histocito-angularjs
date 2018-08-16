@@ -73,8 +73,17 @@ FormMuestraCtrl.$inject = [
   "Procedimientos"
 ];
 function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkeys, Muestras,
-  Alertas, $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios, Procedimientos )
-  {
+  Alertas, $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios,
+  Procedimientos ) {
+  function obtenerSecuencia() {
+    Muestras.obtenerSecuencia().then(function(resp) {
+      $scope.modoSecuencia = resp.data;
+      if (!resp.data.libre) {
+        $scope.cambiarSecuencia(resp.data.secuencia);
+      }
+    });
+  }
+
   var original;
   $scope.limpiarAutorizados = limpiarAutorizados;
   $scope.cambiarSecuencia = function( sec ) {
@@ -101,10 +110,12 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
     autorizados: _.map( params.autorizados, displayUsuario ),
     fecha: new Date().getFullYear() + "-"
   };
+
   $scope.datos.muestra.template =  ( $scope.datos.muestra.template ) ?
   $scope.datos.muestra.template : "default";
   $scope.minimo = moment().subtract( 1, "y" ).startOf( "day" );
   restriccionFur( $scope.datos.procedimiento );
+  obtenerSecuencia();
 
   //watch para setear los correos de notificacion
   $scope.$watch(
@@ -352,6 +363,9 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
           if ( $scope.datos.muestra.id ) {
             $location.path( "/inicio/pacientes/muestras/" + $scope.datos.muestra.id );
           }
+          if (res.accion !== "ver") {
+            obtenerSecuencia();
+          }
           $scope.tabs[0].activo = true;
           Alertas.limpiar();
           $scope.datos.muestra.fechaToma = $rootScope.hoy.startOf( "day" );
@@ -367,6 +381,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       }
       muestra.consecutivo = muestra.consecutivo ?
       muestra.consecutivo : ( new Date().getFullYear() + "-" ) + muestra.consecutivoManual;
+      Muestras.guardarSecuencia($scope.modoSecuencia);
       Muestras.guardar( muestra, procedimiento, dueno, paciente, medico, clinica, autorizados )
       .then( ok, error );
     }
@@ -682,4 +697,22 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       $scope.datos.muestra.equipo.citotecnologo = val.citotecnologo;
     }
   } );
+
+  $scope.selectModoSecuencia = function() {
+    return $modal.open( {
+      templateUrl: "pacientes/muestras/htmls/modalSecuencia.html",
+      controller: "ModalSecuenciaCtrl",
+      backdrop: "static",
+      resolve: {
+        modoSecuencia: function() {
+          return $scope.modoSecuencia;
+        }
+      }
+    } ).result.then(function(resp) {
+      $scope.modoSecuencia = resp;
+      if (!resp.libre) {
+        $scope.cambiarSecuencia(resp.secuencia);
+      }
+    } );
+  };
 } //function
