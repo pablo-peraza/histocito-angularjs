@@ -31,7 +31,7 @@
           <span ng-if="!editando">{{proc.precioUsuario && ((proc.precioUsuario  / 100)| Colones) || "Sin Asignar"}}</span>
         </td>
         <td>
-          <div ng-if="editando" cis-buscador-articulos ng-model="proc.articulo"></div>
+          <div ng-if="editando" cis-buscador-zoho coleccion="articulos" atributo="name" ng-model="proc.articulo"></div>
           <span ng-if="!editando" ng-bind="proc.articulo.name"></span>
         </td>
         <td>

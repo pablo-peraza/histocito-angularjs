@@ -176,7 +176,11 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
       }
       if ( $rootScope.puedePasar( [ $rootScope.permisos.laboratorio ] ) && !$scope.datos.cargando ) {
         $scope.datos.cargando = true;
-        Usuarios.guardar( usuario ).then( ok, error ).finally( ultima );
+        var temp = _.cloneDeep( usuario );
+        if (temp.clienteZoho) {
+          temp.clienteZoho = usuario.clienteZoho.contact_id;
+        }
+        Usuarios.guardar( temp ).then( ok, error ).finally( ultima );
       }
     }; //guardar
 
