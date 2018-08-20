@@ -64,7 +64,7 @@ function FacturasREST( $http, Dimensionador, urlApi, node ) {
         var lineItem = linea.articulo ? { // articulo zoho
           "item_id": linea.articulo.item_id,
           "name": linea.articulo.name,
-          "description": linea.articulo.description,
+          "description": linea.numero + " " + linea.articulo.description,
           "rate": linea.articulo.rate,
         } : { // articulo default
           "name": linea.numero,

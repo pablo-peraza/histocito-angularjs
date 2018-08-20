@@ -67,10 +67,12 @@ function rutas( $routeProvider ) {
           var id = $route.current.params.id;
           return Usuarios.obtener( id ).then( function( resp ) {
             var idsArticulos = map( resp.data.precios, "idArticulo" );
-            return ZohoAPI.obtenerArticulos( compact( idsArticulos ) ).then( function( articulos ) {
+            return ZohoAPI.obtenerReferencias( compact( idsArticulos ), resp.data.clienteZoho )
+            .then( function( respZoho ) {
               resp.data.editando = false;
               resp.data.nuevo = false;
-              resp.data.articulos = articulos;
+              resp.data.articulos = respZoho.articulos;
+              resp.data.clienteZoho = respZoho.clienteZoho;
               return resp.data;
             } );
           }, function( resp ) {

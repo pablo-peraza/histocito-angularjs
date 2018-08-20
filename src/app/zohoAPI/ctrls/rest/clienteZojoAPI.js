@@ -38,11 +38,24 @@ function zohoAPI( $http, node ) {
     return $http.get( node + "/api/facturas/zoho/buscar/articulo/" + texto ).then( ok, error );
   };
 
-  funciones.obtenerArticulos = function( ids ) {
+  funciones.buscarClientes = function( texto ) {
+    function ok( resp ) {
+      return resp.data.contacts;
+    }
+    return $http.get( node + "/api/facturas/zoho/buscar/cliente/" + texto ).then( ok, error );
+  };
+
+  funciones.obtenerReferencias = function( idsArticulos, idClienteZoho ) {
+    var params = {
+      params: {
+        idsArticulos: idsArticulos,
+        idClienteZoho: idClienteZoho
+      }
+    };
     function ok( resp ) {
       return resp.data;
     }
-    return $http.get( node + "/api/facturas/zoho/articulos", {params: ids} ).then( ok, error );
+    return $http.get( node + "/api/facturas/zoho/referencias", params ).then( ok, error );
   };
 
   funciones.preciosArticulos = function( param ) {

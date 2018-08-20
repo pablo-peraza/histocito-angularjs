@@ -6,10 +6,12 @@ cisBuscadorArticulos.$inject = ["ZohoAPI"];
 function cisBuscadorArticulos(ZohoAPI) {
   return {
     restrict: "A",
-    templateUrl: "admin/usuarios/ctrls/directivas/buscadorarticulos/articulos.html",
+    templateUrl: "admin/usuarios/ctrls/directivas/buscadorzoho/itemsZoho.html",
     require: "ngModel",
     scope: {
-      modelo: "="
+      modelo: "=",
+      coleccion: "@",
+      atributo: "@"
     },
     link: link
   };
@@ -19,16 +21,21 @@ function cisBuscadorArticulos(ZohoAPI) {
       return ngModelCtrl.$modelValue;
     }, function( newValue ) {
       if ( newValue ) {
-        $scope.articulo = newValue;
+        $scope.item = newValue;
         ngModelCtrl.$setViewValue( newValue );
         unwatch();
       }
     } );
     $scope.buscar = function( texto ) {
-      return ZohoAPI.buscarArticulos( texto );
+      switch( $scope.coleccion ) {
+        case "articulos":
+          return ZohoAPI.buscarArticulos( texto );
+        case "clientes":
+          return ZohoAPI.buscarClientes( texto );
+      }
     };
     $scope.enSeleccion = function( item ) {
-      $scope.articulo = item;
+      $scope.item = item;
       ngModelCtrl.$setViewValue( item );
     };
   }
