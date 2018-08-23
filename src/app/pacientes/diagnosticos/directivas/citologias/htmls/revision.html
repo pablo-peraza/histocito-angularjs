@@ -6,7 +6,7 @@
     <div class="col-sm-3">
         <strong>Lesiones</strong>
       </div>
-      <div class="col-sm-9">{{modelo.lesiones.activado && modelo.lesiones.tipo || "Negativo para lesión intraepitelial por malignidad"}}</div>
+      <div class="col-sm-9">{{modelo.lesiones.activado && modelo.lesiones.tipo || "Negativo para lesión intraepitelial o malignidad"}}</div>
     </div>
   </section>
   <section ng-if="modelo.recomendaciones.repetirEstudio || modelo.recomendaciones.controlRutina || modelo.recomendaciones.estudioColposcopico || modelo.recomendaciones.tomarBiopsia || modelo.recomendaciones.controlCitologico.activado || modelo.recomendaciones.repetirDespuesTratamiento.activado || modelo.recomendaciones.estudioMolecular.activado">
