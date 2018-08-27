@@ -116,5 +116,13 @@ function MuestrasREST( $http, Dimensionador, urlApi, node ) {
     Dimensionador.cargarEtiquetas( dims, urlApi + "/api/muestra/dimensiones" );
   };
 
+  funciones.imprimir = function( muestras ) {
+    return $http
+      .post( node + "/api/imprimir", { muestras: muestras, url: urlApi }, { responseType: "arraybuffer" } )
+      .then( function( resp ) {
+        return resp.data;
+      } );
+  };
+
   return funciones;
 }
