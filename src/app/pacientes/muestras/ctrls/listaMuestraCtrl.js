@@ -279,4 +279,13 @@ function ListaMuestraCtrl( $rootScope, $scope, muestras, dimensiones, elementoAc
     }
     return "text-success";
   };
+
+  $scope.imprimir = function( muestras ) {
+    Muestras.imprimir( _.map(muestras, "id") ).then( function( resp ) {
+      var blob = new Blob([resp], { type: "application/pdf" });
+      var url = URL.createObjectURL(blob);
+      var popup = window.open(url, "","width=800,height=600");
+      popup.window.print();
+    } );
+  };
 } //ctrl

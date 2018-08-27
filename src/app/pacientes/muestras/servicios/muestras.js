@@ -37,6 +37,7 @@ function Muestras( MuestrasREST, MuestrasTabs, MuestrasEstados, Expedientes, Usu
   funciones.informePublico = MuestrasREST.informePublico;
   funciones.obtenerSecuencia = MuestrasREST.obtenerSecuencia;
   funciones.guardarSecuencia = MuestrasREST.guardarSecuencia;
+  funciones.imprimir = MuestrasREST.imprimir;
 
   funciones.actualizarEnMasa = function( viejas, nuevas ) {
     return _.map( viejas, function( vieja ) {
