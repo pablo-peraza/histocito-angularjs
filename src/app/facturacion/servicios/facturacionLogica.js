@@ -75,16 +75,16 @@ function FacturacionLogica() {
       var cliente = function() {
         if ( llave !== "undefined" ) {
           if ( agrupacion === "clinica" ) {
-            return _.isArray( muestras ) ? muestras[0].clinica.nombre : muestras.clinica.nombre;
+            return _.isArray( muestras ) ? muestras[0].clinica : muestras.clinica;
           }
           if ( agrupacion === "medico" ) {
-            return _.isArray( muestras ) ? muestras[0].medico.nombre : muestras.medico.nombre;
+            return _.isArray( muestras ) ? muestras[0].medico : muestras.medico;
           }
           if ( agrupacion === "usuario" ) {
-            return _.isArray( muestras ) ? muestras[0].dueno.nombre : muestras.dueno.nombre;
+            return _.isArray( muestras ) ? muestras[0].dueno : muestras.dueno;
           }
           if ( agrupacion === "paciente" ) {
-            return _.isArray( muestras ) ? muestras[0].paciente.nombre : muestras.paciente.nombre;
+            return _.isArray( muestras ) ? muestras[0].paciente : muestras.paciente;
           }
         }
         return undefined;
@@ -92,9 +92,11 @@ function FacturacionLogica() {
       var detalle = _.isArray( muestras ) ? _.map( muestras, function( muestra ) {
         return padre.detalleIndividual( buscarPrecio, muestra );
       } ) : [ padre.detalleIndividual( buscarPrecio, muestras ) ];
+      var datosCliente = cliente();
       return {
         idAgrupado: llave === "undefined" ? undefined : llave,
-        cliente: cliente(),
+        cliente: datosCliente.nombre,
+        datosCliente: datosCliente,
         agrupacion: agrupacion,
         detalle: detalle
       };

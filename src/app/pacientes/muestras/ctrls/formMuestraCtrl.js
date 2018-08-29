@@ -79,22 +79,27 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
     Muestras.obtenerSecuencia().then(function(resp) {
       $scope.modoSecuencia = resp.data;
       if (!resp.data.libre) {
-        $scope.cambiarSecuencia(resp.data.secuencia);
+        $scope.cambiarSecuencia(resp.data);
       }
     });
   }
 
   var original;
   $scope.limpiarAutorizados = limpiarAutorizados;
-  $scope.cambiarSecuencia = function( sec ) {
-    if ( sec === undefined ) {
-      sec = "";
+  $scope.cambiarSecuencia = function( obj ) {
+    if ( obj.secuencia === undefined ) {
+      obj.secuencia = "";
     }
-    if ( _.isNaN( Number( sec ) ) ) {
-      $scope.datos.muestra.consecutivo = $scope.datos.fecha + sec;
+    if ( obj.prefijo ) {
+      $scope.datos.fecha = obj.prefijo;
+    } else {
+      obj.prefijo = $scope.datos.fecha;
+    }
+    if ( _.isNaN( Number( obj.secuencia ) ) ) {
+      $scope.datos.muestra.consecutivo = $scope.datos.fecha + obj.secuencia;
       return;
     }
-    var str = "" + sec;
+    var str = "" + obj.secuencia;
     var pad = "00000";
     var ans = pad.substring( 0, pad.length - str.length ) + str;
     $scope.datos.muestra.consecutivoManual = ans;
@@ -711,7 +716,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
     } ).result.then(function(resp) {
       $scope.modoSecuencia = resp;
       if (!resp.libre) {
-        $scope.cambiarSecuencia(resp.secuencia);
+        $scope.cambiarSecuencia(resp);
       }
     } );
   };
