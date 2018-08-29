@@ -87,7 +87,7 @@ function FacturasREST( $http, Dimensionador, urlApi, node ) {
     }
     var facturaZoho = {
       "status": "draft",
-      "customer_id": "",
+      "customer_id": factura.datosCliente,
       "customer_name": factura.cliente,
       "line_items": crearLineasFactura( factura.detalle ),
       "payment_reminder_enabled": true,
