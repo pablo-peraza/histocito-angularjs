@@ -10,25 +10,13 @@
 </nav>
 
 <div ng-switch on="datos.muestra.template">
-<main class="container-fluid reporte" ng-switch-when="default">
+<section ng-switch-when="default">
+<img src="/recursos/imagenes/Mebrete_HistoCito_OUT-01.png" width="100%">
+<main class="container-fluid reporte membrete">
   <ul class="list-inline text-center hidden-xs hidden-sm">
     <li><div cis-tecla="mod+p" tipo="info" accion="Imprimir"></div></li>
   </ul>
-  <!--encabezado del machote-->
-  <div class="encabezado">
-    <div class="row">
-      <div class="col-xs-3 img-responsive">
-        <img src="/recursos/imagenes/logo-completo-transparente-500px.png" style="max-height: 110px">
-      </div>
-      <div class="col-xs-6 text-center">
-        <h3>Laboratorio Histocito S. A.</h3>
-        <p>Diagnóstico especializado en biopsias<br> y citologías</p>
-        <p>Dra. Claudia Quesada Matamoros<br><small>Fundadora</small></p>
-        <strong>www.histocito.net</strong>
-      </div>
-    </div>
-    <hr>
-  </div>
+  <div class="membrete-separador"></div>
   <header class="text-center">
     <h3 style="margin-top: 6px;">Diagnóstico de la Muestra #{{datos.muestra.consecutivo}}</h3>
     <h4 ng-if="datos.tipo.categoria !== 'Biopsia'">{{datos.procedimiento.alias}}</h4>
@@ -98,13 +86,14 @@
     </div>
   </section>
 </main>
+</section>
 
-<div ng-switch-when="lab-mendez">
+<div ng-switch-when="lab-mendez" class="lab-mendez">
   <ul class="list-inline text-center hidden-xs hidden-sm">
     <li><div cis-tecla="mod+p" tipo="info" accion="Imprimir"></div></li>
   </ul>
   <!--encabezado del machote-->
-  <div class="encabezado">
+  <div class="encabezado labmendez-head">
     <div class="row">
       <div class="text-center">
         <img src="/recursos/imagenes/laboratorio-mendez.png" style="max-height: 110px">
@@ -114,7 +103,7 @@
         <p style="color: #1DAABB !important;">RESULTADOS DE ANÁLISIS DE LABORATORIO</p>
       </div>
 
-      <table class="table" style="margin: 23px 23px !important; border-bottom: 2px solid #265968 !important;">
+      <table class="table" style="margin: 23px 0 !important; border-bottom: 2px solid #265968 !important;">
         <tbody>
           <tr>
             <td style="border-top: none !important;">Nombre: {{datos.expediente.ficha.nombre}}</td>
@@ -131,39 +120,39 @@
     </div>
   </div>
 
-<section style="background-image: url('/recursos/imagenes/laboratorio-mendez-background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-position: center; ">
+  <section style="background-image: url('/recursos/imagenes/laboratorio-mendez-background.jpg'); background-repeat: no-repeat; background-attachment: fixed; background-position: center; ">
 
-  <div class="text-center">
-    <p style="color: #1DAABB !important;">Dra. Méndez Rodríguez M.Q.C. 1623</p>
-  </div>
-  <div ng-switch="datos.tipo.categoria">
-    <div ng-switch-when="Citología">
-      <div ng-include="'pacientes/diagnosticos/htmls/citologico.html'"></div>
+    <div class="text-center">
+      <p style="color: #1DAABB !important;">Dra. Méndez Rodríguez M.Q.C. 1623</p>
     </div>
-    <div ng-switch-when="Citología no ginecológica">
-      <div ng-include="'pacientes/diagnosticos/htmls/noginecologica.html'"></div>
-    </div>
-    <div ng-switch-when="Biopsia">
-      <div ng-include="'pacientes/diagnosticos/htmls/biopsia.html'"></div>
-    </div>
-    <div ng-switch-when="Patología molecular">
-      <div ng-include="'pacientes/diagnosticos/htmls/molecular.html'"></div>
-    </div>
-  </div>
-  <section ng-if="datos.patologo && datos.patologo.firma">
-    <br>
-    <div class="row">
-      <div class="col-xs-4 col-xs-offset-4" ng-if="datos.patologo.urlFirma">
-        <img src="{{datos.patologo.urlFirma}}" alt="" class="img-responsive img-thumbnail center-block" style="border:none; border:0;">
+    <div ng-switch="datos.tipo.categoria" class="labmendez-body">
+      <div ng-switch-when="Citología">
+        <div ng-include="'pacientes/diagnosticos/htmls/citologico.html'"></div>
       </div>
-      <div class="col-xs-8 col-xs-offset-2">
-        <textarea  class="form-control text-center" style="border:none; border:0; line-height: 1.1; font-size: 13px;"
-          rows="5" cols="40"
-          ng-model="datos.patologo.firma.texto" ng-disabled="true"></textarea>
+      <div ng-switch-when="Citología no ginecológica">
+        <div ng-include="'pacientes/diagnosticos/htmls/noginecologica.html'"></div>
+      </div>
+      <div ng-switch-when="Biopsia">
+        <div ng-include="'pacientes/diagnosticos/htmls/biopsia.html'"></div>
+      </div>
+      <div ng-switch-when="Patología molecular">
+        <div ng-include="'pacientes/diagnosticos/htmls/molecular.html'"></div>
       </div>
     </div>
+    <section ng-if="datos.patologo && datos.patologo.firma">
+      <br>
+      <div class="row">
+        <div class="col-xs-4 col-xs-offset-4" ng-if="datos.patologo.urlFirma">
+          <img src="{{datos.patologo.urlFirma}}" alt="" class="img-responsive img-thumbnail center-block" style="border:none; border:0;">
+        </div>
+        <div class="col-xs-8 col-xs-offset-2">
+          <textarea  class="form-control text-center" style="border:none; border:0; line-height: 1.1; font-size: 13px;"
+            rows="5" cols="40"
+            ng-model="datos.patologo.firma.texto" ng-disabled="true"></textarea>
+        </div>
+      </div>
+    </section>
   </section>
-</section>
 
   <section style="text-align:center;background-color: #f1f1f1 !important;">
     <img src="/recursos/imagenes/laboratorio-mendez-footer.jpg" style="width: 100% !important;">
@@ -190,6 +179,4 @@
     </div>
   </section>
 -->
-
-
 </div>
