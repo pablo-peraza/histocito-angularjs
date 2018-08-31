@@ -78,6 +78,13 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
   function obtenerSecuencia() {
     Muestras.obtenerSecuencia().then(function(resp) {
       $scope.modoSecuencia = resp.data;
+      if ($scope.datos.muestra.id) {
+        if (resp.data.libre) {
+          $scope.datos.muestra.consecutivoManual = $scope.datos.muestra.consecutivo;
+          return;
+        }
+        return;
+      }
       if (!resp.data.libre) {
         $scope.cambiarSecuencia(resp.data);
       }
@@ -212,12 +219,6 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
     ] ) ) {
       original = angular.copy( datos );
       $scope.datos.muestra.editando = true;
-      var mitad = $scope.datos.muestra.consecutivo.substr( 5 );
-      if ( _.isNaN( Number( mitad ) ) ) {
-        $scope.datos.muestra.consecutivoManual = mitad;
-      } else {
-        $scope.datos.muestra.consecutivoManual = $scope.datos.muestra.consecutivo.split( "-" )[1];
-      }
     }
   };
 
