@@ -12,7 +12,7 @@
       </div>
       <div class="col-sm-4 form-group" ng-if="datos.muestra.editando">
 
-        <div class="col-sm-4 form-group" ng-if="datos.muestra.estado === 'Completada'">
+        <div ng-if="(datos.muestra.estado === 'Completada' || !modoSecuencia.libre) && datos.muestra.id">
           <p class="form-control-static text-info">
             <strong>
               {{datos.muestra.consecutivo}}
@@ -21,13 +21,13 @@
         </div>
 
 
-        <div class="row" ng-show="datos.muestra.editando && datos.muestra.estado!=='Completada'">
+        <div class="row" ng-show="!datos.muestra.id || (datos.muestra.id && modoSecuencia.libre && datos.muestra.estado!=='Completada')">
           <div class="col-xs-6">
             <div class="form-group">
               <label for="" class="control-label">
                 Secuencia
               </label>
-              <div class="input-group input-group-lg" ng-if="!modoSecuencia.libre">
+              <div class="input-group input-group-lg" ng-if="modoSecuencia && !modoSecuencia.libre">
                  <span class="input-group-addon" style="background-color: #eee;">
                    {{datos.fecha}}
                  </span>
