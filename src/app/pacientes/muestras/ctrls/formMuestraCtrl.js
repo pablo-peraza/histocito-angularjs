@@ -284,6 +284,7 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
       if ( muestra.id ) {
         muestra.editando = false;
       } else {
+        muestra.id = resp.data;
         var copia = angular.copy( muestra );
         copia.id = resp.data;
         opcionesFinales().result.then( function( res ) {

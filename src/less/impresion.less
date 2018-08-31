@@ -1,10 +1,15 @@
 @import "bootstrap/variables.less";
 
 @media print {
+  @page {
+    size: auto;
+    margin: 0;
+  }
   .label-info{
     background: @brand-info !important;
   }
-  .menu-contextual{
+  .menu-contextual,
+  .membrete-separador {
     display: none;
   }
 
@@ -131,6 +136,19 @@
       padding: 4px 1px !important;
       line-height: 1.5 !important;
     }
+  }
+
+  .membrete {
+    top: 120px;
+    position: absolute;
+  }
+
+  .labmendez-head {
+    padding: 0 55px 0 55px;
+  }
+
+  .labmendez-body {
+    padding: 0 38px 0 38px;
   }
 
 } //media
