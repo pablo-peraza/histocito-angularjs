@@ -10,10 +10,10 @@
 </nav>
 
 <div ng-switch on="datos.muestra.template">
-  <div ng-switch-when="default">
+  <div id="default-template" ng-switch-when="default" style="height: {{height}}px; position:relative;">
     <img src="/recursos/imagenes/Mebrete_HistoCito_OUT-01_top.png" width="100%" />
     <main class="container-fluid reporte">
-      <ul class="list-inline text-center hidden-xs hidden-sm">
+      <ul class="list-inline text-center hidden-xs hidden-sm" style="position: relative; bottom: 200px;">
         <li><div cis-tecla="mod+p" tipo="info" accion="Imprimir"></div></li>
       </ul>
       <header class="text-center">
@@ -22,39 +22,39 @@
         <small>{{datos.muestra.fechaToma | Fecha:"LL"}}</small>
       </header>
       <small>
-          <div class="row">
-            <div class="col-xs-6">
-              <legend>Paciente</legend>
-              <div>
-                <small><strong>Nombre: </strong>{{datos.expediente.ficha.nombre}}</small>
-              </div>
-              <div>
-                <small><strong>Edad: </strong>{{datos.expediente.ficha.fechaNacimiento | Edad }}</small>
-              </div>
-              <div ng-if="datos.expediente.ficha.cedula">
-                <small><strong>Cédula: </strong>{{datos.expediente.ficha.cedula}}</small>
-              </div>
-              <div>
-                <small><strong>Sexo: </strong>{{datos.expediente.ficha.sexo}}</small>
-              </div>
-              <div ng-if="datos.expediente.ficha.datosContacto.telefonos">
-                <ul class="list-unstyled">
-                  <li ng-repeat="tel in datos.expediente.ficha.datosContacto.telefonos | filter:{tipo:'Principal'}">
-                    <i class="fa fa-fw fa-phone"></i> {{tel.numero}}
-                  </li>
-                </ul>
-              </div>
+        <div class="row">
+          <div class="col-xs-6">
+            <legend>Paciente</legend>
+            <div>
+              <small><strong>Nombre: </strong>{{datos.expediente.ficha.nombre}}</small>
             </div>
-            <div class="col-xs-6" ng-if="datos.medico || datos.clinica">
-              <legend>Médico</legend>
-              <div ng-if="datos.medico && datos.medico.nombreCompleto">
-                <small ng-bind="datos.medico.nombreCompleto"></small>
-              </div>
-              <div ng-if="datos.clinica && datos.clinica.nombre">
-                <small ng-bind="datos.clinica.nombre"></small>
-              </div>
+            <div>
+              <small><strong>Edad: </strong>{{datos.expediente.ficha.fechaNacimiento | Edad }}</small>
+            </div>
+            <div ng-if="datos.expediente.ficha.cedula">
+              <small><strong>Cédula: </strong>{{datos.expediente.ficha.cedula}}</small>
+            </div>
+            <div>
+              <small><strong>Sexo: </strong>{{datos.expediente.ficha.sexo}}</small>
+            </div>
+            <div ng-if="datos.expediente.ficha.datosContacto.telefonos">
+              <ul class="list-unstyled">
+                <li ng-repeat="tel in datos.expediente.ficha.datosContacto.telefonos | filter:{tipo:'Principal'}">
+                  <i class="fa fa-fw fa-phone"></i> {{tel.numero}}
+                </li>
+              </ul>
             </div>
           </div>
+          <div class="col-xs-6" ng-if="datos.medico || datos.clinica">
+            <legend>Médico</legend>
+            <div ng-if="datos.medico && datos.medico.nombreCompleto">
+              <small ng-bind="datos.medico.nombreCompleto"></small>
+            </div>
+            <div ng-if="datos.clinica && datos.clinica.nombre">
+              <small ng-bind="datos.clinica.nombre"></small>
+            </div>
+          </div>
+        </div>
         <hr>
       </small>
       <div ng-switch="datos.tipo.categoria">
@@ -85,7 +85,7 @@
         </div>
       </section>
     </main>
-    <img src="/recursos/imagenes/Mebrete_HistoCito_OUT-01_bottom.png" width="100%" />
+    <img class="membrete-footer-img" src="/recursos/imagenes/Mebrete_HistoCito_OUT-01_bottom.png" width="100%" />
   </div>
 
   <div ng-switch-when="lab-mendez" class="lab-mendez">
@@ -157,27 +157,5 @@
     <section style="text-align:center;background-color: #f1f1f1 !important;">
       <img src="/recursos/imagenes/laboratorio-mendez-footer.jpg" style="width: 100% !important;">
     </section>
-  <!--
-    <section style="color:#666666 !important; background:red !important;">
-      <div class="row">
-        <div class="col-xs-6">
-          <i class="fa fa-fw fa-phone fa-lg" style="display: inline !important;"></i>
-          <small> 2456-3368</small>
-          <br>
-          <i class="fa fa-fw fa-envelope"></i><small> info@laboratoriosmendezcr.com</small>
-          <br>
-          <i class="fa fa-fw fa-globe"></i><small>www.laboratoriomendezcr.com</small>
-          <br>
-          <i class="fa fa-fw fa-map-marker"></i><small>25 metros este de los semáforos del Hospital de San Ramón</small>
-          <br>
-        </div>
-        <div class="col-xs-6">
-          <small>Dra. Karen Andrea Méndez Rodríguez</small>
-          <br>
-          <small>Céd. 20642048429</small>
-        </div>
-      </div>
-    </section>
-  -->
   </div>
 </div>
