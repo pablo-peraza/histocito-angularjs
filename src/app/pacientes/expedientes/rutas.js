@@ -104,6 +104,17 @@ function rutas( $routeProvider ) {
     } //resolve
   } );
 
+  $routeProvider.when( "/inicio/pacientes/duplicados", {
+    templateUrl: plantilla( "duplicados" ),
+    controller: "DuplicadosCtrl",
+    permisos: [ permisos.valores.laboratorio ],
+    resolve: {
+      duplicados: [ "Expedientes", function( Expedientes ) {
+        return Expedientes.rest.obtenerDuplicados(0, 10);
+      } ]
+    }
+  } );
+
   function expedientes( pagina, cantidad ) {
     return function( Expedientes, Alertas ) {
       return Expedientes.rest.buscar( pagina, cantidad ).then(

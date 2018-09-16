@@ -88,5 +88,19 @@ function ExpedientesREST( $http, Dimensionador, urlApi, node ) {
     Dimensionador.cargarEtiquetas( dims, urlApi + "/api/expedientes/dimensiones" );
   };
 
+  funciones.obtenerDuplicados = function(pagina, cantidad) {
+    var params = {
+      params: {
+        pagina: pagina,
+        cantidad: cantidad,
+      }
+    };
+    return $http.get( node + "/api/expedientes/duplicados", params );
+  };
+
+  funciones.resolverDuplicados = function( dups ) {
+    return $http.put( node + "/api/expedientes/resolver", dups );
+  };
+
   return funciones;
 }
