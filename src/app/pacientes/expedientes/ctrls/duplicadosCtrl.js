@@ -2,11 +2,17 @@
 
 module.exports = DuplicadosCtrl;
 
-DuplicadosCtrl.$inject = [ "$scope", "duplicados", "Expedientes", "Alertas" ];
-function DuplicadosCtrl( $scope, duplicados, Expedientes, Alertas ) {
-  $scope.duplicados = duplicados.data;
+DuplicadosCtrl.$inject = [ "$scope", "Expedientes", "Alertas" ];
+function DuplicadosCtrl( $scope, Expedientes, Alertas ) {
+  $scope.duplicados = [];
   $scope.unificar = unificar;
+  $scope.buscar = buscar;
   $scope.cargarMas = cargarMas;
+  $scope.filtros = {
+    cedula: "Cédulas iguales",
+    nombre: "Nombres iguales",
+    nombreCedula: "Nombre y Cédula iguales"
+  };
   $scope.datos = {
     cargando: false,
     elementoActual: 0
@@ -29,11 +35,23 @@ function DuplicadosCtrl( $scope, duplicados, Expedientes, Alertas ) {
     } );
   }
 
+  function buscar( filtro ) {
+    $scope.datos.cargando = true;
+    Expedientes.rest
+      .obtenerDuplicados( 0, 10, filtro )
+      .then( function( resp ) {
+        $scope.duplicados = resp.data;
+      } )
+      .finally( function() {
+        $scope.datos.cargando = false;
+      } );
+  }
+
   function cargarMas() {
     $scope.datos.elementoActual += 10;
     $scope.datos.cargando = true;
     Expedientes.rest
-      .obtenerDuplicados($scope.datos.elementoActual, 10)
+      .obtenerDuplicados($scope.datos.elementoActual, 10, $scope.datos.filtro)
       .then( function( resp ) {
         $scope.duplicados = $scope.duplicados.concat(resp.data);
       } )

@@ -107,12 +107,7 @@ function rutas( $routeProvider ) {
   $routeProvider.when( "/inicio/pacientes/duplicados", {
     templateUrl: plantilla( "duplicados" ),
     controller: "DuplicadosCtrl",
-    permisos: [ permisos.valores.laboratorio ],
-    resolve: {
-      duplicados: [ "Expedientes", function( Expedientes ) {
-        return Expedientes.rest.obtenerDuplicados(0, 10);
-      } ]
-    }
+    permisos: [ permisos.valores.laboratorio ]
   } );
 
   function expedientes( pagina, cantidad ) {

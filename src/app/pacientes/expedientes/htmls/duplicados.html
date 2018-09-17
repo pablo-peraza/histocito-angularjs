@@ -5,6 +5,28 @@
   <h1 class="titulo"><i class="fa fa-copy fa-fw"></i> Expedientes Duplicados</h1>
 </section>
 <section class="container-fluid">
+  <div class="row">
+    <div class="form-group col-md-4">
+      <label class="control-label">Buscar duplicados por:</label>
+      <select class="form-control"
+              ng-model="datos.filtro"
+              ng-required="true"
+              ng-options="k as v for (k, v) in filtros"
+              ng-change="buscar(datos.filtro)">
+      </select>
+    </div>
+  </div>
+  <br>
+  <div class="text-primary">
+    <i class="fa fa-fw fa-info-circle"></i>
+    <span>El botón </span>
+    <button type="button" class="btn btn-xs btn-success" style="pointer-events: none;">
+      <i class="fa fa-fw fa-check"></i>
+      <span class="hidden-xs">Unificar</span>
+    </button>
+    <span> conservará el expediente seleccionado y eliminará el resto de expedientes. Además, moverá todas las muestras de los expedientes borrados al expediente seleccionado.</span>
+  </div>
+  <br>
   <div ng-if="duplicados.length">
     <div ng-repeat="dup in duplicados track by $index" class="comparador">
       <p class="comparador__titulo cursor-pointer" ng-click="exp.abierto = !exp.abierto">
@@ -91,5 +113,5 @@
       <div cis-scroll cargador="cargarMas" umbral="100" debe-cargar="!datos.cargando"></div>
     </div>
   </div>
-  <p ng-if="!duplicados.length" class="text-center lead">No hay resultados</p>
+  <p ng-if="!duplicados.length && datos.filtro && !datos.cargando" class="text-center lead">No hay resultados</p>
 </section>
