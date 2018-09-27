@@ -5,10 +5,9 @@ module.exports = ReporteCtrl;
 ReporteCtrl.$inject = [
   "$scope",
   "params",
-  "isPrivado",
-  "$window"
+  "isPrivado"
 ];
-function ReporteCtrl( $scope, params, isPrivado, $window ) {
+function ReporteCtrl( $scope, params, isPrivado ) {
   $scope.datos = {
     muestra: params.muestra,
     procedimiento: params.procedimiento,
@@ -59,30 +58,6 @@ function ReporteCtrl( $scope, params, isPrivado, $window ) {
       default:
         return tipo;
     }
-  };
-
-  function calcularAlturaPrint() {
-    var tamanoWeb = 1346;
-    var tamanoPrint = 1056;
-    var elem = document.querySelector("#default-template");
-    if (!elem) {
-      return;
-    }
-    var height = elem.offsetHeight;
-    var diferencia = 0;
-    if (height > tamanoWeb) {
-      diferencia = height - tamanoWeb;
-      height = tamanoWeb + diferencia + ( tamanoWeb - diferencia );
-    } else {
-      diferencia = tamanoWeb - height;
-      height = height + diferencia;
-    }
-    $scope.height = height / ( tamanoWeb / tamanoPrint ); // pasarlo a equivalente en print
-    $scope.$apply();
-  }
-
-  $window.onbeforeprint = function() {
-    calcularAlturaPrint();
   };
 
   // function firmaPatologo(id) {

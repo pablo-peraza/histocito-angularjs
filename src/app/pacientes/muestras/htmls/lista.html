@@ -24,17 +24,10 @@
       </div>
       </button>
     </li>
-    <li ng-if="listasParaAceptar(seleccionadas(datos.muestras.lista)) && puedePasar([permisos.laboratorio, permisos.patologo])">
+    <li ng-if="listasParaAceptar(seleccionadas(datos.muestras.lista))  && puedePasar([permisos.laboratorio, permisos.patologo])">
       <button class="btn btn-success" ng-click="completarVarias(seleccionadas(datos.muestras.lista))">
       <div cis-cargando modelo="datos.cargando">
         <i class="fa fa-fw fa-stethoscope"></i><span class="hidden-xs hidden-sm">Aceptar Diagnósticos</span>
-      </div>
-      </button>
-    </li>
-    <li ng-if="sonDeEstado(seleccionadas(datos.muestras.lista), 'estado', 'Completada') && puedePasar([permisos.laboratorio, permisos.digitador, permisos.medico, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo])">
-      <button class="btn btn-success" type="button" ng-click="imprimir(seleccionadas(datos.muestras.lista))">
-      <div cis-cargando modelo="datos.cargando">
-        <i class="fa fa-fw fa-print"></i> <span class="hidden-xs hidden-sm">Imprimir</span>
       </div>
       </button>
     </li>
@@ -115,12 +108,12 @@
                   <li bo-if="puedePasar([permisos.patologo, permisos.laboratorio]) && muestra.estado === 'En diagnostico' && muestra.diagnosticada"
                     ><small>
                     <span class="fa-stack" ng-click="completar(muestra)">
-  <i class="fa fa-fw fa-file fa-2x cursor-pointer" ng-class="getColorReporte(muestra)"></i>
+  <i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"></i>
   <i class="fa fa-check fa-stack-1x fa-inverse"></i>
 </span>
                     </small></li>
                     <li bo-if="muestra.estado === 'Completada'"
-                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i class="fa fa-fw fa-file fa-2x cursor-pointer" ng-class="getColorReporte(muestra)"
+                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"
                     ng-click=""></i></a></small></li>
                     <li bo-if="puedePasar([permisos.laboratorio, permisos.digitador]) && muestra.estado === 'Registrada'"
                     ><small><i class="fa fa-fw fa-trash fa-2x text-danger cursor-pointer"
@@ -134,7 +127,7 @@
             </tbody>
           </table>
           <div cis-cargando modelo="datos.cargando" class="text-center">
-            <div cis-scroll cargador="cargarMas" umbral="100"
+            <div cis-scroll cargador="cargarMas" umbral="50"
             debe-cargar="(datos.muestras.lista.length < datos.muestras.cantidad) && !datos.cargando"></div>
           </div>
         </div>

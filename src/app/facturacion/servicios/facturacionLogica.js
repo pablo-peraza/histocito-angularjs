@@ -25,17 +25,7 @@ function FacturacionLogica() {
         return proc.idProcedimiento === idProcedimiento;
       } //encontrar
       var chain = _.chain( precios );
-      var encontrado = chain.filter( encontrar ).first().value();
-      if (encontrado.idArticulo) {
-        return {
-          centavos: encontrado.idArticulo.rate * 100,
-          articulo: encontrado.idArticulo
-        };
-      }
-      return {
-        centavos: encontrado.monto.centavos
-      };
-      // return chain.filter( encontrar ).pluck( "monto" ).pluck( "centavos" ).first().value();
+      return chain.filter( encontrar ).pluck( "monto" ).pluck( "centavos" ).first().value();
     } //function
 
     this.precioDueno = function( idProcedimiento, idDueno ) {
@@ -56,16 +46,14 @@ function FacturacionLogica() {
     }; //precioDueno
 
     this.detalleIndividual = function( buscarPrecio, muestra ) {
-      var precio = buscarPrecio( muestra.procedimiento.id, muestra.dueno.id );
       return {
         idMuestra: muestra.id,
         numero: muestra.numero,
         procedimiento: muestra.procedimiento,
         paciente: muestra.paciente,
         precioUsuario: {
-          centavos: precio.centavos
-        },
-        articulo: precio.articulo
+          centavos: buscarPrecio( muestra.procedimiento.id, muestra.dueno.id )
+        }
       };
     }; //detalleIndividual
 
@@ -75,16 +63,16 @@ function FacturacionLogica() {
       var cliente = function() {
         if ( llave !== "undefined" ) {
           if ( agrupacion === "clinica" ) {
-            return _.isArray( muestras ) ? muestras[0].clinica : muestras.clinica;
+            return _.isArray( muestras ) ? muestras[0].clinica.nombre : muestras.clinica.nombre;
           }
           if ( agrupacion === "medico" ) {
-            return _.isArray( muestras ) ? muestras[0].medico : muestras.medico;
+            return _.isArray( muestras ) ? muestras[0].medico.nombre : muestras.medico.nombre;
           }
           if ( agrupacion === "usuario" ) {
-            return _.isArray( muestras ) ? muestras[0].dueno : muestras.dueno;
+            return _.isArray( muestras ) ? muestras[0].dueno.nombre : muestras.dueno.nombre;
           }
           if ( agrupacion === "paciente" ) {
-            return _.isArray( muestras ) ? muestras[0].paciente : muestras.paciente;
+            return _.isArray( muestras ) ? muestras[0].paciente.nombre : muestras.paciente.nombre;
           }
         }
         return undefined;
@@ -92,11 +80,9 @@ function FacturacionLogica() {
       var detalle = _.isArray( muestras ) ? _.map( muestras, function( muestra ) {
         return padre.detalleIndividual( buscarPrecio, muestra );
       } ) : [ padre.detalleIndividual( buscarPrecio, muestras ) ];
-      var datosCliente = cliente();
       return {
         idAgrupado: llave === "undefined" ? undefined : llave,
-        cliente: datosCliente.nombre,
-        datosCliente: datosCliente,
+        cliente: cliente(),
         agrupacion: agrupacion,
         detalle: detalle
       };

@@ -8,11 +8,10 @@ navegacionCtrl.$inject = [
   "$route",
   "$timeout",
   "Credenciales",
-  "Navbar",
-  "$modal"
+  "Navbar"
 ];
 
-function navegacionCtrl( $scope, $location, $route, $timeout, Credenciales, Navbar, $modal ) {
+function navegacionCtrl( $scope, $location, $route, $timeout, Credenciales, Navbar ) {
   function buscar( texto ) {
     $location.search( "busqueda", texto ).path( "/inicio/pacientes/expedientes" );
   }
@@ -40,14 +39,6 @@ function navegacionCtrl( $scope, $location, $route, $timeout, Credenciales, Navb
       var temp = Credenciales.credenciales();
       return temp.nombre + " " + temp.apellidos;
     } //if
-  };
-
-  $scope.abrirInformeMinisterio = function() {
-    return $modal.open( {
-      templateUrl: "admin/reportes/htmls/informeMinisterio.html",
-      controller: "InformeMinisterioCtrl",
-      backdrop: "static",
-    } );
   };
 
 }

@@ -19,7 +19,7 @@ function cisBuscarOrigenesCtrl( $scope, Procedimientos, Alertas ) {
     function ok( resp ) {
       return resp.data.lista;
     }
-    return Procedimientos.origenes.buscar( 0, 100, texto ).then( ok, error ).finally( ultima );
+    return Procedimientos.origenes.buscar( 0, 50, texto ).then( ok, error ).finally( ultima );
   };
 
   $scope.enSeleccion = function( item ) {

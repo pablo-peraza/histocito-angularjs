@@ -23,7 +23,9 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="text" class="control-label">Cliente</label>
-                <p class="form-control-static fx-fade-down">
+                <input type="text" id="text" class="form-control" ng-model="factura.cliente"
+                       ng-if="!factura.id" ng-disabled="factura.cargando">
+                <p class="form-control-static fx-fade-down" ng-if="factura.id">
                   {{factura.cliente}}</p>
               </div>
             </div>
@@ -52,6 +54,7 @@
                   <th>Procedimiento</th>
                   <th>Paciente</th>
                   <th>Precio Sugerido para el médico</th>
+                  <th style="width: 16%">Precio final</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,8 +62,14 @@
                   <td bo-text="detalle.numero"></td>
                   <td bo-text="detalle.procedimiento.nombre"></td>
                   <td bo-text="detalle.paciente.nombre"></td>
+                  <td bo-text="(detalle.precioUsuario.centavos / 100) | Colones"></td>
                   <td ng-init="detalle.precioFinal.centavos = detalle.precioUsuario.centavos">
-                    <p class="form-control-static fx-fade-down">
+                    <input type="colones" class="form-control"
+                           ng-if="!factura.id"
+                           ng-model="detalle.precioFinal.centavos"
+                           ng-required="true"
+                           ng-disabled="factura.cargando">
+                    <p class="form-control-static fx-fade-down" ng-if="factura.id">
                       {{(detalle.precioFinal.centavos / 100) | Colones}}</p>
                   </td>
                 </tr>

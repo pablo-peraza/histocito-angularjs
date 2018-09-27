@@ -20,7 +20,7 @@ function BuscarProcedimiento( $scope, Procedimientos, Alertas ) {
     function ok( resp ) {
       return resp.data.lista;
     }
-    return Procedimientos.procedimientos.buscar( 0, 100, texto, dims )
+    return Procedimientos.procedimientos.buscar( 0, 50, texto, dims )
     .then( ok, error ).finally( ultima );
   };
 } //BuscarProcedimiento
