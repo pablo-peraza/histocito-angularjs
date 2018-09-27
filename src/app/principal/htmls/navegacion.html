@@ -64,8 +64,18 @@
               <li ng-class="{active: location.path() === '/inicio/admin/medicos'}">
                 <a href="/inicio/admin/medicos"><i class="fa fa-eye fa-user-md"></i> Médicos</a>
               </li>
-              <li ng-class="{active: location.path() === '/inicio/admin/reportes'}">
-                <a href="/inicio/admin/reportes"><i class="fa fa-file-excel-o"></i> Reportes</a>
+              <li class="dropdown-submenu" ng-class="{active: location.path() === '/inicio/admin/reportes'}">
+                <a>
+                  <i class="fa fa-line-chart"></i> Reportes <span class="caret pull-right"></span>
+                </a>
+                <ul>
+                  <li>
+                    <a href="/inicio/admin/reportes">Reporte de Muestras</a>
+                  </li>
+                  <li>
+                    <a ng-click="abrirInformeMinisterio()">Infome Ministerio</a>
+                  </li>
+                </ul>
               </li>
               <li ng-class="{active: location.path() === '/inicio/admin/relaciones'}">
                 <a href="/inicio/admin/relaciones"><i class="fa fa-link"></i> Relaciones</a>
@@ -100,6 +110,9 @@
               <li ng-class="{active: location.path().indexOf('/inicio/pacientes/muestras') === 0}">
                 <a href="/inicio/pacientes/muestras"><i class="fa fa-flask fa-fw faa-pulse"></i> Muestras</a>
               </li>
+              <li ng-class="{active: location.path().indexOf('/inicio/pacientes/duplicados') === 0}">
+                <a href="/inicio/pacientes/duplicados"><i class="fa fa-copy"></i> Duplicados</a>
+              </li>
             </ul>
           </li>
           <li class="dropdown"
@@ -125,23 +138,23 @@
             ng-class="{active: location.path() === '/inicio/facturacion/facturas'}">
             <a href="/inicio/facturacion/facturas"><i class="fa fa-file-excel-o fa-fw"></i> Facturas</a>
           </li>
-          </ul><!--menu-->
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a class="dropdown-toggle cursor-pointer" data-toggle="dropdown">{{hoy | Fecha:"L"}} <i class="fa fa-user-md fa-fw"></i> {{ nombreUsuario() }}<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/inicio/perfil"><i class="fa fa-briefcase fa-fw"></i> Perfil</a></li>
-                <li class="divider"></li>
-                <li><a ng-click="salir()" class="cursor-pointer"><i class="fa fa-eject fa-fw text-danger"></i> Salir</a></li>
-                <li class="divider"></li>
-                <li class="version">
-                  <i class="fa fa-fw fa-tags"></i>
-                  <span>Versión: {{version}}</span>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          </div><!-- /.navbar-collapse -->
-          </div><!-- /.container-fluid -->
-        </nav>
-      </section>
+        </ul><!--menu-->
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle cursor-pointer" data-toggle="dropdown">{{hoy | Fecha:"L"}} <i class="fa fa-user-md fa-fw"></i> {{ nombreUsuario() }}<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/inicio/perfil"><i class="fa fa-briefcase fa-fw"></i> Perfil</a></li>
+              <li class="divider"></li>
+              <li><a ng-click="salir()" class="cursor-pointer"><i class="fa fa-eject fa-fw text-danger"></i> Salir</a></li>
+              <li class="divider"></li>
+              <li class="version">
+                <i class="fa fa-fw fa-tags"></i>
+                <span>Versión: {{version}}</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+</section>

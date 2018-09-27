@@ -59,6 +59,19 @@
         ng-if="!editando">{{modelo.configuracion.tipoUsuario}}</p>
       </div>
     </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        <label for="" class="control-label">Usuario de Zoho</label>
+        <div
+        ng-if="editando"
+        cis-buscador-zoho coleccion="clientes"
+        atributo="contact_name"
+        ng-model="modelo.clienteZoho">
+        </div>
+        <p class="form-control-static"
+        ng-if="!editando">{{modelo.clienteZoho.contact_name}}</p>
+      </div>
+    </div>
 
   </div>
   <br>

@@ -22,7 +22,7 @@ function rutas( $routeProvider ) {
       permisos.valores.citotecnologo
     ],
     resolve: {
-      expedientes: [ "Expedientes", "Alertas", expedientes( 0, 50 ) ],
+      expedientes: [ "Expedientes", "Alertas", expedientes( 0, 100 ) ],
       dimensiones: [ "Expedientes", "Alertas",
         function( Expedientes, Alertas ) {
           return expedientes( 0, 0 )( Expedientes, Alertas ).then( function( datos ) {
@@ -32,7 +32,7 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     }
   } );
@@ -89,7 +89,7 @@ function rutas( $routeProvider ) {
     controller: "ListaExpedienteCtrl",
     permisos: [ permisos.valores.medico ],
     resolve: {
-      expedientes: [ "Expedientes", "Alertas", misExpedientes( 0, 50 ) ],
+      expedientes: [ "Expedientes", "Alertas", misExpedientes( 0, 100 ) ],
       dimensiones: [ "Expedientes", "Alertas",
         function( Expedientes, Alertas ) {
           return misExpedientes( 0, 0 )( Expedientes, Alertas ).then( function( datos ) {
@@ -99,9 +99,15 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     } //resolve
+  } );
+
+  $routeProvider.when( "/inicio/pacientes/duplicados", {
+    templateUrl: plantilla( "duplicados" ),
+    controller: "DuplicadosCtrl",
+    permisos: [ permisos.valores.laboratorio ]
   } );
 
   function expedientes( pagina, cantidad ) {

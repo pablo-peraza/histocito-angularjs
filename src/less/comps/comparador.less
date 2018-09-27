@@ -1,0 +1,27 @@
+.comparador {
+  border: 1px solid #e5e5e5;
+  margin-bottom: 1em;
+}
+
+.comparador__titulo {
+  margin-bottom: 0;
+  background: #f5f5f5;
+  padding: 1em;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.comparador__contenedor {
+  display: flex;
+  overflow-x: auto;
+}
+
+.comparador__columna {
+  padding: 1em;
+  width: 100%;
+  &:not(:last-child) {
+    border-right: 1px solid #e5e5e5;
+  }
+  th {
+    padding-right: 1em;
+  }
+}

@@ -2,9 +2,20 @@
 
 module.exports = MuestrasREST;
 
-MuestrasREST.$inject = [ "$http", "Dimensionador", "urlApi" ];
-function MuestrasREST( $http, Dimensionador, urlApi ) {
+MuestrasREST.$inject = [ "$http", "Dimensionador", "urlApi", "node" ];
+function MuestrasREST( $http, Dimensionador, urlApi, node ) {
   var funciones = {};
+
+  funciones.obtenerSecuencia = function() {
+    return $http.get( node + "/api/secuencia", {params: {ignoreLoadingBar: true}} );
+  };
+
+  funciones.guardarSecuencia = function( secuencia ) {
+    if ( secuencia._id ) {
+      return $http.put( node + "/api/secuencia/" + secuencia._id, secuencia );
+    }
+    return $http.post( node + "/api/secuencia", secuencia );
+  };
 
   funciones.guardar = function( muestra ) {
     return $http.put( urlApi + "/api/muestra/", muestra );
@@ -103,6 +114,14 @@ function MuestrasREST( $http, Dimensionador, urlApi ) {
 
   funciones.etiquetas = function( dims ) {
     Dimensionador.cargarEtiquetas( dims, urlApi + "/api/muestra/dimensiones" );
+  };
+
+  funciones.imprimir = function( muestras ) {
+    return $http
+      .post( node + "/api/imprimir", { muestras: muestras, url: urlApi }, { responseType: "arraybuffer" } )
+      .then( function( resp ) {
+        return resp.data;
+      } );
   };
 
   return funciones;

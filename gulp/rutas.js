@@ -4,7 +4,7 @@ module.exports = {
   less: {
     principal: "./src/less/main.less",
     watch: [ "src/less/*.less", "src/less/*.css", "src/app/*.less",
-      "src/app/**/*.less", "src/app/**/less/*.less"
+      "src/app/**/*.less", "src/app/**/less/*.less", "src/less/comps/*.less"
     ]
   },
   scripts: {

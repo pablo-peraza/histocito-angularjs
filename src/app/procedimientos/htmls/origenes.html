@@ -94,7 +94,7 @@
           </table>
           <p ng-if="!datos.cargando && vacio(datos.origenes.lista)" class="text-center lead">No hay resultados</p>
           <div cis-cargando modelo="datos.cargando" class="text-center">
-            <div cis-scroll cargador="cargarMas" umbral="50"
+            <div cis-scroll cargador="cargarMas" umbral="100"
             debe-cargar="(datos.origenes.lista.length < datos.origenes.cantidad) && !datos.cargando"></div>
           </div>
         </div>
