@@ -71,7 +71,7 @@ function MedicosCtrl( $scope, medicos, elementoActual, Medicos, Alertas, hotkeys
     function ok( resp ) {
       $scope.datos.medicos.cantidad = resp.data.cantidad;
       $scope.datos.medicos.lista = $scope.datos.medicos.lista.concat( resp.data.lista );
-      $scope.datos.elementoActual += 100;
+      $scope.datos.elementoActual += 50;
     }
 
     function error( resp ) {
@@ -84,7 +84,7 @@ function MedicosCtrl( $scope, medicos, elementoActual, Medicos, Alertas, hotkeys
       $scope.datos.cargando = false;
     }
 
-    Medicos.listar( $scope.datos.elementoActual, 100 ).then( ok, error ).finally( finalmente );
+    Medicos.listar( $scope.datos.elementoActual, 50 ).then( ok, error ).finally( finalmente );
   };
 
 } //controller

@@ -8,7 +8,7 @@ RelacionesCtrl.$inject = [ "relaciones", "Muestras", "Usuarios", "RelacionesAPI"
 function RelacionesCtrl( relaciones, Muestras, Usuarios, RelacionesAPI, Alertas ) {
   var vm = this;
   vm.mostrarForm = false;
-  vm.relaciones = relaciones.docs;
+  vm.relaciones = relaciones;
   vm.nuevo = { autorizados: [] };
   vm.autorizado = null;
   vm.guardar = guardar;

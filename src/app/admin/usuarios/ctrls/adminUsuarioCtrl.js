@@ -17,7 +17,7 @@ function AdminUsuariosCtrl( $rootScope, $scope, $location, usuarios, dimensiones
 
     function ok( resp ) {
       $scope.datos.usuarios = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 100;
+      $scope.datos.elementoActual += 50;
     }
 
     function error( resp ) {
@@ -28,7 +28,7 @@ function AdminUsuariosCtrl( $rootScope, $scope, $location, usuarios, dimensiones
     function finalmente() {
       $scope.datos.cargando = false;
     }
-    Usuarios.buscar( $scope.datos.elementoActual, 100, $scope.datos.filtro, $scope.filtros )
+    Usuarios.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
   };
 

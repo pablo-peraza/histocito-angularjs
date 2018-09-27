@@ -33,7 +33,7 @@ function ProcedimientosCtrl( $rootScope, $scope, $timeout, procedimientos, dimen
         callback: function() {
           $timeout( function() {
             document.getElementById( "guardarProc" ).click();
-          }, 100 );
+          }, 50 );
         }
       } )
       .add( {
@@ -127,7 +127,7 @@ function ProcedimientosCtrl( $rootScope, $scope, $timeout, procedimientos, dimen
 
     function ok( resp ) {
       $scope.datos.procedimientos = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 100;
+      $scope.datos.elementoActual += 50;
     }
 
     function error( resp ) {
@@ -138,7 +138,7 @@ function ProcedimientosCtrl( $rootScope, $scope, $timeout, procedimientos, dimen
     function ultima() {
       $scope.datos.cargando = false;
     }
-    Procedimientos.procedimientos.buscar( $scope.datos.elementoActual, 100, $scope.datos.filtro,
+    Procedimientos.procedimientos.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro,
       $scope.filtros ).then( ok, error )["finally"]( ultima );
   } //function
 

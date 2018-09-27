@@ -61,7 +61,7 @@ function OrigenesCtrl( $rootScope, $scope, origenes, elementoActual, Alertas, ho
 
     function ok( resp ) {
       $scope.datos.origenes = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 100;
+      $scope.datos.elementoActual += 50;
     }
 
     function error( resp ) {
@@ -72,7 +72,7 @@ function OrigenesCtrl( $rootScope, $scope, origenes, elementoActual, Alertas, ho
     function ultima() {
       $scope.datos.cargando = false;
     }
-    Procedimientos.origenes.buscar( $scope.datos.elementoActual, 100, $scope.datos.filtro )
+    Procedimientos.origenes.buscar( $scope.datos.elementoActual, 50, $scope.datos.filtro )
     .then( ok, error )["finally"]( ultima );
   };
 

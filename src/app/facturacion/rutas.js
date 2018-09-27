@@ -22,9 +22,9 @@ function rutas( $routeProvider ) {
       permisos.valores.facturacion
     ],
     resolve: {
-      muestras: [ "Muestras", "Alertas", muestras( 0, 100 ) ],
+      muestras: [ "Muestras", "Alertas", muestras( 0, 50 ) ],
       elementoActual: function() {
-        return 100;
+        return 50;
       }
     } //resolve
   } );
@@ -37,7 +37,7 @@ function rutas( $routeProvider ) {
     resolve: {
       facturas: [ "Facturas", "Alertas",
         function( Facturas, Alertas ) {
-          return busquedaMedico( Facturas, Alertas, 100 );
+          return busquedaMedico( Facturas, Alertas, 50 );
         }
       ],
       dimensiones: [ "Facturas", "Alertas",
@@ -49,7 +49,7 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 100;
+        return 50;
       }
     }
   } );
@@ -66,7 +66,7 @@ function rutas( $routeProvider ) {
     resolve: {
       facturas: [ "Facturas", "Alertas",
         function( Facturas, Alertas ) {
-          return busqueda( Facturas, Alertas, 100 );
+          return busqueda( Facturas, Alertas, 50 );
         }
       ],
       dimensiones: [ "Facturas", "Alertas",
@@ -78,7 +78,7 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 100;
+        return 50;
       }
     }
   } );

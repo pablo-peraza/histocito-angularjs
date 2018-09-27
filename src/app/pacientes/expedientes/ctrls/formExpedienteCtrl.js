@@ -78,7 +78,7 @@ function FormExpedienteCtrl( $rootScope, $scope, $location, $window, expediente,
     function ok( resp ) {
       $scope.datos.muestras.cantidad = resp.data.cantidad;
       $scope.datos.muestras.lista = $scope.datos.muestras.lista.concat( resp.data.lista );
-      $scope.elementoActual += 100;
+      $scope.elementoActual += 50;
     }
 
     function error( resp ) {
@@ -91,7 +91,7 @@ function FormExpedienteCtrl( $rootScope, $scope, $location, $window, expediente,
       $scope.datos.cargando = false;
     }
     Expedientes.rest.muestras( $scope.datos.expediente.id,
-      $scope.elementoActual, 100 ).then( ok, error ).finally( finalmente );
+      $scope.elementoActual, 50 ).then( ok, error ).finally( finalmente );
   };
 
   if ( $scope.datos.expediente !== 404 ) {
