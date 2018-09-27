@@ -10,6 +10,7 @@ modulo.config( require( "./rutas.js" ) );
 modulo.controller( "FormExpedienteCtrl", require( "./ctrls/formExpedienteCtrl.js" ) );
 modulo.controller( "ListaExpedienteCtrl", require( "./ctrls/listaExpedienteCtrl.js" ) );
 modulo.controller( "PatronCedula", require( "./ctrls/patronCedula.js" ) );
+modulo.controller( "DuplicadosCtrl", require( "./ctrls/duplicadosCtrl.js" ) );
 
 modulo.directive( "cisBuscadorExpedientes", require( "./directivas/cisBuscadorExpedientes.js" ) );
 

@@ -7,12 +7,12 @@
           <strong ng-if="!datos.muestra.editando || datos.muestra.estado === 'Completada'">
             {{datos.muestra.consecutivo}}
           </strong>
-          <strong ng-if="datos.muestra.nuevo" tooltip='Los consecutivos son asignados al guardar la muestra'>Por asignar</strong>
+          <strong ng-if="datos.muestra.nuevo" tooltip="Los consecutivos son asignados al guardar la muestra">Por asignar</strong>
         </p>
       </div>
       <div class="col-sm-4 form-group" ng-if="datos.muestra.editando">
 
-        <div class="col-sm-4 form-group" ng-if="datos.muestra.estado === 'Completada'">
+        <div ng-if="(datos.muestra.estado === 'Completada' || !modoSecuencia.libre) && datos.muestra.id">
           <p class="form-control-static text-info">
             <strong>
               {{datos.muestra.consecutivo}}
@@ -21,20 +21,25 @@
         </div>
 
 
-        <div class="row" ng-show="datos.muestra.editando && datos.muestra.estado!=='Completada'">
+        <div class="row" ng-show="!datos.muestra.id || (datos.muestra.id && modoSecuencia.libre && datos.muestra.estado!=='Completada')">
           <div class="col-xs-6">
             <div class="form-group">
               <label for="" class="control-label">
                 Secuencia
               </label>
-              <div class="input-group input-group-lg">
+              <div class="input-group input-group-lg" ng-if="modoSecuencia && !modoSecuencia.libre">
                  <span class="input-group-addon" style="background-color: #eee;">
                    {{datos.fecha}}
                  </span>
-                 <input type="text" name="secuencia" class="form-control" ng-model="datos.muestra.consecutivoManual" ng-blur="cambiarSecuencia(datos.muestra.consecutivoManual)"/>
+                 <input type="text" name="secuencia" class="form-control" ng-model="datos.muestra.consecutivoManual" ng-disabled="true"/>
 
-               </div>
+              </div>
+              <input ng-if="modoSecuencia.libre" class="form-control" ng-model="datos.muestra.consecutivo">
             </div>
+          </div>
+          <div class="col-xs-6">
+            <br>
+            <button class="btn btn-success" type="button" ng-click="selectModoSecuencia()">Modo</button>
           </div>
         </div>
       </div>

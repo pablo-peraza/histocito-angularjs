@@ -24,7 +24,7 @@ function MedicoFacturasCtrl( $scope, Facturas, facturas, dimensiones, elementoAc
 
     function ok( resp ) {
       $scope.datos.facturas = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -36,7 +36,7 @@ function MedicoFacturasCtrl( $scope, Facturas, facturas, dimensiones, elementoAc
       $scope.datos.cargando = false;
     }
     Facturas.rest
-    .facturasMedico( $scope.datos.elementoActual, 50, $scope.datos.filtro, $scope.filtros )
+    .facturasMedico( $scope.datos.elementoActual, 100, $scope.datos.filtro, $scope.filtros )
     .then( ok, error )
     .finally( finalmente );
   };
