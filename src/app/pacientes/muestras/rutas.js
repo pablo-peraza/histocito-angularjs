@@ -23,18 +23,18 @@ function rutas( $routeProvider ) {
         function( Muestras, Alertas, Credenciales ) {
           var tipo = Credenciales.credenciales().tipoUsuario;
           if ( tipo === "Citotecnólogo" ) {
-            return muestras( 0, 50, [ {
+            return muestras( 0, 100, [ {
               categoria: [ "citología" ]
             }, {
               estado: [ "diagnostico", "espera" ]
             } ] )( Muestras, Alertas );
           } //if
           if ( tipo === "Patólogo" ) {
-            return muestras( 0, 50, [ {
+            return muestras( 0, 100, [ {
               estado: [ "diagnostico" ]
             } ] )( Muestras, Alertas );
           }
-          return muestras( 0, 50 )( Muestras, Alertas );
+          return muestras( 0, 100 )( Muestras, Alertas );
         }
       ],
       dimensiones: [ "Muestras", "Alertas", "Credenciales",
@@ -50,7 +50,7 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     } //resolve
   } );
@@ -88,7 +88,7 @@ function rutas( $routeProvider ) {
     controller: "MuestrasMedicoCtrl",
     permisos: [ permisos.valores.medico ],
     resolve: {
-      muestras: [ "Muestras", "Alertas", muestras( 0, 50 ) ],
+      muestras: [ "Muestras", "Alertas", muestras( 0, 100 ) ],
       dimensiones: [ "Muestras", "Alertas",
         function( Muestras, Alertas ) {
           return ( muestras( 0, 0 )( Muestras, Alertas ) ).then( function( datos ) {
@@ -98,7 +98,7 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     } //resolve
   } );

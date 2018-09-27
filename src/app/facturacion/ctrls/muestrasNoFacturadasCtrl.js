@@ -11,10 +11,11 @@ MuestasNoFacturadasCtrl.$inject = [
   "Muestras",
   "Alertas",
   "Facturas",
-  "$route"
+  "$route",
+  "ZohoAPI"
 ];
 function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $location, Muestras,
-  Alertas, Facturas, $route ) {
+  Alertas, Facturas, $route, ZohoAPI ) {
 
   var dimensiones = [ {
     cobrada: [ "No" ]
@@ -119,7 +120,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
       // elimina los valores nulos: false, null, 0, "", undefined y NaN
       var ids = _.compact( llaves );
-      Facturas.rest.preciosMedicos( ids ).then( ok, error );
+      Facturas.rest.preciosMedicos( ids ).then( ZohoAPI.preciosArticulos ).then( ok, error );
     }
   };
   $scope.total = Facturas.logica.total;
@@ -235,7 +236,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
     function ok( resp ) {
       $scope.datos.muestras = procesarResultado( resp.data );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -249,7 +250,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
     if ( _.isUndefined( $scope.filtros ) ) {
       $scope.filtros = [ { "cobrada": [ "No" ] }, { "estado": [ "completada", "registrada", "diagnostico", "analisis" ] } ];
     }
-    Muestras.rest.buscar( $scope.datos.elementoActual, 50,
+    Muestras.rest.buscar( $scope.datos.elementoActual, 100,
       $scope.datos.filtro, $scope.filtros )
     .then( ok, error ).finally( finalmente );
   };

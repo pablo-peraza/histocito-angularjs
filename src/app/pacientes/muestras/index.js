@@ -13,6 +13,7 @@ modulo.controller( "MotivoCtrl", require( "./ctrls/motivoCtrl.js" ) );
 modulo.controller( "imagenesMedico", require( "./ctrls/imagenesMedico.js" ) );
 modulo.controller( "MuestrasMedicoCtrl", require( "./ctrls/muestrasMedicoCtrl.js" ) );
 modulo.controller( "EnviarCorreosCtrl", require( "./ctrls/enviarCorreosCtrl.js" ) );
+modulo.controller( "ModalSecuenciaCtrl", require( "./ctrls/modalSecuenciaCtrl.js" ) );
 
 modulo.factory( "LogicaRecomendaciones", require( "./servicios/logicaRecomendaciones.js" ) );
 modulo.factory( "MuestrasEstados", require( "./servicios/muestrasEstados.js" ) );

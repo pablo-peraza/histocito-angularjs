@@ -77,6 +77,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
       var temp = posibles( proc.id );
       if ( temp ) {
         proc.precioUsuario = temp.monto.centavos;
+        proc.articulo = _.find( usuario.articulos, {"item_id": temp.idArticulo} );
       } else {
         proc.precioUsuario = proc.precio.centavos;
       }
@@ -88,6 +89,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
     return _.map( procedimientos, function( proc ) {
       return {
         idProcedimiento: proc.id,
+        idArticulo: proc.articulo ? proc.articulo.item_id : null,
         monto: {
           centavos: proc.precioUsuario
         }
@@ -108,7 +110,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
     function ok( resp ) {
       $scope.datos.muestras.cantidad = resp.data.cantidad;
       $scope.datos.muestras.lista = $scope.datos.muestras.lista.concat( resp.data.lista );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -121,7 +123,7 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
       $scope.datos.cargando = false;
     }
     Usuarios.muestras( $scope.datos.usuario.id,
-      $scope.datos.elementoActual, 50 ).then( ok, error ).finally( finalmente );
+      $scope.datos.elementoActual, 100 ).then( ok, error ).finally( finalmente );
   };
 
   if ( $scope.datos.usuario !== 404 ) {
@@ -174,7 +176,11 @@ function formUsuarioCtrl( $rootScope, $scope, $window, $location, Usuarios,
       }
       if ( $rootScope.puedePasar( [ $rootScope.permisos.laboratorio ] ) && !$scope.datos.cargando ) {
         $scope.datos.cargando = true;
-        Usuarios.guardar( usuario ).then( ok, error ).finally( ultima );
+        var temp = _.cloneDeep( usuario );
+        if (temp.clienteZoho) {
+          temp.clienteZoho = usuario.clienteZoho.contact_id;
+        }
+        Usuarios.guardar( temp ).then( ok, error ).finally( ultima );
       }
     }; //guardar
 
