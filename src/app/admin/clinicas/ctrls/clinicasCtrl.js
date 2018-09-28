@@ -71,7 +71,7 @@ function ClinicasCtrl( $scope, clinicas, elementoActual, Clinicas, Alertas, hotk
     function ok( resp ) {
       $scope.datos.clinicas.cantidad = resp.data.cantidad;
       $scope.datos.clinicas.lista = $scope.datos.clinicas.lista.concat( resp.data.lista );
-      $scope.datos.elementoActual += 50;
+      $scope.datos.elementoActual += 100;
     }
 
     function error( resp ) {
@@ -84,7 +84,7 @@ function ClinicasCtrl( $scope, clinicas, elementoActual, Clinicas, Alertas, hotk
       $scope.datos.cargando = false;
     }
 
-    Clinicas.listar( $scope.datos.elementoActual, 50 ).then( ok, error ).finally( finalmente );
+    Clinicas.listar( $scope.datos.elementoActual, 100 ).then( ok, error ).finally( finalmente );
   };
 
 } //controller

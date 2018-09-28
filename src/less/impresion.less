@@ -1,10 +1,14 @@
 @import "bootstrap/variables.less";
 
 @media print {
+  @page {
+    size: auto;
+    margin: 0;
+  }
   .label-info{
     background: @brand-info !important;
   }
-  .menu-contextual{
+  .menu-contextual {
     display: none;
   }
 
@@ -87,6 +91,7 @@
   }
 
   .reporte{
+    padding: 0 54px;
     header{
       padding: 5px;
     }
@@ -114,12 +119,12 @@
       margin-bottom: 15px;
     } //h3
     .fa-square-o{
-    display:none;
-  }
-  textarea {
-    resize: none;
-    overflow: hidden;
-}
+      display:none;
+    }
+    textarea {
+      resize: none;
+      overflow: hidden;
+    }
   } //reporte
 
   .factura{
@@ -131,6 +136,18 @@
       padding: 4px 1px !important;
       line-height: 1.5 !important;
     }
+  }
+
+  .membrete-footer-img {
+    opacity: 1 !important;
+  }
+
+  .labmendez-head {
+    padding: 0 55px 0 55px;
+  }
+
+  .labmendez-body {
+    padding: 0 38px 0 38px;
   }
 
 } //media

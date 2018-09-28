@@ -13,11 +13,11 @@ function rutas( $routeProvider ) {
     resolve: {
       origenes: [ "Procedimientos", "Alertas",
         function( Procedimientos, Alertas ) {
-          return busqueda( Procedimientos.origenes, Alertas, 50 );
+          return busqueda( Procedimientos.origenes, Alertas, 100 );
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     }
   } ); //when
@@ -30,7 +30,7 @@ function rutas( $routeProvider ) {
     resolve: {
       tipos: [ "Procedimientos", "Alertas",
         function( Procedimientos, Alertas ) {
-          return busqueda( Procedimientos.tipos, Alertas, 50 );
+          return busqueda( Procedimientos.tipos, Alertas, 100 );
         }
       ],
       dimensiones: [ "Procedimientos", "Alertas",
@@ -43,14 +43,14 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     }
   } ); //when
 
   getTipos.$inject = [ "Procedimientos", "Alertas" ];
   function getTipos( Procedimientos, Alertas ) {
-    return busqueda( Procedimientos.tipos, Alertas, 50 );
+    return busqueda( Procedimientos.tipos, Alertas, 100 );
   }
 
   $routeProvider.when( "/inicio/procedimientos/procedimientos", {
@@ -61,7 +61,7 @@ function rutas( $routeProvider ) {
     resolve: {
       procedimientos: [ "Procedimientos", "Alertas",
         function( Procedimientos, Alertas ) {
-          return busqueda( Procedimientos.procedimientos, Alertas, 50 );
+          return busqueda( Procedimientos.procedimientos, Alertas, 100 );
         }
       ],
       dimensiones: [ "Procedimientos", "Alertas",
@@ -74,7 +74,7 @@ function rutas( $routeProvider ) {
         }
       ],
       elementoActual: function() {
-        return 50;
+        return 100;
       }
     }
   } ); //when
