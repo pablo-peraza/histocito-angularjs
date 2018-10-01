@@ -76,17 +76,18 @@ function FormMuestraCtrl( $rootScope, $scope, $window, $location, params, hotkey
   Alertas, $route, $modal, Tabs, $timeout, Credenciales, ExpedientesREST, Usuarios,
   Procedimientos ) {
   function obtenerSecuencia() {
-    Muestras.obtenerSecuencia().then(function(resp) {
+    Muestras.obtenerSecuencia().then( function( resp ) {
       $scope.modoSecuencia = resp.data;
-      if ($scope.datos.muestra.id) {
-        if (resp.data.libre) {
+      if ( $scope.datos.muestra.id ) {
+        if ( resp.data.libre ) {
           $scope.datos.muestra.consecutivoManual = $scope.datos.muestra.consecutivo;
           return;
         }
+        $scope.datos.muestra.consecutivoManual = $scope.datos.muestra.consecutivo.split("-")[1];
         return;
       }
-      if (!resp.data.libre) {
-        $scope.cambiarSecuencia(resp.data);
+      if ( !resp.data.libre ) {
+        $scope.cambiarSecuencia( resp.data );
       }
     });
   }
