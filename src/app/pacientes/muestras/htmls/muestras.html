@@ -67,8 +67,7 @@
                 <td data-title="Acciones" ng-if="puedePasar([permisos.laboratorio, permisos.digitador, permisos.medico, permisos.patologo, permisos.histotecnologo, permisos.citotecnologo])">
                   <ul class="list-inline text-center">
                     <li ng-if="muestra.estado === 'Completada'"
-                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i ng-class="muestra.tieneLesion? ' fa fa-fw fa-file fa-2x text-danger cursor-pointer' : 'fa fa-fw fa-file fa-2x text-success cursor-pointer'"
-                    ng-click=""></i></a></small></li>
+                    ><small><a href="/inicio/pacientes/muestras/{{muestra.id}}/diagnostico/reporte"><i class="fa fa-fw fa-file fa-2x cursor-pointer" ng-class="muestra.tieneLesion ? 'text-danger' : muestra.patronesMicrobianos ? 'text-warning' : 'text-success'" ng-click=""></i></a></small></li>
 
                     <li ng-if="muestra.estado === 'Completada' && muestra.enviada === true">
                       <small>

@@ -13,9 +13,10 @@ reporteCtrl.$inject = [
   "node"
 ];
 function reporteCtrl( $rootScope, $scope, $window, $location, $http, Alertas, urlApi, node ) {
+  var prefijo = moment().year() + "-";
   $scope.datos = {
-    "desde": "2017-",
-    "hasta": "2017-"
+    "desde": prefijo,
+    "hasta": prefijo
   };
 
   function ok( resp ) {
