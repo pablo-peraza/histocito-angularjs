@@ -105,12 +105,7 @@
       </a>
     </li>
     <li ng-if="!datos.muestra.diagnostico.editando && datos.muestra.estado ==='Completada'">
-      <button class="btn btn-success"
-        ng-click="enviarCorreoMuestrasUna(datos.muestra)">
-        <div cis-cargando modelo="datos.cargando">
-          <i class="fa fa-fw fa-envelope"></i><span class="hidden-xs hidden-sm">Enviar Correo</span>
-        </div>
-      </button>
+      <enviador-correos muestra="datos.muestra"></enviador-correos>
     </li>
     <li ng-if="!datos.muestra.nuevo && datos.muestra.estado === 'Registrada' && puedePasar([permisos.laboratorio, permisos.digitador])">
       <button class="btn btn-danger"
@@ -124,7 +119,7 @@
   </ul>
   <ul class="list-inline text-center" ng-if="datos.muestra === 404">
     <li>
-      <button class="btn btn-default btn-sm" cisAtras ng-disabled="datos.cargando">
+      <button class="btn btn-default btn-sm" cis-atras ng-disabled="datos.cargando">
       <i class="fa fa-fw fa-reply"></i><span class="hidden-xs hidden-sm">Atrás</span>
       </button>
     </ul>
@@ -274,58 +269,5 @@
           <i class="fa fa-fw fa-download"></i> Guardar
         </div>
       </button>
-    </div>
-  </script>
-
-  <script type="text/ng-template" id="mensajeCortoCorreoMuestrasUna.html">
-    <div class="modal-header">
-      <h5 class="modal-title">Agregue un mensaje corto adicional para adjuntar al correo.</h5>
-    </div>
-    <div class="modal-body">
-      <div ng-if="datos.expediente.ficha.datosContacto.correos.length === 0">
-        <h6><b>El paciente a quien desea envíar el reporte no tiene registrada una dirección de correo electrónico. Por favor agregue una dirección de envío para el paciente.</h6>
-        <div cis-correos modelo="datos.expediente.ficha.datosContacto.correos"
-          editando="true"></div>
-      </div>
-
-      <div>
-        <h6><b>Marque los contactos a quien desee enviar este correo:</h6>
-
-          <div ng-if="datos.expediente.ficha.datosContacto.correos.length > 0">
-            <label style="display: block;" ng-init="datos.expediente.ficha.datosContacto.enviarCorreo= true">
-              <input type="checkbox" ng-model="datos.expediente.ficha.datosContacto.enviarCorreo" ng-checked="true" checked/>
-              {{ datos.expediente.ficha.nombre }} (Paciente) <{{ datos.expediente.ficha.datosContacto.correos[0].correo }}>
-            </label>
-          </div>
-
-
-        <label ng-repeat="usuario in datos.usuariosParaCorreos" style="display: block;">
-          <input type="checkbox" ng-model="usuario.enviarcorreo" />
-          {{ usuario.nombre }} {{ usuario.apellidos }}
-          <span ng-if="usuario.tipoUsuario == 'dueno'"> (Usuario dueño) </span>
-          <span ng-if="usuario.tipoUsuario == 'autorizado'">(Autorizado) </span>
-          <{{ usuario.correo }}>
-        </label>
-      </div>
-
-      <form role="form" ng-submit="onSubmit()" novalidate name="shareSelectionForm">
-        <div ng-class="{'has-error': shareSelectionForm.recipientEmail.$invalid}" class="form-group ">
-          <label class="control-label col-sm-3">Otras direcciones adicionales: </label>
-          <div class="col-sm-5">
-          <input type="text" class="form-control" multiple-emails name="recipientEmail" ng-model="datos.correosAdicionales">
-          </div>
-        </div>
-      </form>
-      <br>
-
-      <br>
-      <h6 for="" class="control-label" style="clear: both;">Digite el comentario</h6>
-      <div text-angular ng-model="datos.comentarioAdicional"></div>
-      <cis-archivo-adjunto ng-model="adjuntos" procesando="procesando"></cis-archivo-adjunto>
-    </div>
-    <div class="modal-footer">
-
-      <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
-      <button class="btn btn-success" ng-click="ok(datos)" ng-disabled="validarFormularioVacio(datos) || shareSelectionForm.recipientEmail.$invalid || procesando">Aceptar</button>
     </div>
   </script>
