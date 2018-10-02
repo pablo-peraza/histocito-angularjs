@@ -6,9 +6,10 @@ ReporteCtrl.$inject = [
   "$scope",
   "params",
   "isPrivado",
-  "$window"
+  "$window",
+  "$route"
 ];
-function ReporteCtrl( $scope, params, isPrivado, $window ) {
+function ReporteCtrl( $scope, params, isPrivado, $window, $route ) {
   $scope.datos = {
     muestra: params.muestra,
     procedimiento: params.procedimiento,
@@ -18,6 +19,7 @@ function ReporteCtrl( $scope, params, isPrivado, $window ) {
     clinica: params.clinica,
     isPrivado: isPrivado
   };
+  $scope.datos.muestra.id = $route.current.params.muestra;
   if ( params.patologo ) {
     $scope.datos.patologo = params.patologo;
 

@@ -22,5 +22,6 @@ modulo.factory( "Muestras", require( "./servicios/muestras.js" ) );
 modulo.factory( "MuestrasREST", require( "./ctrls/rest/muestrasAPI.js" ) );
 
 modulo.directive( "multipleEmails", require( "./directivas/multipleEmails.js" ) );
+modulo.directive( "enviadorCorreos", require( "./directivas/enviadorcorreos/directiva.js" ) );
 
 module.exports = modulo.name;
