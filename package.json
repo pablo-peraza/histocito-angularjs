@@ -1,7 +1,7 @@
 {
   "name": "Proyecto",
   "nombreNatural": "Laboratorio Histocito",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Proyecto con utilerías, archivos de construcción y arquitectura sugerida para los desarrollos frontend",
   "main": "src/app/index.js",
   "author": "Pablo Peraza",
