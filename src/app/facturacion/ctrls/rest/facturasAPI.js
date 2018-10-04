@@ -64,11 +64,11 @@ function FacturasREST( $http, Dimensionador, urlApi, node ) {
         var lineItem = linea.articulo ? { // articulo zoho
           "item_id": linea.articulo.item_id,
           "name": linea.articulo.name,
-          "description": linea.numero,
+          "description": linea.numero + " - " + linea.paciente.nombre,
           "rate": linea.articulo.rate,
         } : { // articulo default
           "name": linea.procedimiento.nombre,
-          "description": linea.numero,
+          "description": linea.numero + " - " + linea.paciente.nombre,
           "rate": linea.precioFinal.centavos / 100,
         };
         _.assign(lineItem, {
