@@ -205,10 +205,10 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
     return Facturas.rest.guardar( factura )
     .then( function primerThen( resp ) {
+      factura.id = resp.data;
       return Facturas.rest.guardarfacturaZoho( factura )
       .then( function thenZoho( respZoho ) {
         factura.consecutivo = respZoho.data.invoice.invoice_number;
-        factura.id = resp.data;
         return Facturas.rest.guardar( factura )
         .then( function( respFinal ) {
           Alertas.agregar( respFinal.status );
@@ -217,7 +217,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
       } );
     } )
     .catch( function( error ) {
-      console.error( error );
+      Facturas.rest.borrar(factura.id); // si algo falla, se revierte todo
       Alertas.agregar( error.status, "Ocurrió un error al guardar la factura: " + JSON.stringify( error.data ) );
     } )
     .finally( function() {
