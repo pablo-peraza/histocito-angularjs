@@ -120,7 +120,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
       // elimina los valores nulos: false, null, 0, "", undefined y NaN
       var ids = _.compact( llaves );
-      Facturas.rest.preciosMedicos( ids ).then( ZohoAPI.preciosArticulos ).then( ok, error );
+      ZohoAPI.preciosMedicosArticulos( ids ).then( ok, error );
     }
   };
   $scope.total = Facturas.logica.total;
@@ -142,7 +142,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
         var numeroMuestra = _.pluck( factura.detalle, "numero" )[0];
         var facturaSoho = _.find( resp.data.invoices, function( fs ) {
           var existeLinea = _.find( fs.line_items, function( ls ) {
-            return ls.name === numeroMuestra;
+            return ls.description.indexOf(numeroMuestra) > -1;
           } );
           return existeLinea !== undefined;
         } );
