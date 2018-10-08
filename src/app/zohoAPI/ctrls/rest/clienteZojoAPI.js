@@ -58,11 +58,11 @@ function zohoAPI( $http, node ) {
     return $http.get( node + "/api/facturas/zoho/referencias", params ).then( ok, error );
   };
 
-  funciones.preciosArticulos = function( param ) {
+  funciones.preciosMedicosArticulos = function( idsMedicos ) {
     function ok( resp ) {
       return resp;
     }
-    return $http.get( node + "/api/facturas/zoho/articulos/precios", {params: param.data.lista} )
+    return $http.post( node + "/api/facturas/zoho/articulos/precios", idsMedicos )
       .then( ok, error );
   };
 
