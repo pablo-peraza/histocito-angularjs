@@ -118,9 +118,10 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
         return ( !!dato.dueno ) ? dato.dueno.id : undefined;
       } ) );
 
-      // elimina los valores nulos: false, null, 0, "", undefined y NaN
       var ids = _.compact( llaves );
-      ZohoAPI.preciosMedicosArticulos( ids ).then( ok, error );
+      // TEMP: esto es lo que se trae los precios de zoho, se va a deshabilitar temporalmente
+      // ZohoAPI.preciosMedicosArticulos( ids ).then( ok, error );
+      Facturas.rest.preciosMedicos( ids ).then( ok, error );
     }
   };
   $scope.total = Facturas.logica.total;
