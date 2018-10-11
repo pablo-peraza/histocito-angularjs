@@ -26,12 +26,13 @@ function FacturacionLogica() {
       } //encontrar
       var chain = _.chain( precios );
       var encontrado = chain.filter( encontrar ).first().value();
+      /* TEMP: solo se va a usar el precio del médico temporalmente
       if (encontrado.idArticulo) {
         return {
           centavos: encontrado.idArticulo.rate * 100,
           articulo: encontrado.idArticulo
         };
-      }
+      }*/
       return {
         centavos: encontrado.monto.centavos
       };

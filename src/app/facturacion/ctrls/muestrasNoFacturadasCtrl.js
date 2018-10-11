@@ -118,9 +118,10 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
         return ( !!dato.dueno ) ? dato.dueno.id : undefined;
       } ) );
 
-      // elimina los valores nulos: false, null, 0, "", undefined y NaN
       var ids = _.compact( llaves );
-      Facturas.rest.preciosMedicos( ids ).then( ZohoAPI.preciosArticulos ).then( ok, error );
+      // TEMP: esto es lo que se trae los precios de zoho, se va a deshabilitar temporalmente
+      // ZohoAPI.preciosMedicosArticulos( ids ).then( ok, error );
+      Facturas.rest.preciosMedicos( ids ).then( ok, error );
     }
   };
   $scope.total = Facturas.logica.total;
@@ -142,7 +143,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
         var numeroMuestra = _.pluck( factura.detalle, "numero" )[0];
         var facturaSoho = _.find( resp.data.invoices, function( fs ) {
           var existeLinea = _.find( fs.line_items, function( ls ) {
-            return ls.name === numeroMuestra;
+            return ls.description.indexOf(numeroMuestra) > -1;
           } );
           return existeLinea !== undefined;
         } );
@@ -205,10 +206,10 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
 
     return Facturas.rest.guardar( factura )
     .then( function primerThen( resp ) {
+      factura.id = resp.data;
       return Facturas.rest.guardarfacturaZoho( factura )
       .then( function thenZoho( respZoho ) {
         factura.consecutivo = respZoho.data.invoice.invoice_number;
-        factura.id = resp.data;
         return Facturas.rest.guardar( factura )
         .then( function( respFinal ) {
           Alertas.agregar( respFinal.status );
@@ -217,7 +218,7 @@ function MuestasNoFacturadasCtrl( $scope, muestras, elementoActual, hotkeys, $lo
       } );
     } )
     .catch( function( error ) {
-      console.error( error );
+      Facturas.rest.borrar(factura.id); // si algo falla, se revierte todo
       Alertas.agregar( error.status, "Ocurrió un error al guardar la factura: " + JSON.stringify( error.data ) );
     } )
     .finally( function() {
