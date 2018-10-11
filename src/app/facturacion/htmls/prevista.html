@@ -52,6 +52,7 @@
                   <th>Procedimiento</th>
                   <th>Paciente</th>
                   <th>Precio Sugerido para el médico</th>
+                  <th style="width: 16%">Precio final</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,8 +60,14 @@
                   <td bo-text="detalle.numero"></td>
                   <td bo-text="detalle.procedimiento.nombre"></td>
                   <td bo-text="detalle.paciente.nombre"></td>
+                  <td bo-text="(detalle.precioUsuario.centavos / 100) | Colones"></td>
                   <td ng-init="detalle.precioFinal.centavos = detalle.precioUsuario.centavos">
-                    <p class="form-control-static fx-fade-down">
+                    <input type="colones" class="form-control"
+                           ng-if="!factura.id"
+                           ng-model="detalle.precioFinal.centavos"
+                           ng-required="true"
+                           ng-disabled="factura.cargando">
+                    <p class="form-control-static fx-fade-down" ng-if="factura.id">
                       {{(detalle.precioFinal.centavos / 100) | Colones}}</p>
                   </td>
                 </tr>
