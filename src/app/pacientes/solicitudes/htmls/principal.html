@@ -1,0 +1,27 @@
+<nav class="menu-contextual">
+  <ul class="list-inline text-center">
+    <li ng-if="vm.mostrarBtnConvertir">
+      <button class="btn btn-success" ng-click="vm.convertirAMuestras(vm.solicitudes.docs)">
+        <i class="fa fa-fw fa-exchange"></i>
+        <span class="hidden-xs">Convertir</span>
+      </button>
+    </li>
+  </ul>
+  <hr class="colorgraph">
+</nav>
+<section class="fondoMedico margin-bottom">
+  <h1 class="titulo"><i class="fa fa-bell fa-fw"></i> Solicitudes</h1>
+  <div class="ciris-tabs">
+    <tabset>
+      <tab ng-repeat="tab in vm.tabs" active="tab.activo" disabled="tab.inhabilitado">
+        <tab-heading>
+          <i class="fa fa-fw {{tab.icono}}"></i> <span class="hidden-xs">{{tab.titulo}}</span>
+        </tab-heading>
+        <div class="container-fluid fondoBlanco">
+          <br>
+          <div ng-include="tab.contenido"></div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+</section>

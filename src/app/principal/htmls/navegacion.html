@@ -18,12 +18,12 @@
           <li class="faa-parent animated-hover"
             ng-if="puedePasar([permisos.medico])"
             ng-class="{active: location.path() === '/inicio/medico/muestras'}" >
-            <a href="/inicio/medico/muestras"><i class="fa fa-flask fa-fw faa-pulse"></i> Muestras</a>
+            <a href="/inicio/medico/muestras"><i class="fa fa-flask fa-fw"></i> Muestras</a>
           </li>
           <li class="faa-parent animated-hover"
             ng-if="puedePasar([permisos.medico])"
             ng-class="{active: location.path() === '/inicio/medico/pacientes'}" >
-            <a href="/inicio/medico/pacientes"><i class="fa fa-folder-open fa-fw faa-pulse"></i>Pacientes</a>
+            <a href="/inicio/medico/pacientes"><i class="fa fa-folder-open fa-fw"></i>Pacientes</a>
           </li>
           <!--<li class="faa-parent animated-hover"-->
             <!--ng-if="puedePasar([permisos.medico])"-->
@@ -59,10 +59,10 @@
                 <a href="/inicio/admin/observaciones"><i class="fa fa-eye fa-fw"></i> Observaciones</a>
               </li>
               <li ng-class="{active: location.path() === '/inicio/admin/clinicas'}">
-                <a href="/inicio/admin/clinicas"><i class="fa fa-eye fa-hospital-o"></i> Clinicas</a>
+                <a href="/inicio/admin/clinicas"><i class="fa fa-eye fa-hospital-o fa-fw"></i> Clinicas</a>
               </li>
               <li ng-class="{active: location.path() === '/inicio/admin/medicos'}">
-                <a href="/inicio/admin/medicos"><i class="fa fa-eye fa-user-md"></i> Médicos</a>
+                <a href="/inicio/admin/medicos"><i class="fa fa-eye fa-user-md fa-fw"></i> Médicos</a>
               </li>
               <li class="dropdown-submenu" ng-class="{active: location.path() === '/inicio/admin/reportes'}">
                 <a>
@@ -78,7 +78,7 @@
                 </ul>
               </li>
               <li ng-class="{active: location.path() === '/inicio/admin/relaciones'}">
-                <a href="/inicio/admin/relaciones"><i class="fa fa-link"></i> Relaciones</a>
+                <a href="/inicio/admin/relaciones"><i class="fa fa-link fa-fw"></i> Relaciones</a>
               </li>
 
             </ul>
@@ -101,17 +101,20 @@
           </li>
           <li class="dropdown"
             ng-if="puedePasar([permisos.laboratorio, permisos.patologo, permisos.digitador, permisos.histotecnologo, permisos.citotecnologo])"
-            ng-class="{active: location.path().indexOf('/inicio/pacientes/') === 0}" class="faa-parent animated-hover">
+            ng-class="{active: location.path().indexOf('/inicio/pacientes/') === 0}">
             <a class="dropdown-toggle"><i class="fa fa-fw fa-ambulance"></i> Pacientes <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li ng-class="{active: location.path().indexOf('/inicio/pacientes/expedientes') === 0}">
-                <a href="/inicio/pacientes/expedientes"><i class="fa fa-folder-open fa-fw faa-pulse"></i>Expedientes</a>
+                <a href="/inicio/pacientes/expedientes"><i class="fa fa-folder-open fa-fw"></i>Expedientes</a>
               </li>
               <li ng-class="{active: location.path().indexOf('/inicio/pacientes/muestras') === 0}">
-                <a href="/inicio/pacientes/muestras"><i class="fa fa-flask fa-fw faa-pulse"></i> Muestras</a>
+                <a href="/inicio/pacientes/muestras"><i class="fa fa-flask fa-fw"></i> Muestras</a>
+              </li>
+              <li ng-class="{active: location.path().indexOf('/inicio/pacientes/solicitudes') === 0}">
+                <a href="/inicio/pacientes/solicitudes"><i class="fa fa-bell fa-fw"></i> Solicitudes</a>
               </li>
               <li ng-class="{active: location.path().indexOf('/inicio/pacientes/duplicados') === 0}">
-                <a href="/inicio/pacientes/duplicados"><i class="fa fa-copy"></i> Duplicados</a>
+                <a href="/inicio/pacientes/duplicados"><i class="fa fa-copy fa-fw"></i> Duplicados</a>
               </li>
             </ul>
           </li>
