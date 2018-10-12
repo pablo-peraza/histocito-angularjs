@@ -7,8 +7,8 @@ var permisos = require( "../../principal/modelos/permisos.js" );
 rutas.$inject = [ "$routeProvider" ];
 function rutas( $routeProvider ) {
   $routeProvider.when( "/inicio/pacientes/solicitudes", {
-    templateUrl: "pacientes/solicitudes/htmls/lista.html",
-    controller: "ListaSolicitudCtrl",
+    templateUrl: "pacientes/solicitudes/htmls/principal.html",
+    controller: "SolicitudCtrl",
     controllerAs: "vm",
     titulo: "Solicitudes",
     permisos: [ permisos.valores.laboratorio ],

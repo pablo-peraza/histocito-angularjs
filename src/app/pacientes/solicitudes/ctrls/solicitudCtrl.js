@@ -1,9 +1,9 @@
 "use strict";
 
-module.exports = ListaSolicitudCtrl;
+module.exports = SolicitudCtrl;
 
-ListaSolicitudCtrl.$inject = ["solicitudes", "SolicitudAPI", "Alertas"];
-function ListaSolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
+SolicitudCtrl.$inject = ["solicitudes", "SolicitudAPI", "Alertas"];
+function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
   var vm = this;
   vm.checkTodos = false;
   vm.mostrarBtnConvertir = false;
@@ -11,7 +11,24 @@ function ListaSolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
   vm.seleccionarTodo = seleccionarTodo;
   vm.setMostrarBtnConvertir = setMostrarBtnConvertir;
   vm.cargarMas = cargarMas;
+  vm.convertirAMuestras = convertirAMuestras;
   vm.elementoActual = 100;
+  vm.tabs = [
+    {
+      titulo: "Paso 1. Seleccionar",
+      icono: "fa-check",
+      contenido: "pacientes/solicitudes/htmls/seleccionar.html",
+      inhabilitado: false,
+      activo: true
+    },
+    {
+      titulo: "Paso 2. Convertir",
+      icono: "fa-exchange",
+      contenido: "pacientes/solicitudes/htmls/convertir.html",
+      inhabilitado: true,
+      activo: false
+    }
+  ];
 
   function seleccionarTodo(docs, valor) {
     vm.solicitudes.docs = _.map(docs, function(doc) {
@@ -36,5 +53,11 @@ function ListaSolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
       .finally( function() {
         vm.cargando = false;
       } );
+  }
+
+  function convertirAMuestras() {
+    vm.tabs[0].activo = false;
+    vm.tabs[1].inhabilitado = true;
+    vm.tabs[1].activo = true;
   }
 }
