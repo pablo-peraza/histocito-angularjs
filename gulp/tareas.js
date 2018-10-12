@@ -3,6 +3,7 @@
 var gulp = require( "gulp" );
 var rimraf = require( "rimraf" );
 var conf = require( "./config.js" );
+var tape = require( "./tape.js" );
 require( "./qa/tareas.js" );
 require( "./generadores/tareas.js" );
 require( "./otros/tareas.js" );
@@ -45,6 +46,7 @@ gulp.task( "default", [ "serve:dev" ] );
 
 gulp.task( "html-inicial", require( "./html-inicial.js" ) );
 gulp.task( "bump", require( "./githooks.js" ) );
+gulp.task( "test", tape.test );
 
 function clean( callback ) {
   rimraf.sync( "./dist" );

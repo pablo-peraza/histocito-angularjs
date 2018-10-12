@@ -10,11 +10,7 @@ module.exports = {
   scripts: {
     base: "src/app/",
     principal: "./src/app/index.js",
-    watch: [ "src/app/*.js", "src/app/**/*.js", "src/app/**/**/*.js" ],
-    tests: {
-      base: "test/app/",
-      watch: [ "test/app/*.js", "test/app/**/*.js" ]
-    }
+    watch: [ "src/app/*.js", "src/app/**/*.js", "src/app/**/**/*.js" ]
   },
   plantillas: {
     watch: [ "src/app/*.html", "src/app/**/*.html",
@@ -27,5 +23,8 @@ module.exports = {
   },
   config: {
     principal: "./recursos/config.js"
+  },
+  tests: {
+    base: [ "src/app/**/**/tests/*.test.js" ]
   }
 };

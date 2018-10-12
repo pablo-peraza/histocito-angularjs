@@ -2,7 +2,9 @@
 
 module.exports = SolicitudCtrl;
 
-SolicitudCtrl.$inject = ["solicitudes", "SolicitudAPI", "Alertas"];
+var _ = require( "lodash" );
+
+SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas" ];
 function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
   var vm = this;
   vm.checkTodos = false;
@@ -30,22 +32,22 @@ function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
     }
   ];
 
-  function seleccionarTodo(docs, valor) {
-    vm.solicitudes.docs = _.map(docs, function(doc) {
+  function seleccionarTodo( docs, valor ) {
+    vm.solicitudes.docs = _.map( docs, function( doc ) {
       doc.seleccionado = valor;
       return doc;
-    });
+    } );
   }
 
-  function setMostrarBtnConvertir(docs) {
-    vm.mostrarBtnConvertir = _.some(docs, "seleccionado");
+  function setMostrarBtnConvertir( docs ) {
+    vm.mostrarBtnConvertir = _.some( docs, "seleccionado" );
   }
 
   function cargarMas() {
-    SolicitudAPI.listar( vm.elementoActual, 100 )
+    return SolicitudAPI.listar( vm.elementoActual, 100 )
       .then( function( resp ) {
         vm.elementoActual += 100;
-        vm.solicitudes.docs.concat( resp.docs );
+        vm.solicitudes.docs = vm.solicitudes.docs.concat( resp.docs );
       } )
       .catch( function( err ) {
         Alertas.agregar( err.status );
@@ -57,7 +59,6 @@ function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
 
   function convertirAMuestras() {
     vm.tabs[0].activo = false;
-    vm.tabs[1].inhabilitado = true;
     vm.tabs[1].activo = true;
   }
 }
