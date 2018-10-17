@@ -1,0 +1,166 @@
+<form name="premuestraform" novalidate ng-submit="convertir(actual, premuestraform)">
+  <div class="modal-header">
+    <h5 class="modal-title text-uppercase">Vista previa</h5>
+  </div>
+  <div class="modal-body">
+    <h6 class="text-uppercase"><strong>Muestra</strong></h6>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="control-label">Consecutivo</label>
+          <p>{{actual.consecutivo.display}}</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="control-label">Paciente</label>
+        <p>{{actual.paciente.ficha.nombre}}</p>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="control-label">Fecha Toma</label>
+          <p class="form-control-stati">{{actual.fechaToma | Fecha: 'LL'}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group" show-errors>
+          <label class="control-label">Procedimiento</label>
+          <input
+          autocomplete="off"
+          class="form-control"
+          name="procedimiento"
+          ng-model="actual.procedimiento"
+          ng-required="true"
+          type="text"
+          typeahead="proc as proc.alias for proc in buscarItem($viewValue, 'procedimiento')"
+          typeahead-editable="false"
+          typeahead-focus-first="false"
+          typeahead-min-length="3"
+          typeahead-wait-ms="300">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="control-label">Plantilla</label>
+          <select
+          class="form-control"
+          name="plantilla"
+          ng-model="actual.plantilla"
+          ng-required="true">
+            <option value="default">Default</option>
+            <option value="default2">Default (sin pie de página)</option>
+            <option value="lab-mendez">Laboratorio Méndez</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <h6 class="text-uppercase"><strong>Equipo</strong></h6>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="control-label">Médico</label>
+          <input
+          autocomplete="off"
+          class="form-control"
+          name="medico"
+          ng-model="actual.medico"
+          type="text"
+          typeahead="medico as medico.nombre for medico in buscarItem($viewValue, 'medico')"
+          typeahead-editable="false"
+          typeahead-focus-first="false"
+          typeahead-min-length="3"
+          typeahead-wait-ms="300">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Histotecnólogo</label>
+          <input
+          autocomplete="off"
+          class="form-control"
+          name="histotecnologo"
+          ng-model="actual.medico"
+          type="text"
+          typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'histotecnologo')"
+          typeahead-editable="false"
+          typeahead-focus-first="false"
+          typeahead-min-length="3"
+          typeahead-wait-ms="300">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="control-label">Dueño</label>
+          <input
+          autocomplete="off"
+          class="form-control"
+          name="dueno"
+          ng-model="actual.medico"
+          type="text"
+          typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'médico')"
+          typeahead-editable="false"
+          typeahead-focus-first="false"
+          typeahead-min-length="3"
+          typeahead-wait-ms="300">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Citotecnólogo</label>
+          <input
+          autocomplete="off"
+          class="form-control"
+          name="citotecnologo"
+          ng-model="actual.citotecnologo"
+          type="text"
+          typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'citotecnologo')"
+          typeahead-editable="false"
+          typeahead-focus-first="false"
+          typeahead-min-length="3"
+          typeahead-wait-ms="300">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="control-label">Clínica</label>
+          <input
+          autocomplete="off"
+          class="form-control"
+          name="clinica"
+          ng-model="actual.clinica"
+          type="text"
+          typeahead="clinica as clinica.nombre for clinica in buscarItem($viewValue, 'clinica')"
+          typeahead-editable="false"
+          typeahead-focus-first="false"
+          typeahead-min-length="3"
+          typeahead-wait-ms="300">
+        </div>
+        <div class="form-group">
+          <label class="control-label">Patólogo</label>
+          <input
+          autocomplete="off"
+          class="form-control"
+          name="patologo"
+          ng-model="actual.patologo"
+          type="text"
+          typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'patólogo')"
+          typeahead-editable="false"
+          typeahead-focus-first="false"
+          typeahead-min-length="3"
+          typeahead-wait-ms="300">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" type="button" ng-click="cancelar()">
+      <i class="fa fa-fw fa-ban"></i>
+      <span class="hidden-xs">Cancelar</span>
+    </button>
+    <button class="btn btn-success">
+      <i class="fa fa-fw fa-step-forward"></i>
+      <span class="hidden-xs">Aceptar y siguiente</span>
+    </button>
+    <button class="btn btn-danger">
+      <i class="fa fa-fw fa-check"></i>
+      <span class="hidden-xs">Aplicar a todos</span>
+    </button>
+  </div>
+</form>

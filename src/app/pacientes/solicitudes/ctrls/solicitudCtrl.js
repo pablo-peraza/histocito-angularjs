@@ -4,33 +4,18 @@ module.exports = SolicitudCtrl;
 
 var _ = require( "lodash" );
 
-SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas" ];
-function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
+SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas", "$modal" ];
+function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal ) {
   var vm = this;
   vm.checkTodos = false;
   vm.mostrarBtnConvertir = false;
   vm.solicitudes = solicitudes;
+  vm.premuestras = [];
   vm.seleccionarTodo = seleccionarTodo;
   vm.setMostrarBtnConvertir = setMostrarBtnConvertir;
   vm.cargarMas = cargarMas;
   vm.convertirAMuestras = convertirAMuestras;
   vm.elementoActual = 100;
-  vm.tabs = [
-    {
-      titulo: "Paso 1. Seleccionar",
-      icono: "fa-check",
-      contenido: "pacientes/solicitudes/htmls/seleccionar.html",
-      inhabilitado: false,
-      activo: true
-    },
-    {
-      titulo: "Paso 2. Convertir",
-      icono: "fa-exchange",
-      contenido: "pacientes/solicitudes/htmls/convertir.html",
-      inhabilitado: true,
-      activo: false
-    }
-  ];
 
   function seleccionarTodo( docs, valor ) {
     vm.solicitudes.docs = _.map( docs, function( doc ) {
@@ -58,7 +43,16 @@ function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
   }
 
   function convertirAMuestras() {
-    vm.tabs[0].activo = false;
-    vm.tabs[1].activo = true;
+    return $modal.open( {
+      templateUrl: "pacientes/solicitudes/htmls/convertir.html",
+      controller: "PremuestraModalCtrl",
+      backdrop: "static",
+      size: "lg",
+      resolve: {
+        solicitudes: function() {
+          return vm.solicitudes.docs;
+        }
+      }
+    } );
   }
 }

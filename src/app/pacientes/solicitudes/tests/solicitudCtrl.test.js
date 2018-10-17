@@ -51,14 +51,6 @@ test( "SolicitudCtrl: NO mostrar botón de convertir", function( assert ) {
   assert.end();
 } );
 
-test( "SolicitudCtrl: Pasar del tab 1 al tab 2", function( assert ) {
-  var ctrl = instanciar();
-  ctrl.convertirAMuestras();
-  assert.equal( ctrl.tabs[0].activo, false );
-  assert.equal( ctrl.tabs[1].activo, true );
-  assert.end();
-} );
-
 test( "SolicitudCtrl: Cargar más solicitudes", function( assert ) {
   var docs = [];
   for ( var i = 0; i < 100; i += 1 ) {
