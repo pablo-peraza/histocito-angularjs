@@ -5,6 +5,7 @@
         <th>
           <input type="checkbox" ng-model="vm.checkTodos" ng-change="vm.seleccionarTodo(vm.solicitudes.docs, vm.checkTodos)">
         </th>
+        <th>#</th>
         <th>Procedimiento</th>
         <th>Paciente</th>
         <th>Médico</th>
@@ -17,13 +18,14 @@
         <th>
           <input type="checkbox" ng-model="sol.seleccionado" ng-change="vm.setMostrarBtnConvertir(vm.solicitudes.docs)">
         </th>
+        <td>{{$index + 1}}</td>
         <td data-title="Procedimiento">{{sol.procedimiento}}</td>
         <td data-title="Paciente">{{sol.paciente.nombre}}</td>
         <td data-title="Médico">{{sol.medico}}</td>
         <td data-title="Fecha Toma">{{sol.fechaToma | Fecha:'LL'}}</td>
       </tr>
       <tr ng-if="vm.solicitudes.cant === 0">
-        <td colspan="4" class="text-center"><strong>No hay resultados</strong></td>
+        <td colspan="6" class="text-center"><strong>No hay resultados</strong></td>
       </tr>
     </tbody>
   </table>

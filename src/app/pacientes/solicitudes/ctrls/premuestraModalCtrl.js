@@ -2,6 +2,9 @@
 
 module.exports = PremuestraModalCtrl;
 
+var map = require( "lodash/collection/map" );
+var get = require( "lodash/object/get" );
+
 PremuestraModalCtrl.$inject = [
   "$scope",
   "solicitudes",
@@ -32,6 +35,8 @@ function PremuestraModalCtrl(
   $scope.buscarItem = buscarItem;
   $scope.buscarUsuarios = buscarUsuarios;
   $scope.convertir = convertir;
+  $scope.convirtiendo = false;
+  $scope.getCorreos = getCorreos;
   $scope.mapBuscador = {
     "procedimiento": Procedimientos.procedimientos.buscar,
     "medico": Muestras.buscarMedicos,
@@ -40,11 +45,10 @@ function PremuestraModalCtrl(
 
   cargarPremuestra( solicitudes[$scope.i] );
 
-  function cargarPremuestra( premuestra ) {
+  function cargarPremuestra( solicitud ) {
     return SolicitudAPI
-      .preconvertir( premuestra )
+      .preconvertir( solicitud )
       .then( function( resp ) {
-        resp.plantilla = "default";
         $scope.actual = resp;
       } );
   }
@@ -62,43 +66,63 @@ function PremuestraModalCtrl(
 
   function parsearMuestra( data ) {
     return {
-      autorizados: data.autorizados,
+      autorizados: data.relacion.autorizados || [],
       cobrada: false,
       consecutivo: data.consecutivo.display,
-      correos: [],
+      correos: getCorreos( data.paciente ),
       enviada: false,
       equipo: {
-        histotecnologo: data.histotecnologo._id,
-        citotecnologo: data.citotecnologo._id,
-        patologo: data.patologo._id
+        histotecnologo: data.relacion.histotecnologo._id,
+        citotecnologo: data.relacion.citotecnologo._id,
+        patologo: data.relacion.patologo._id
       },
       estado: "Registrada",
       fechaToma: data.fechaToma,
-      idClinica: data.clinica._id,
-      idExpediente: data.paciente._id,
-      idMedico: data.medico._id,
+      idClinica: data.relacion.clinica._id,
+      idExpediente: data.paciente,
+      idMedico: data.relacion.medico._id,
       idProcedimiento: data.procedimiento._id,
-      idUsuario: data.dueno._id,
+      idUsuario: data.relacion.dueno._id,
+      idSolicitud: data._id,
       imagenes: [],
       numero: data.consecutivo.numero,
-      template: "default"
+      template: data.plantilla
     };
+  }
+
+  function getCorreos( paciente ) {
+    if ( paciente._id ) {
+      return map( get( paciente.ficha, "datosContacto.correos", [] ), "correo" );
+    }
+    return paciente.correos || [];
   }
 
   function convertir( pre, form ) {
     $scope.$emit( "show-errors-check-validity" );
     if ( form.$valid ) {
-      var obj = parsearMuestra( pre );
-      return MuestrasREST.guardar( obj )
-        .then( function( resp ) {
-          $scope.i += 1;
-          $scope.actual = $scope.solicitudes[$scope.i];
-          Alertas.agregar( resp.status );
-        } )
-        .catch( function( err ) {
-          Alertas.agregar( err.status, "Hubo un error al convertir la solicitud en muestra" );
-        } );
+      $scope.convirtiendo = true;
+      var muestra = parsearMuestra( pre );
+      return SolicitudAPI.convertir( muestra )
+        .then( cargarSiguiente )
+        .catch( errorConvertir )
+        .finally( terminarConvertir );
     }
+  }
+
+  function cargarSiguiente() {
+    $scope.i += 1;
+    if ( $scope.i < $scope.solicitudes.length ) {
+      return cargarPremuestra( $scope.solicitudes[$scope.i] );
+    }
+    return $modalInstance.close();
+  }
+
+  function errorConvertir( err ) {
+    Alertas.agregar( err.status, "Hubo un error al convertir la solicitud en muestra" );
+  }
+
+  function terminarConvertir() {
+    $scope.convirtiendo = false;
   }
 
   function ok( resp ) {

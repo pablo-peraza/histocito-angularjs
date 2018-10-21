@@ -2,10 +2,11 @@
 
 module.exports = SolicitudCtrl;
 
-var _ = require( "lodash" );
+var map = require( "lodash/collection/map" );
+var some = require( "lodash/collection/some" );
 
-SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas", "$modal" ];
-function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal ) {
+SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas", "$modal", "$route" ];
+function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal, $route ) {
   var vm = this;
   vm.checkTodos = false;
   vm.mostrarBtnConvertir = false;
@@ -18,14 +19,15 @@ function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal ) {
   vm.elementoActual = 100;
 
   function seleccionarTodo( docs, valor ) {
-    vm.solicitudes.docs = _.map( docs, function( doc ) {
+    vm.mostrarBtnConvertir = valor;
+    vm.solicitudes.docs = map( docs, function( doc ) {
       doc.seleccionado = valor;
       return doc;
     } );
   }
 
   function setMostrarBtnConvertir( docs ) {
-    vm.mostrarBtnConvertir = _.some( docs, "seleccionado" );
+    vm.mostrarBtnConvertir = some( docs, "seleccionado" );
   }
 
   function cargarMas() {
@@ -53,6 +55,12 @@ function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal ) {
           return vm.solicitudes.docs;
         }
       }
+    } )
+    .result.then( function() {
+      $route.reload();
+      Alertas.agregar( 200 );
+    }, function() {
+      $route.reload();
     } );
   }
 }

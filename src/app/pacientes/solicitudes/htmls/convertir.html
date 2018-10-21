@@ -6,14 +6,23 @@
     <h6 class="text-uppercase"><strong>Muestra</strong></h6>
     <div class="row">
       <div class="col-md-4">
-        <div class="form-group">
+        <div class="form-group" ng-if="!actual.consecutivo.libre">
           <label class="control-label">Consecutivo</label>
           <p>{{actual.consecutivo.display}}</p>
+        </div>
+        <div class="form-group" ng-if="actual.consecutivo.libre" show-errors>
+          <label class="control-label">Consecutivo</label>
+          <input
+          type="text"
+          name="consecutivo"
+          class="form-control"
+          ng-model="actual.consecutivo.display"
+          ng-required="true">
         </div>
       </div>
       <div class="col-md-4">
         <label class="control-label">Paciente</label>
-        <p>{{actual.paciente.ficha.nombre}}</p>
+        <p>{{actual.paciente.ficha.nombre || actual.paciente.nombre}}</p>
       </div>
       <div class="col-md-4">
         <div class="form-group">
@@ -64,7 +73,7 @@
           autocomplete="off"
           class="form-control"
           name="medico"
-          ng-model="actual.medico"
+          ng-model="actual.relacion.medico"
           type="text"
           typeahead="medico as medico.nombre for medico in buscarItem($viewValue, 'medico')"
           typeahead-editable="false"
@@ -78,7 +87,7 @@
           autocomplete="off"
           class="form-control"
           name="histotecnologo"
-          ng-model="actual.medico"
+          ng-model="actual.relacion.histotecnologo"
           type="text"
           typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'histotecnologo')"
           typeahead-editable="false"
@@ -94,7 +103,7 @@
           autocomplete="off"
           class="form-control"
           name="dueno"
-          ng-model="actual.medico"
+          ng-model="actual.relacion.dueno"
           type="text"
           typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'médico')"
           typeahead-editable="false"
@@ -108,7 +117,7 @@
           autocomplete="off"
           class="form-control"
           name="citotecnologo"
-          ng-model="actual.citotecnologo"
+          ng-model="actual.relacion.citotecnologo"
           type="text"
           typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'citotecnologo')"
           typeahead-editable="false"
@@ -124,7 +133,7 @@
           autocomplete="off"
           class="form-control"
           name="clinica"
-          ng-model="actual.clinica"
+          ng-model="actual.relacion.clinica"
           type="text"
           typeahead="clinica as clinica.nombre for clinica in buscarItem($viewValue, 'clinica')"
           typeahead-editable="false"
@@ -138,7 +147,7 @@
           autocomplete="off"
           class="form-control"
           name="patologo"
-          ng-model="actual.patologo"
+          ng-model="actual.relacion.patologo"
           type="text"
           typeahead="u as (u.nombre + ' ' + u.apellidos) for u in buscarUsuarios($viewValue, 'patólogo')"
           typeahead-editable="false"
@@ -150,17 +159,36 @@
     </div>
   </div>
   <div class="modal-footer">
+    <div class="text-left" style="position:absolute;">
+      Procesando elemento {{i + 1}} de {{solicitudes.length}}
+    </div>
     <button class="btn btn-default" type="button" ng-click="cancelar()">
       <i class="fa fa-fw fa-ban"></i>
       <span class="hidden-xs">Cancelar</span>
     </button>
-    <button class="btn btn-success">
+    <button
+    class="btn btn-success"
+    ng-if="solicitudes.length > 1"
+    cis-cargando modelo="convirtiendo"
+    ng-disabled="convirtiendo">
       <i class="fa fa-fw fa-step-forward"></i>
-      <span class="hidden-xs">Aceptar y siguiente</span>
+      <span class="hidden-xs">Convertir y siguiente</span>
     </button>
-    <button class="btn btn-danger">
+    <button
+    class="btn btn-danger"
+    ng-if="solicitudes.length > 1"
+    cis-cargando modelo="convirtiendo"
+    ng-disabled="convirtiendo">
       <i class="fa fa-fw fa-check"></i>
       <span class="hidden-xs">Aplicar a todos</span>
+    </button>
+    <button
+    class="btn btn-success"
+    ng-if="solicitudes.length === 1"
+    cis-cargando modelo="convirtiendo"
+    ng-disabled="convirtiendo">
+      <i class="fa fa-fw fa-check"></i>
+      <span class="hidden-xs">Convertir</span>
     </button>
   </div>
 </form>

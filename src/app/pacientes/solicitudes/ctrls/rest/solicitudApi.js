@@ -27,8 +27,8 @@ function SolicitudAPI( $http, node ) {
       .catch( error );
   }
 
-  function convertir( obj ) {
-    return $http.post( node + "/api/solicitudes/convertir", obj );
+  function convertir( premuestra ) {
+    return $http.post( node + "/api/solicitudes/convertir", premuestra );
   }
 
   function ok( resp ) {
