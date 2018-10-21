@@ -36,7 +36,7 @@ function PremuestraModalCtrl(
   $scope.buscarUsuarios = buscarUsuarios;
   $scope.convertir = convertir;
   $scope.convirtiendo = false;
-  $scope.getCorreos = getCorreos;
+  $scope.aplicarTodos = aplicarTodos;
   $scope.mapBuscador = {
     "procedimiento": Procedimientos.procedimientos.buscar,
     "medico": Muestras.buscarMedicos,
@@ -122,7 +122,24 @@ function PremuestraModalCtrl(
   }
 
   function terminarConvertir() {
+    $scope.$emit( "show-errors-reset" );
     $scope.convirtiendo = false;
+  }
+
+  function aplicarTodos( solicitud, form ) {
+    $scope.$emit( "show-errors-check-validity" );
+    if ( form.$valid ) {
+      var molde = parsearMuestra( solicitud );
+      var ids = map( $scope.solicitudes.slice( $scope.i ), "_id" );
+      $scope.convirtiendo = true;
+      return SolicitudAPI.convertirTodos( molde, ids )
+        .then( function( resp ) {
+          Alertas.agregar( resp.status );
+          $modalInstance.close();
+        } )
+        .catch( errorConvertir )
+        .finally( terminarConvertir );
+    }
   }
 
   function ok( resp ) {
