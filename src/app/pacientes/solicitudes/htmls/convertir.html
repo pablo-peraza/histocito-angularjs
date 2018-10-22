@@ -1,4 +1,4 @@
-<form name="premuestraform" novalidate ng-submit="convertir(actual, premuestraform)">
+<form name="premuestraform" novalidate>
   <div class="modal-header">
     <h5 class="modal-title text-uppercase">Vista previa</h5>
   </div>
@@ -167,26 +167,32 @@
       <span class="hidden-xs">Cancelar</span>
     </button>
     <button
+    type="button"
     class="btn btn-success"
     ng-if="solicitudes.length > 1"
     cis-cargando modelo="convirtiendo"
-    ng-disabled="convirtiendo">
+    ng-disabled="convirtiendo"
+    ng-click="convertir(actual, premuestraform)">
       <i class="fa fa-fw fa-step-forward"></i>
       <span class="hidden-xs">Convertir y siguiente</span>
     </button>
     <button
+    type="button"
     class="btn btn-danger"
     ng-if="solicitudes.length > 1"
     cis-cargando modelo="convirtiendo"
-    ng-disabled="convirtiendo">
+    ng-disabled="convirtiendo"
+    ng-click="aplicarTodos(actual, premuestraform)">
       <i class="fa fa-fw fa-check"></i>
       <span class="hidden-xs">Aplicar a todos</span>
     </button>
     <button
+    type="button"
     class="btn btn-success"
     ng-if="solicitudes.length === 1"
     cis-cargando modelo="convirtiendo"
-    ng-disabled="convirtiendo">
+    ng-disabled="convirtiendo"
+    ng-click="convertir(actual, premuestraform)">
       <i class="fa fa-fw fa-check"></i>
       <span class="hidden-xs">Convertir</span>
     </button>

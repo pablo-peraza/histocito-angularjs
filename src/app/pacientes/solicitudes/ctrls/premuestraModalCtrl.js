@@ -3,7 +3,8 @@
 module.exports = PremuestraModalCtrl;
 
 var map = require( "lodash/collection/map" );
-var get = require( "lodash/object/get" );
+var parsearMuestra = require( "./utils/solicitudCtrlUtil.js" ).parsearMuestra;
+var getCorreos = require( "./utils/solicitudCtrlUtil.js" ).getCorreos;
 
 PremuestraModalCtrl.$inject = [
   "$scope",
@@ -36,7 +37,7 @@ function PremuestraModalCtrl(
   $scope.buscarUsuarios = buscarUsuarios;
   $scope.convertir = convertir;
   $scope.convirtiendo = false;
-  $scope.getCorreos = getCorreos;
+  $scope.aplicarTodos = aplicarTodos;
   $scope.mapBuscador = {
     "procedimiento": Procedimientos.procedimientos.buscar,
     "medico": Muestras.buscarMedicos,
@@ -64,44 +65,11 @@ function PremuestraModalCtrl(
     return Usuarios.buscar( 0, 10, texto, dim ).then( ok, error );
   }
 
-  function parsearMuestra( data ) {
-    return {
-      autorizados: data.relacion.autorizados || [],
-      cobrada: false,
-      consecutivo: data.consecutivo.display,
-      correos: getCorreos( data.paciente ),
-      enviada: false,
-      equipo: {
-        histotecnologo: data.relacion.histotecnologo._id,
-        citotecnologo: data.relacion.citotecnologo._id,
-        patologo: data.relacion.patologo._id
-      },
-      estado: "Registrada",
-      fechaToma: data.fechaToma,
-      idClinica: data.relacion.clinica._id,
-      idExpediente: data.paciente,
-      idMedico: data.relacion.medico._id,
-      idProcedimiento: data.procedimiento._id,
-      idUsuario: data.relacion.dueno._id,
-      idSolicitud: data._id,
-      imagenes: [],
-      numero: data.consecutivo.numero,
-      template: data.plantilla
-    };
-  }
-
-  function getCorreos( paciente ) {
-    if ( paciente._id ) {
-      return map( get( paciente.ficha, "datosContacto.correos", [] ), "correo" );
-    }
-    return paciente.correos || [];
-  }
-
   function convertir( pre, form ) {
     $scope.$emit( "show-errors-check-validity" );
     if ( form.$valid ) {
       $scope.convirtiendo = true;
-      var muestra = parsearMuestra( pre );
+      var muestra = parsearMuestra( pre, getCorreos );
       return SolicitudAPI.convertir( muestra )
         .then( cargarSiguiente )
         .catch( errorConvertir )
@@ -122,7 +90,24 @@ function PremuestraModalCtrl(
   }
 
   function terminarConvertir() {
+    $scope.$emit( "show-errors-reset" );
     $scope.convirtiendo = false;
+  }
+
+  function aplicarTodos( solicitud, form ) {
+    $scope.$emit( "show-errors-check-validity" );
+    if ( form.$valid ) {
+      var molde = parsearMuestra( solicitud );
+      var ids = map( $scope.solicitudes.slice( $scope.i ), "_id" );
+      $scope.convirtiendo = true;
+      return SolicitudAPI.convertirTodos( molde, ids )
+        .then( function( resp ) {
+          Alertas.agregar( resp.status );
+          $modalInstance.close();
+        } )
+        .catch( errorConvertir )
+        .finally( terminarConvertir );
+    }
   }
 
   function ok( resp ) {

@@ -7,6 +7,7 @@ function SolicitudAPI( $http, node ) {
   SolicitudAPI.listar = listar;
   SolicitudAPI.preconvertir = preconvertir;
   SolicitudAPI.convertir = convertir;
+  SolicitudAPI.convertirTodos = convertirTodos;
   return SolicitudAPI;
 
   function listar( pagina, cantidad ) {
@@ -29,6 +30,13 @@ function SolicitudAPI( $http, node ) {
 
   function convertir( premuestra ) {
     return $http.post( node + "/api/solicitudes/convertir", premuestra );
+  }
+
+  function convertirTodos( molde, ids ) {
+    return $http.post( node + "/api/solicitudes/convertirtodos", {
+      molde: molde,
+      ids: ids
+    } );
   }
 
   function ok( resp ) {
