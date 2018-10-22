@@ -2,45 +2,32 @@
 
 module.exports = SolicitudCtrl;
 
-var _ = require( "lodash" );
+var map = require( "lodash/collection/map" );
+var some = require( "lodash/collection/some" );
 
-SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas" ];
-function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
+SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas", "$modal", "$route" ];
+function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal, $route ) {
   var vm = this;
   vm.checkTodos = false;
   vm.mostrarBtnConvertir = false;
   vm.solicitudes = solicitudes;
+  vm.premuestras = [];
   vm.seleccionarTodo = seleccionarTodo;
   vm.setMostrarBtnConvertir = setMostrarBtnConvertir;
   vm.cargarMas = cargarMas;
   vm.convertirAMuestras = convertirAMuestras;
   vm.elementoActual = 100;
-  vm.tabs = [
-    {
-      titulo: "Paso 1. Seleccionar",
-      icono: "fa-check",
-      contenido: "pacientes/solicitudes/htmls/seleccionar.html",
-      inhabilitado: false,
-      activo: true
-    },
-    {
-      titulo: "Paso 2. Convertir",
-      icono: "fa-exchange",
-      contenido: "pacientes/solicitudes/htmls/convertir.html",
-      inhabilitado: true,
-      activo: false
-    }
-  ];
 
   function seleccionarTodo( docs, valor ) {
-    vm.solicitudes.docs = _.map( docs, function( doc ) {
+    vm.mostrarBtnConvertir = valor;
+    vm.solicitudes.docs = map( docs, function( doc ) {
       doc.seleccionado = valor;
       return doc;
     } );
   }
 
   function setMostrarBtnConvertir( docs ) {
-    vm.mostrarBtnConvertir = _.some( docs, "seleccionado" );
+    vm.mostrarBtnConvertir = some( docs, "seleccionado" );
   }
 
   function cargarMas() {
@@ -58,7 +45,22 @@ function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas ) {
   }
 
   function convertirAMuestras() {
-    vm.tabs[0].activo = false;
-    vm.tabs[1].activo = true;
+    return $modal.open( {
+      templateUrl: "pacientes/solicitudes/htmls/convertir.html",
+      controller: "PremuestraModalCtrl",
+      backdrop: "static",
+      size: "lg",
+      resolve: {
+        solicitudes: function() {
+          return vm.solicitudes.docs;
+        }
+      }
+    } )
+    .result.then( function() {
+      $route.reload();
+      Alertas.agregar( 200 );
+    }, function() {
+      $route.reload();
+    } );
   }
 }
