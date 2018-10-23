@@ -4,6 +4,7 @@ module.exports = SolicitudCtrl;
 
 var map = require( "lodash/collection/map" );
 var some = require( "lodash/collection/some" );
+var filter = require( "lodash/collection/filter" );
 
 SolicitudCtrl.$inject = [ "solicitudes", "SolicitudAPI", "Alertas", "$modal", "$route" ];
 function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal, $route ) {
@@ -52,7 +53,9 @@ function SolicitudCtrl( solicitudes, SolicitudAPI, Alertas, $modal, $route ) {
       size: "lg",
       resolve: {
         solicitudes: function() {
-          return vm.solicitudes.docs;
+          return filter( vm.solicitudes.docs, function( doc ) {
+            return doc.seleccionado;
+          } );
         }
       }
     } )
