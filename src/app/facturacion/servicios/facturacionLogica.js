@@ -24,8 +24,7 @@ function FacturacionLogica() {
       function encontrar( proc ) {
         return proc.idProcedimiento === idProcedimiento;
       } //encontrar
-      var chain = _.chain( precios );
-      var encontrado = chain.filter( encontrar ).first().value();
+      var encontrado = _.chain( precios ).filter( encontrar ).first().value();
       /* TEMP: solo se va a usar el precio del médico temporalmente
       if (encontrado.idArticulo) {
         return {
@@ -33,10 +32,7 @@ function FacturacionLogica() {
           articulo: encontrado.idArticulo
         };
       }*/
-      return {
-        centavos: encontrado.monto.centavos
-      };
-      // return chain.filter( encontrar ).pluck( "monto" ).pluck( "centavos" ).first().value();
+      return encontrado ? { centavos: encontrado.monto.centavos } : null;
     } //function
 
     this.precioDueno = function( idProcedimiento, idDueno ) {
@@ -138,7 +134,7 @@ function FacturacionLogica() {
   }
 
   funciones.facturar = function( grupos, preciosMedicos, preciosProcs, agrupacion ) {
-    var llaves = _.keys( grupos );
+    var llaves = _.keys( grupos ); // grupos de usuarios
     var facturador = new Facturador( preciosMedicos, preciosProcs );
     var temp = _.map( llaves, function( llave ) {
 
@@ -175,7 +171,7 @@ function FacturacionLogica() {
 
   funciones.actualizarEnMasa = function( viejas, nuevas ) {
     return _.map( viejas, function( vieja ) {
-      vieja.id = Math.random().toString(36).substr(2, 9);
+      vieja.id = Math.random().toString( 36 ).substr( 2, 9 );
       return vieja;
     } );
   };

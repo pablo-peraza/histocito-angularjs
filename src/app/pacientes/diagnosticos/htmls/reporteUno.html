@@ -25,23 +25,23 @@
       <header class="text-center">
         <h3 style="margin-top: 6px;">Diagnóstico de la Muestra #{{datos.muestra.consecutivo}}</h3>
         <h4 ng-if="datos.tipo.categoria !== 'Biopsia'">{{datos.procedimiento.alias}}</h4>
-        <small>{{datos.muestra.fechaToma | Fecha:"LL"}}</small>
+        <p>{{datos.muestra.fechaToma | Fecha:"LL"}}</p>
       </header>
       <small>
         <div class="row">
           <div class="col-xs-6">
             <legend>Paciente</legend>
             <div>
-              <small><strong>Nombre: </strong>{{datos.expediente.ficha.nombre}}</small>
+              <small><strong>Nombre:&nbsp;</strong>{{datos.expediente.ficha.nombre}}</small>
             </div>
             <div>
-              <small><strong>Edad: </strong>{{datos.expediente.ficha.fechaNacimiento | Edad }}</small>
+              <small><strong>Edad:&nbsp;</strong>{{datos.expediente.ficha.fechaNacimiento | Edad }}</small>
             </div>
             <div ng-if="datos.expediente.ficha.cedula">
-              <small><strong>Cédula: </strong>{{datos.expediente.ficha.cedula}}</small>
+              <small><strong>Cédula:&nbsp;</strong>{{datos.expediente.ficha.cedula}}</small>
             </div>
             <div>
-              <small><strong>Sexo: </strong>{{datos.expediente.ficha.sexo}}</small>
+              <small><strong>Sexo:&nbsp;</strong>{{datos.expediente.ficha.sexo}}</small>
             </div>
             <div ng-if="datos.expediente.ficha.datosContacto.telefonos">
               <ul class="list-unstyled">
