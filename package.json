@@ -1,11 +1,7 @@
 {
   "name": "Proyecto",
   "nombreNatural": "Laboratorio Histocito",
-<<<<<<< HEAD
   "version": "1.9.3",
-=======
-  "version": "1.8.7",
->>>>>>> style: Ajustar estilos de la parte de los datos de paciente de los reportes
   "description": "Proyecto con utilerías, archivos de construcción y arquitectura sugerida para los desarrollos frontend",
   "main": "src/app/index.js",
   "author": "Pablo Peraza",

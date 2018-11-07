@@ -307,7 +307,7 @@ function diagnosticoCitologiaCtrl( $scope, $modal, hotkeys, Tabs, Selecciones ) 
     if ( val ) {
       $scope.modelo.recomendaciones.repetirEstudio = true;
       $scope.modelo.recomendaciones.controlRutina = false;
-      $scope.modelo.comentarios = "<h4><strong><span>Se observa celularidad en límites mínimos para diagnóstico</span></strong></h4>";
+      $scope.modelo.comentarios = "<h6><strong><span>Se observa celularidad en límites mínimos para diagnóstico</span></strong></h6>";
     }
   };
 
