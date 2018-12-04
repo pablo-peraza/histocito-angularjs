@@ -19,16 +19,17 @@ function DuplicadosCtrl( $scope, Expedientes, Alertas ) {
   };
 
   function unificar( exp, dup, index ) {
-    if (!confirm("¿Está seguro que desea mantener este expediente y eliminar el resto? " +
-    "Esta acción no es reversible.")) {
+    if ( !confirm( "¿Está seguro que desea mantener este expediente y eliminar el resto? " +
+    "Esta acción no es reversible." ) ) {
       return false;
     }
     var body = {
       seleccionado: exp._id,
-      duplicados: _.without( _.map(dup.uniqueIds, "_id"), exp._id ),
+      duplicados: _.without( _.map( dup.uniqueIds, "_id" ), exp._id )
     };
     return Expedientes.rest.resolverDuplicados( body ).then( function( succ ) {
-      $scope.duplicados.splice( index, 1 );
+      $scope.duplicados.docs.splice( index, 1 );
+      $scope.duplicados.cant -= 1;
       return Alertas.agregar( succ.status );
     }, function( err ) {
       return Alertas.agregar( err.status );
@@ -38,7 +39,7 @@ function DuplicadosCtrl( $scope, Expedientes, Alertas ) {
   function buscar( filtro ) {
     $scope.datos.cargando = true;
     Expedientes.rest
-      .obtenerDuplicados( 0, 10, filtro )
+      .obtenerDuplicados( 0, 100, filtro )
       .then( function( resp ) {
         $scope.duplicados = resp.data;
       } )
@@ -48,12 +49,12 @@ function DuplicadosCtrl( $scope, Expedientes, Alertas ) {
   }
 
   function cargarMas() {
-    $scope.datos.elementoActual += 10;
+    $scope.datos.elementoActual += 100;
     $scope.datos.cargando = true;
     Expedientes.rest
-      .obtenerDuplicados($scope.datos.elementoActual, 10, $scope.datos.filtro)
+      .obtenerDuplicados( $scope.datos.elementoActual, 100, $scope.datos.filtro )
       .then( function( resp ) {
-        $scope.duplicados = $scope.duplicados.concat(resp.data);
+        $scope.duplicados.docs = $scope.duplicados.docs.concat( resp.data.docs );
       } )
       .finally( function() {
         $scope.datos.cargando = false;

@@ -88,7 +88,7 @@ function ExpedientesREST( $http, Dimensionador, urlApi, node ) {
     Dimensionador.cargarEtiquetas( dims, urlApi + "/api/expedientes/dimensiones" );
   };
 
-  funciones.obtenerDuplicados = function(pagina, cantidad, filtro) {
+  funciones.obtenerDuplicados = function( pagina, cantidad, filtro ) {
     var params = {
       params: {
         pagina: pagina,

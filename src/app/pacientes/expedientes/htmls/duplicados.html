@@ -16,7 +16,6 @@
       </select>
     </div>
   </div>
-  <br>
   <div class="text-primary">
     <i class="fa fa-fw fa-info-circle"></i>
     <span>El botón </span>
@@ -27,8 +26,9 @@
     <span> conservará el expediente seleccionado y eliminará el resto de expedientes. Además, moverá todas las muestras de los expedientes borrados al expediente seleccionado.</span>
   </div>
   <br>
-  <div ng-if="duplicados.length">
-    <div ng-repeat="dup in duplicados track by $index" class="comparador">
+  <p class="text-muted">Mostrando: {{duplicados.docs.length || 0}} de {{duplicados.cant || 0}}</p>
+  <div ng-if="duplicados.cant">
+    <div ng-repeat="dup in duplicados.docs track by $index" class="comparador">
       <p class="comparador__titulo cursor-pointer" ng-click="exp.abierto = !exp.abierto">
         <strong>{{$index + 1}}. {{dup._id.cedula}} {{dup._id.nombre}}</strong>
         <i class="fa fa-fw pull-right" ng-class="{'fa-chevron-up': exp.abierto, 'fa-chevron-down': !exp.abierto}"></i>
@@ -109,9 +109,10 @@
         </div>
       </div>
     </div>
-    <div cis-cargando modelo="datos.cargando" class="text-center">
+    <div cis-cargando modelo="datos.cargando" class="text-center"
+    ng-if="duplicados.docs.length < duplicados.cant">
       <div cis-scroll cargador="cargarMas" umbral="100" debe-cargar="!datos.cargando"></div>
     </div>
   </div>
-  <p ng-if="!duplicados.length && datos.filtro && !datos.cargando" class="text-center lead">No hay resultados</p>
+  <p ng-if="!duplicados.cant && datos.filtro && !datos.cargando" class="text-center lead">No hay resultados</p>
 </section>
